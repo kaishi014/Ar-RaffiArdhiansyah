@@ -65,7 +65,7 @@
                     'Peningkatan keterlibatan audiens dalam sesi tanya jawab'
                 ],
                 tech: ['Public Speaking', 'Leadership', 'Canva / PPT', 'Communication'],
-                link: 'whatsaap.html'
+                link: '#'
             },
             'competitions': {
                 icon: 'fa-solid fa-trophy',
@@ -80,6 +80,19 @@
                 tech: ['Mental Juara', 'Disiplin', 'Kerja Sama Tim'],
                 link: '#'
             }
+                'registration-pramuka': {
+                icon: 'fa-solid fa-campground',
+                        title: 'Pendaftaran Eskul Pramuka',
+                        category: 'Form Pendaftaran / Ekstrakurikuler',
+                        description: 'Layanan pendaftaran online untuk calon anggota baru Ekstrakurikuler Pramuka. Isikan data diri kamu dan konfirmasi akan langsung terhubung ke WhatsApp pengurus.',
+                        features: [
+                        'Pengisian data diri ringkas dan praktis',
+                        'Pengiriman konfirmasi otomatis via WhatsApp',
+                        'Proses verifikasi cepat oleh Pembina/Pengurus'
+                ],
+                        tech: ['HTML5', 'CSS3', 'JavaScript', 'WhatsApp API'],
+                        link: 'whatsaap.html' // Mengoreksi penulisan 'whatsaap.html' menjadi 'whatsapp.html'
+        }
         };
 
         // FUNGSI MEMBUKA MODAL
