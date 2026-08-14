@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Interaktif | Arraffi Ardhiansyah</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">Arraffi.</div>
+        <ul class="nav-links">
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#organization">Organisasi</a></li>
+            <li><a href="#skills">Keahlian</a></li>
+            <li><a href="#projects">Proyek & Presentasi</a></li>
+            <li><a href="#socials">Kontak</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content reveal">
+            <h3>Halo semua, saya</h3>
+            <h1>Arraffi Ardhiansyah</h1>
+            <p>Pelajar aktif, eksplorer hal baru, serta antusias di bidang Kepemimpinan, Public Speaking, AI, dan Web Development.</p>
+            <a href="#projects" class="btn">Lihat Proyek & Presentasi</a>
+        </div>
+    </section>
+
+    <!-- TENTANG SAYA -->
+    <section id="about">
+        <h2 class="section-title reveal">Tentang Saya</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;" class="reveal">
+            <p style="font-size: 1.1rem; color: var(--text-secondary);">
+                Saya adalah seorang pelajar yang selalu semangat untuk mengeksplorasi hal-hal baru. Saya dikenal ramah dan mudah berbaur dengan banyak orang. Bagi saya, belajar adalah proses tanpa batas—mulai dari aktif di berbagai kegiatan organisasi sekolah hingga mendalami dunia pemrograman dan kecerdasan buatan (AI).
+            </p>
+        </div>
+    </section>
+
+    <!-- ORGANISASI & PENGALAMAN -->
+    <section id="organization">
+        <h2 class="section-title reveal">Pengalaman & Organisasi</h2>
+        <div class="org-tags reveal">
+            <span class="tag"><i class="fa-solid fa-star"></i>Pengurus OSIS (2024-2025)</span>
+            <span class="tag">Pramuka</span>
+            <span class="tag">Adiwiyata</span>
+            <span class="tag">Marching Band</span>
+            <span class="tag">Pencak Silat</span>
+            <span class="tag">Badminton</span>
+            <span class="tag">Rohis</span>
+            <span class="tag">KIR (Karya Ilmiah Remaja)</span>
+        </div>
+    </section>
+
+    <!-- KEAHLIAN -->
+    <section id="skills">
+        <h2 class="section-title reveal">Keahlian & Minat</h2>
+        <div class="grid-container">
+            <div class="card reveal">
+                <i class="fa-solid fa-robot main-icon"></i>
+                <h3>Penggunaan AI</h3>
+                <p>Mampu memanfaatkan teknologi AI secara maksimal, produktif, dan bijak untuk membantu berbagai aktivitas belajar dan proyek.</p>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-comments main-icon"></i>
+                <h3>Public Speaking</h3>
+                <p>Memiliki kemampuan komunikasi yang baik di depan umum, memimpin forum, dan menyampaikan gagasan secara percaya diri.</p>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-brain main-icon"></i>
+                <h3>Pemahaman Psikologi</h3>
+                <p>Tertarik memahami dinamika perilaku manusia dan interaksi sosial untuk membangun komunikasi positif.</p>
+            </div>
+            <div class="card reveal">
+                <i class="fa-solid fa-code main-icon"></i>
+                <h3>Coding & Web Dev</h3>
+                <p>Sedang aktif mempelajari fondasi pengembangan web (HTML, CSS, JavaScript) serta bahasa pemrograman Python.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROYEK & PRESENTASI INTERAKTIF -->
+    <section id="projects">
+        <h2 class="section-title reveal">Proyek & Presentasi</h2>
+        <p style="text-align: center; color: var(--text-secondary); margin-top: -30px; margin-bottom: 40px;" class="reveal">
+            Klik pada salah satu kartu di bawah ini untuk melihat detail proyek / materi presentasi!
+        </p>
+
+        <div class="grid-container">
+            <!-- PROYEK 1 --> 
+            <div class="card clickable-card reveal" onclick="openModal('jepang')">
+                <span class="card-badge">Web App</span>
+                <i class="fa-solid fa-language main-icon"></i>
+                <h3>Web Belajar Bahasa Jepang</h3>
+                <p>Website interaktif untuk membantu pelajar memahami tata bahasa & kosakata dasar Jepang.</p>
+                <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
+            </div> 
+
+    <!-- PROYEK 1 (Seluruh Kartu Adalah Link) -->
+       <!-- <div class="grid-container">
+    <a href="jepang.html" target="_blank" class="card clickable-card reveal" style="text-decoration: none;">
+        <span class="card-badge">Web App</span>
+        <i class="fa-solid fa-language main-icon"></i>
+        <h3>Web Belajar Bahasa Jepang</h3>
+        <p>Website interaktif untuk membantu pelajar memahami tata bahasa & kosakata dasar Jepang.</p>
+        <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Buka Proyek</div>
+    </a> 
+</div> 
+            <!-- PROYEK 2 -->
+            <div class="card clickable-card reveal" onclick="openModal('python-calc')">
+                <span class="card-badge">Python</span>
+                <i class="fa-solid fa-calculator main-icon"></i>
+                <h3>Kalkulator Sederhana</h3>
+                <p>Aplikasi kalkulator berbasis Python untuk perhitungan matematika dasar secara otomatis.</p>
+                <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
+            </div>
+
+            <!-- PROYEK 3 -->
+            <div class="card clickable-card reveal" onclick="openModal('snake-game')">
+                <span class="card-badge">Game Dev</span>
+                <i class="fa-solid fa-gamepad main-icon"></i>
+                <h3>Game Ular (Snake Game)</h3>
+                <p>Game klasik ular menggunakan logika pemrograman JavaScript & algoritma game loop.</p>
+                <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
+            </div>
+
+            <!-- PROYEK 4 (PRESENTASI ORGANISASI & PUBLIC SPEAKING) -->
+            <div class="card clickable-card reveal" onclick="openModal('presentation-osis')">
+                <span class="card-badge">Presentasi</span>
+                <i class="fa-solid fa-person-chalkboard main-icon"></i>
+                <h3>Presentasi Leadership & OSIS</h3>
+                <p>Materi presentasi dan public speaking saat menjadi pengurus OSIS periode 2024–2025.</p>
+                <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
+            </div>
+
+            <!-- PROYEK 5 -->
+            <div class="card clickable-card reveal" onclick="openModal('competitions')">
+                <span class="card-badge">Prestasi</span>
+                <i class="fa-solid fa-trophy main-icon"></i>
+                <h3>Rekapitulasi Kejuaraan Lomba</h3>
+                <p>Dokumentasi berbagai perlombaan akademik & non-akademik yang berhasil dijuarai.</p>
+                <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOSIAL MEDIA -->
+    <section id="socials">
+        <h2 class="section-title reveal">Mari Terhubung</h2>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;" class="reveal">
+            Ikuti perjalanan dan aktivitas harian saya di media sosial berikut:
+        </p>
+        <div class="social-container reveal">
+            <!-- SILAKAN ISI LINK SOSMED ANDA DI BAWAH -->
+            <a href="https://www.instagram.com/kaishi014?igsh=MjM0cWFkNDhwYmhk" target="_blank" class="social-btn instagram">
+                <i class="fa-brands fa-instagram"></i> Instagram
+            </a>
+            <a href="https://discord.gg/warnet" target="_blank" class="social-btn discord">
+                <i class="fa-brands fa-discord"></i> Discord
+            </a>
+            <a href="https://whatsapp.com/channel/0029VbCzsgDHLHQQJesW7M3b" target="_blank" class="social-btn whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> Saluran WA
+            </a>
+            <a href="https://youtube.com/@hikari_144?si=wrt_HA384u0oAGaU" target="_blank" class="social-btn youtube">
+                <i class="fa-brands fa-youtube"></i> YouTube
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Arraffi Ardhiansyah. Dibuat dengan semangat eksplorasi.</p>
+    </footer>
+
+    <!-- JENDELA POPUP (MODAL CONTAINER) -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOuterClick(event)">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header">
+                <i id="modalIcon" class="fa-solid fa-laptop-code"></i>
+                <div class="modal-title">
+                    <h3 id="modalTitle">Judul Proyek</h3>
+                    <span id="modalCategory">Kategori</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p id="modalDescription">Deskripsi rinci mengenai proyek akan tampil di sini...</p>
+                
+                <div class="modal-features-title">Fitur & Sorotan Utama:</div>
+                <ul class="modal-features" id="modalFeatures">
+                    <!-- Ditambahkan otomatis lewat JS -->
+                </ul>
+
+                <div class="modal-features-title">Teknologi / Skill Digunakan:</div>
+                <div class="tech-tags" id="modalTech">
+                    <!-- Ditambahkan otomatis lewat JS -->
+                </div>
+
+                <div class="modal-actions">
+                    <a id="modalActionBtn" href="jepang.html" target="_blank" class="btn" style="padding: 8px 20px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Link Proyek
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT UNTUK INTERAKSI & MODAL POPUP -->
+    <script>
+        // DATA LENGKAP PROYEK & PRESENTASI
+        const projectData = {
+            'jepang': {
+                icon: 'fa-solid fa-language',
+                title: 'Web Belajar Bahasa Jepang',
+                category: 'Web Application',
+                description: 'Website interaktif yang dirancang untuk mempermudah teman-teman pelajar dalam menghafal Hiragana, Katakana, serta kosakata bahasa Jepang sehari-hari secara menyenangkan.',
+                features: [
+                    'Fitur kartu kilat (Flashcards) interaktif',
+                    'Kuis latihan kosakata sederhana',
+                    'Desain antarmuka bersih & responsif di smartphone'
+                ],
+                tech: ['HTML5', 'CSS3', 'JavaScript'],
+                link: 'jepang.html'
+            },
+            'python-calc': {
+                icon: 'fa-solid fa-calculator',
+                title: 'Kalkulator Sederhana Python',
+                category: 'Python Desktop / CLI',
+                description: 'Aplikasi perhitungan berbasis logika Python yang mampu mengeksekusi operasi matematika dasar hingga lanjutan dengan cepat dan akurat.',
+                features: [
+                    'Operasi matematika dasar (+, -, *, /)',
+                    'Fitur penanganan error jika pembagian nol',
+                    'Sistem logika fungsi Python terstruktur'
+                ],
+                tech: ['Python 3', 'Logic & Algorithm'],
+                link: 'kalkulator.html'
+            },
+            'snake-game': {
+                icon: 'fa-solid fa-gamepad',
+                title: 'Game Ular Classic (Snake Game)',
+                category: 'Game Development',
+                description: 'Pengembangan game retro klasik ular yang dibuat menggunakan HTML5 Canvas dan JavaScript untuk melatih logika collision detection dan game loop.',
+                features: [
+                    'Kontrol pergerakan responsif',
+                    'Penghitung skor real-time & rekor tertinggi',
+                    'Efek kecepatan ular meningkat seiring waktu'
+                ],
+                tech: ['HTML5 Canvas', 'CSS3', 'JavaScript Logic'],
+                link: 'snake.html'
+            },
+            'presentation-osis': {
+                icon: 'fa-solid fa-person-chalkboard',
+                title: 'Presentasi Leadership & OSIS',
+                category: 'Public Speaking & Presentation',
+                description: 'Materi presentasi program kerja dan kepemimpinan yang dibawakan saat menjabat sebagai pengurus OSIS periode 2024–2025.',
+                features: [
+                    'Penyusunan slide visual yang terstruktur',
+                    'Penyampaian gagasan program kerja unggulan',
+                    'Peningkatan keterlibatan audiens dalam sesi tanya jawab'
+                ],
+                tech: ['Public Speaking', 'Leadership', 'Canva / PPT', 'Communication'],
+                link: '#'
+            },
+            'competitions': {
+                icon: 'fa-solid fa-trophy',
+                title: 'Juara & Prestasi Lomba',
+                category: 'Achievements',
+                description: 'Pengalaman bertanding dan memenangkan berbagai kompetisi baik bidang akademik, keorganisasian, maupun olahraga/seni.',
+                features: [
+                    'Pengalaman bertanding di tingkat sekolah dan daerah',
+                    'Penerapan disiplin latihan dari Pencak Silat & Marching Band',
+                    'Kerja sama tim yang solid saat berorientasi kompetisi'
+                ],
+                tech: ['Mental Juara', 'Disiplin', 'Kerja Sama Tim'],
+                link: '#'
+            }
+        };
+
+        // FUNGSI MEMBUKA MODAL
+        function openModal(projectId) {
+            const data = projectData[projectId];
+            if (!data) return;
+
+            document.getElementById('modalIcon').className = data.icon;
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalCategory').innerText = data.category;
+            document.getElementById('modalDescription').innerText = data.description;
+
+            // Render Fitur
+            const featuresContainer = document.getElementById('modalFeatures');
+            featuresContainer.innerHTML = '';
+            data.features.forEach(ft => {
+                const li = document.createElement('li');
+                li.innerText = ft;
+                featuresContainer.appendChild(li);
+            });
+
+            // Render Tech Tags
+            const techContainer = document.getElementById('modalTech');
+            techContainer.innerHTML = '';
+            data.tech.forEach(t => {
+                const span = document.createElement('span');
+                span.className = 'tech-tag';
+                span.innerText = t;
+                techContainer.appendChild(span);
+            });
+
+            // Link Action Button
+            const actionBtn = document.getElementById('modalActionBtn');
+            actionBtn.href = data.link;
+
+            // Tampilkan Overlay Modal
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Matikan scroll latar belakang
+        }
+
+        // FUNGSI MENUTUP MODAL
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto'; // Aktifkan scroll kembali
+        }
+
+        function closeModalOnOuterClick(event) {
+            if (event.target.id === 'modalOverlay') {
+                closeModal();
+            }
+        }
+
+        // ANIMASI SCROLL (FADE IN)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>
