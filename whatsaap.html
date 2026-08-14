@@ -149,18 +149,38 @@
       const kelas = document.getElementById('kelas').value;
       const alasan = document.getElementById('alasan').value;
 
-      // Menyusun format pesan WhatsApp
-      const pesan = `Halo Kakak Pramuka,%0A%0ASaya ingin mendaftar Ekstrakurikuler Pramuka dengan data sebagai berikut:%0A%0A` +
-                    `*Nama Lengkap:* ${encodeURIComponent(namaLengkap)}%0A` +
-                    `*Nama Panggilan:* ${encodeURIComponent(namaPanggilan)}%0A` +
-                    `*Kelas:* ${encodeURIComponent(kelas)}%0A` +
-                    `*Alasan Masuk:* ${encodeURIComponent(alasan)}%0A%0A` +
-                    `Menerima instruksi selanjutnya, terima kasih!`;
+      const sekarang = new Date();
+      
+      const opsiTanggal = { 
+        weekday: 'long', 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+      };
+      const tanggalFormatted = sekarang.toLocaleDateString('id-ID', opsiTanggal);
 
-      // Redirect ke WhatsApp
+      const jamFormatted = sekarang.toLocaleTimeString('id-ID', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      }).replace('.', ':') + ' WIB';
+
+      // Gabungkan menjadi teks waktu lengkap
+      const waktuKirim = `${tanggalFormatted} - Pukul ${jamFormatted}`;
+
+      // 4. Menyusun pesan WhatsApp yang terformat rapi
+      const pesan = `Halo Pembina Pramuka,%0A%0ASaya ingin mendaftar Ekstrakurikuler Pramuka dengan data sebagai berikut:%0A%0A` +
+                    `*📅 Waktu Pendaftaran:* ${encodeURIComponent(waktuKirim)}%0A` +
+                    `*👤 Nama Lengkap:* ${encodeURIComponent(namaLengkap)}%0A` +
+                    `*🏷️ Nama Panggilan:* ${encodeURIComponent(namaPanggilan)}%0A` +
+                    `*🏫 Kelas:* ${encodeURIComponent(kelas)}%0A` +
+                    `*💬 Alasan Masuk:* ${encodeURIComponent(alasan)}%0A%0A` +
+                    `Mohon dapat diproses. Terima kasih!`;
+
+      // 5. Buka aplikasi WhatsApp dengan pesan terisi
       const urlWA = `https://wa.me/${nomorWA}?text=${pesan}`;
       window.open(urlWA, '_blank');
     });
+
   </script>
 
 </body>
