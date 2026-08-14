@@ -62,7 +62,7 @@
                 features: [
                         'Pengisian data diri ringkas dan praktis',
                         'Timestamp otomatis (Hari, Tanggal, Jam kirim)',
-                        'Pengiriman konfirmasi langsung ke WhatsApp''
+                        'Pengiriman konfirmasi langsung ke WhatsApp'
                 ],
                 tech: ['HTML5', 'CSS3', 'JavaScript', 'WhatsApp API'],
                 link: 'whatsaap.html'
