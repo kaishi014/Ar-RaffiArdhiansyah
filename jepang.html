@@ -1,0 +1,2610 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaishi Nihongo - Belajar Bahasa Jepang Interaktif</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --nav-bg: #f8fafc;
+            --canvas-bg: #ffffff;
+            --canvas-grid: #cbd5e1;
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-theme {
+            --bg-gradient: linear-gradient(135deg, #030712 0%, #0f172a 50%, #020617 100%);
+            --card-bg: #1e293b;
+            --text-dark: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-light: #1e3a8a;
+            --border-color: #334155;
+            --nav-bg: #0f172a;
+            --canvas-bg: #0f172a;
+            --canvas-grid: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-dark);
+            padding: 16px;
+            transition: background 0.3s ease;
+        }
+
+        /* Top Brand Bar & Widget Bar */
+        .top-navbar {
+            width: 100%;
+            max-width: 680px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            color: white;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+        }
+
+        .brand-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.68rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .top-widgets {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .widget-pill {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* App Container */
+        .app-container {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 680px;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Primary Navigation Grid */
+        .primary-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background: var(--nav-bg);
+            padding: 6px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 480px) {
+            .primary-nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .p-nav-btn {
+            padding: 10px 8px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .p-nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+        }
+
+        /* Secondary Toolbar Bar */
+        .toolbar-panel {
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toolbar-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .toolbar-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .switch-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .switch-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Category Filter Pills */
+        .cat-pills {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .cat-btn {
+            flex: 1;
+            min-width: 70px;
+            padding: 7px 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-dark);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cat-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Direction Switch */
+        .direction-toggle {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dir-btn {
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .dir-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--text-dark);
+            font-size: 0.88rem;
+        }
+
+        /* Japanese Display Card */
+        .card-display {
+            background: var(--primary-light);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 28px 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .jp-text {
+            font-size: 3.8rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.1;
+            word-break: break-all;
+        }
+
+        body.dark-theme .jp-text {
+            color: #93c5fd;
+        }
+
+        .sub-text {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .audio-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            color: var(--text-dark);
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn-option {
+            background-color: var(--nav-bg);
+            border: 2px solid var(--border-color);
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-option:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .btn-option.correct {
+            background-color: var(--accent) !important;
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .btn-option.wrong {
+            background-color: var(--danger) !important;
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .next-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .next-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Flashcard Styles */
+        .flashcard-container {
+            perspective: 1000px;
+            margin: 20px 0;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            padding: 20px;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .fc-jp {
+            font-size: 3.5rem;
+            font-weight: 800;
+        }
+
+        .fc-hint {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 10px;
+        }
+
+        .fc-romaji {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fde047;
+        }
+
+        .fc-meaning {
+            font-size: 1.25rem;
+            margin-top: 6px;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .ctrl-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--nav-bg);
+            color: var(--text-dark);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.88rem;
+        }
+
+        .ctrl-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Interactive Writing & Step Tutorial Styles */
+        .writing-subnav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .subtab-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--nav-bg);
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .subtab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .writing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            width: 270px;
+            height: 270px;
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            background: var(--canvas-bg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .canvas-grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .canvas-grid-bg::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: var(--canvas-grid);
+            border-style: dashed;
+        }
+
+        .canvas-grid-bg::after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background: var(--canvas-grid);
+            border-style: dashed;
+        }
+
+        .kana-guide-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10.5rem;
+            font-weight: 800;
+            color: rgba(37, 99, 235, 0.15);
+            pointer-events: none;
+            user-select: none;
+            line-height: 1;
+        }
+
+        body.dark-theme .kana-guide-text {
+            color: rgba(147, 197, 253, 0.2);
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .stroke-step-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(37, 99, 235, 0.9);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            z-index: 10;
+        }
+
+        /* Step Tutorial Explanation Panel */
+        .tutorial-panel-box {
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .tutorial-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .step-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        .tutorial-desc {
+            font-size: 0.88rem;
+            color: var(--text-dark);
+            line-height: 1.5;
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+
+        .tutorial-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tut-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .tut-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Evaluation Score Box */
+        .eval-box {
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .eval-score-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .eval-msg {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-align: left;
+            flex: 1;
+        }
+
+        .writing-tools {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            max-width: 360px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tool-btn {
+            padding: 9px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--nav-bg);
+            color: var(--text-dark);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tool-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tool-btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .kana-picker-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            width: 100%;
+            padding: 10px 4px;
+            scrollbar-width: thin;
+        }
+
+        .picker-item {
+            flex: 0 0 46px;
+            height: 46px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--nav-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+        }
+
+        .picker-item.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.08);
+        }
+
+        /* Statistics Dashboard */
+        .stats-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-info h4 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .stat-info p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .section-box {
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .section-box-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-bar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .progress-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .progress-item-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Achievements Badges */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .badge-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            opacity: 0.4;
+            filter: grayscale(1);
+            transition: all 0.3s ease;
+        }
+
+        .badge-card.unlocked {
+            opacity: 1;
+            filter: grayscale(0);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        }
+
+        .badge-icon {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+        }
+
+        .badge-name {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .badge-desc {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* History Table */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 0.82rem;
+        }
+
+        .history-topic {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .history-date {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .history-score {
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        /* Leaderboard & Profile Styles */
+        .user-profile-banner {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .user-avatar-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            font-weight: 800;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .user-details h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .user-details p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .edit-profile-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .edit-profile-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 380px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--nav-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 12px 16px;
+            transition: transform 0.2s;
+        }
+
+        .leaderboard-item.is-me {
+            border: 2px solid var(--primary);
+            background: var(--primary-light);
+        }
+
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--border-color);
+            color: var(--text-dark);
+        }
+
+        .rank-1 { background: #f59e0b; color: white; font-size: 1.1rem; }
+        .rank-2 { background: #94a3b8; color: white; font-size: 1.1rem; }
+        .rank-3 { background: #d97706; color: white; font-size: 1.1rem; }
+
+        .leader-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            margin-left: 10px;
+            text-align: left;
+        }
+
+        .leader-name {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .leader-stats {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .leader-score {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .profile-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+            margin-bottom: 16px;
+        }
+
+        .profile-input-group label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .profile-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--nav-bg);
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .profile-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .modal-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+        }
+
+        .modal-btn.cancel {
+            background: var(--nav-bg);
+            color: var(--text-dark);
+        }
+
+        .modal-btn.confirm {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        /* Result View */
+        .result-box {
+            display: none;
+            padding: 20px 0;
+        }
+
+        .result-score {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 15px 0;
+        }
+
+        .restart-btn {
+            padding: 14px 28px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .restart-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .app-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 500;
+        }
+
+        body.dark-theme .app-footer {
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <div class="top-navbar">
+        <div class="brand-logo">
+            🌊 Kaishi <span class="brand-badge">開始 v2.1</span>
+        </div>
+        <div class="top-widgets">
+            <div class="widget-pill" title="Streak Belajar Harian">🔥 <span id="streak-counter">1</span> Hari</div>
+            <div class="widget-pill" title="Total Poin Pengalaman">⚡ <span id="xp-counter">0</span> XP</div>
+            <div class="widget-pill" id="user-header-pill" onclick="openProfileModal()" style="cursor: pointer;" title="Profil Saya">👤 <span id="nav-user-name">Siswa Kaishi</span></div>
+            <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Ganti Mode Gelap/Terang">🌙</button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Navigation Buttons -->
+        <div class="primary-nav">
+            <button class="p-nav-btn active" id="pnav-kana" onclick="switchPrimaryMode('kana')">🔤 Kana</button>
+            <button class="p-nav-btn" id="pnav-kotoba" onclick="switchPrimaryMode('kotoba')">📚 Kotoba</button>
+            <button class="p-nav-btn" id="pnav-write" onclick="switchPrimaryMode('write')">✍️ Menulis</button>
+            <button class="p-nav-btn" id="pnav-flashcard" onclick="switchPrimaryMode('flashcard')">🎴 Hafalan</button>
+            <button class="p-nav-btn" id="pnav-rank" onclick="switchPrimaryMode('rank')">🏆 Rank Global</button>
+            <button class="p-nav-btn" id="pnav-stats" onclick="switchPrimaryMode('stats')">📊 Statistik</button>
+        </div>
+
+        <!-- Secondary Toolbar Controls -->
+        <div class="toolbar-panel" id="toolbar-panel">
+            <div class="toolbar-row" id="kana-sub-toggle">
+                <span class="toolbar-label">Huruf: <strong id="current-kana-label" style="color:var(--primary);">Hiragana (ひらがな)</strong></span>
+                <button class="switch-btn" id="toggle-kana-btn" onclick="toggleKanaType()">Ganti Katakana ➔</button>
+            </div>
+
+            <div class="toolbar-row" id="kana-cat-selector">
+                <span class="toolbar-label">Kategori:</span>
+                <div class="direction-toggle" id="quiz-direction-box">
+                    <button class="dir-btn active" id="dir-jp-ro" onclick="setQuizDirection('jp-ro')" title="Soal Huruf -> Romaji">🇯🇵 Huruf➔Ro</button>
+                    <button class="dir-btn" id="dir-ro-jp" onclick="setQuizDirection('ro-jp')" title="Soal Romaji -> Huruf">🔤 Ro➔Huruf</button>
+                </div>
+                <div class="cat-pills">
+                    <button class="cat-btn active" id="cat-all" onclick="setKanaCategory('all')">🌐 Semua</button>
+                    <button class="cat-btn" id="cat-seion" onclick="setKanaCategory('seion')">📌 Dasar</button>
+                    <button class="cat-btn" id="cat-dakuon" onclick="setKanaCategory('dakuon')">🔔 Dakuon</button>
+                    <button class="cat-btn" id="cat-yoon" onclick="setKanaCategory('yoon')">🧩 Yoon</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Interface View -->
+        <div id="quiz-interface">
+            <div class="stats-bar">
+                <span>Skor: <span id="score-display">0</span></span>
+                <span>Soal: <span id="question-count">1/20</span></span>
+            </div>
+
+            <div class="card-display">
+                <button class="audio-btn" onclick="playAudio()" title="Dengarkan Suara">🔊</button>
+                <div class="jp-text" id="jp-display">あ</div>
+                <div class="sub-text" id="sub-display">Pilih cara baca (Romaji) yang tepat</div>
+            </div>
+
+            <div class="options-grid" id="options-container"></div>
+
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Soal Berikutnya ➔</button>
+        </div>
+
+        <!-- Flashcard Interface View -->
+        <div id="flashcard-interface" style="display: none;">
+            <div class="stats-bar">
+                <span id="fc-title-label">Hafalan Kosakata</span>
+                <div class="cat-pills" style="margin: 0; width: auto;">
+                    <button class="cat-btn" id="fc-tab-kana" onclick="switchFlashcardTab('kana')">Kana</button>
+                    <button class="cat-btn active" id="fc-tab-kotoba" onclick="switchFlashcardTab('kotoba')">Kosakata</button>
+                </div>
+                <span><span id="fc-count">1/20</span></span>
+            </div>
+
+            <div class="flashcard-container" onclick="flipCard()">
+                <div class="flashcard" id="flashcard-card">
+                    <div class="flashcard-front">
+                        <div class="fc-jp" id="fc-jp-text">ありがとう</div>
+                        <div class="fc-hint">💡 Klik kartu untuk balikkan</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="fc-romaji" id="fc-romaji-text">Arigatou</div>
+                        <div class="fc-meaning" id="fc-meaning-text">Terima Kasih</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard-controls">
+                <button class="ctrl-btn" onclick="prevFlashcard()">⬅ Prev</button>
+                <button class="ctrl-btn" onclick="playFlashcardAudio()">🔊 Suara</button>
+                <button class="ctrl-btn" onclick="nextFlashcard()">Next ➔</button>
+            </div>
+        </div>
+
+        <!-- Interactive Writing Practice & Step Tutorial View -->
+        <div id="writing-interface" style="display: none;">
+            <!-- Writing Sub Navigation Mode Switcher -->
+            <div class="writing-subnav">
+                <button class="subtab-btn active" id="subtab-tut" onclick="switchWritingSubMode('tutorial')">📖 Tutorial Langkah</button>
+                <button class="subtab-btn" id="subtab-practice" onclick="switchWritingSubMode('practice')">✍️ Latihan Tulis Canvas</button>
+            </div>
+
+            <div class="stats-bar">
+                <span id="write-mode-title">Tutorial Urutan Coretan</span>
+                <span id="write-char-label">Huruf: あ (a)</span>
+            </div>
+
+            <div class="kana-picker-bar" id="writing-picker-bar"></div>
+
+            <div class="writing-container">
+                <div class="canvas-wrapper">
+                    <div class="canvas-grid-bg"></div>
+                    <div class="stroke-step-badge" id="stroke-step-badge">Langkah 1/3</div>
+                    <div class="kana-guide-text" id="canvas-guide-char">あ</div>
+                    <canvas id="paint-canvas" width="270" height="270"></canvas>
+                </div>
+
+                <!-- Step Tutorial Guidance Panel -->
+                <div class="tutorial-panel-box" id="tutorial-step-panel">
+                    <div class="tutorial-header">
+                        <div class="tutorial-title">
+                            <span>🧭 Panduan Coretan Langkah Demi Langkah</span>
+                        </div>
+                        <div class="step-dots" id="step-dots-container"></div>
+                    </div>
+                    <div class="tutorial-desc" id="step-desc-text">
+                        Memuat instruksi langkah menulis...
+                    </div>
+                    <div class="tutorial-controls">
+                        <button class="tut-btn" onclick="prevStrokeStep()">⬅ Step Lalu</button>
+                        <button class="tut-btn" onclick="playStrokeAnimation()">▶️ Putar Urutan</button>
+                        <button class="tut-btn" onclick="nextStrokeStep()">Step Lanjut ➔</button>
+                    </div>
+                </div>
+
+                <!-- Interactive Practice Score Feedback -->
+                <div class="eval-box" id="practice-eval-box" style="display: none;">
+                    <div>
+                        <div class="eval-score-text" id="eval-score-val">0%</div>
+                        <span style="font-size: 0.72rem; font-weight:700; color:var(--text-muted);">Akurasi Presisi</span>
+                    </div>
+                    <div class="eval-msg" id="eval-msg-text">
+                        Gambarlah huruf di atas panduan canvas, lalu klik <strong>"Evaluasi Tulis"</strong> untuk mengecek hasil presisi tulisan Anda.
+                    </div>
+                </div>
+
+                <!-- Toolbar Actions -->
+                <div class="writing-tools">
+                    <button class="tool-btn" onclick="clearCanvas()">🗑️ Hapus</button>
+                    <button class="tool-btn" onclick="toggleCanvasGuide()">👁️ Panduan</button>
+                    <button class="tool-btn" onclick="playWritingAudio()">🔊 Suara</button>
+                    <button class="tool-btn primary" id="eval-action-btn" onclick="evaluateUserWriting()">✨ Evaluasi Tulis</button>
+                    <button class="tool-btn" onclick="nextWritingChar()">Berikutnya ➔</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics View -->
+        <div id="stats-interface" style="display: none;">
+            <div class="stats-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-info">
+                            <h4 id="st-streak">1</h4>
+                            <p>Hari Streak</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <h4 id="st-accuracy">0%</h4>
+                            <p>Tingkat Akurasi</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <h4 id="st-total-quizzes">0</h4>
+                            <p>Kuis Diikuti</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-info">
+                            <h4 id="st-xp">0</h4>
+                            <p>Total Poin XP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-box">
+                    <div class="section-box-title">📊 Progres Penguasaan Kategori</div>
+                    <div class="progress-bar-group">
+                        <div class="progress-item">
+                            <div class="progress-item-label">
+                                <span>Huruf Dasar (Seion)</span>
+                                <span id="prog-seion-val">0%</span>
+                            </div>
+                            <div class="progress-track"><div class="progress-fill" id="prog-seion-fill" style="width: 0%;"></div></div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-item-label">
+                                <span>Huruf Variasi (Dakuon & Yoon)</span>
+                                <span id="prog-dakuon-val">0%</span>
+                            </div>
+                            <div class="progress-track"><div class="progress-fill" id="prog-dakuon-fill" style="width: 0%;"></div></div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-item-label">
+                                <span>Kosakata (Kotoba)</span>
+                                <span id="prog-kotoba-val">0%</span>
+                            </div>
+                            <div class="progress-track"><div class="progress-fill" id="prog-kotoba-fill" style="width: 0%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-box">
+                    <div class="section-box-title">🏅 Pencapaian & Lencana</div>
+                    <div class="badges-grid" id="badges-container"></div>
+                </div>
+
+                <div class="section-box">
+                    <div class="section-box-title">📜 Riwayat Kuis Terakhir</div>
+                    <div class="history-list" id="history-container"></div>
+                </div>
+
+                <button class="ctrl-btn" style="color:var(--danger); border-color:var(--danger); margin-top:10px;" onclick="promptResetStats()">🗑️ Reset Seluruh Statistik</button>
+            </div>
+        </div>
+
+        <!-- Global Rank Leaderboard Interface -->
+        <div id="leaderboard-interface" style="display: none;">
+            <div class="user-profile-banner">
+                <div class="user-avatar-box">
+                    <div class="avatar-circle" id="my-avatar-char">👤</div>
+                    <div class="user-details">
+                        <h3 id="my-profile-name">Siswa Kaishi</h3>
+                        <p>Peringkat Anda: <span id="my-global-rank" style="color:var(--primary); font-weight:800;">#-</span></p>
+                    </div>
+                </div>
+                <button class="edit-profile-btn" onclick="openProfileModal()">✏️ Edit Profil</button>
+            </div>
+
+            <div class="section-box">
+                <div class="section-box-title">🏆 Papan Peringkat Global</div>
+                <div class="leaderboard-list" id="leaderboard-container">
+                    <div style="font-size:0.85rem; color:var(--text-muted); text-align:center; padding:20px;">Memuat data peringkat...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Result Screen View -->
+        <div class="result-box" id="result-interface">
+            <h2>Kuis Selesai! 🎉</h2>
+            <p style="color: var(--text-muted); margin-top: 5px;">Hasil tes Anda telah dicatat ke statistik:</p>
+            <div class="result-score" id="final-score">0</div>
+            <p id="result-message">Kerja bagus! Tingkatkan terus latihannya.</p>
+            <button class="restart-btn" onclick="startNewQuiz()">Ulangi Kuis ↺</button>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="modal-overlay" id="custom-modal">
+        <div class="modal-box">
+            <div class="modal-title" id="modal-title">Reset Statistik?</div>
+            <div class="modal-desc" id="modal-desc">Apakah Anda yakin ingin menghapus seluruh statistik dan poin kemajuan Anda? Tindakan ini tidak dapat dibatalkan.</div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeModal()">Batal</button>
+                <button class="modal-btn confirm" id="modal-confirm-btn">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="modal-box">
+            <div class="modal-title">Akun & Profil Pengguna</div>
+            <div class="modal-desc">Atur nama tampilan Anda untuk papan peringkat global.</div>
+            <div class="profile-input-group">
+                <label for="username-input">Nama Panggilan / Username</label>
+                <input type="text" id="username-input" class="profile-input" placeholder="Masukkan nama Anda..." maxlength="20">
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeProfileModal()">Batal</button>
+                <button class="modal-btn confirm" style="background:var(--primary); border-color:var(--primary);" onclick="saveProfileName()">Simpan Nama</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        © 2026 Kaishi Nihongo (開始日本語). Hak Cipta Dilindungi.
+    </footer>
+
+    <!-- Firebase Script Sync Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kaishi-nihongo-app';
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            try {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                const initAuth = async () => {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                };
+
+                initAuth().catch(console.error);
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        currentUser = user;
+                        window.currentUserUID = user.uid;
+                        if (window.syncUserToFirestore) {
+                            window.syncUserToFirestore();
+                        }
+                        listenToGlobalLeaderboard();
+                    }
+                });
+            } catch (err) {
+                console.warn("Firebase initialized in local fallback mode:", err);
+            }
+        }
+
+        function listenToGlobalLeaderboard() {
+            if (!db || !currentUser) return;
+            const leaderboardCol = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
+            
+            onSnapshot(leaderboardCol, (snapshot) => {
+                const usersList = [];
+                snapshot.forEach(doc => {
+                    usersList.push({ id: doc.id, ...doc.data() });
+                });
+
+                usersList.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+                window.globalLeaderboardData = usersList;
+
+                if (window.currentPrimaryMode === 'rank') {
+                    window.renderGlobalLeaderboardUI();
+                }
+            }, (error) => {
+                console.error("Firestore Leaderboard Listener Error:", error);
+            });
+        }
+
+        window.syncUserToFirestore = async function() {
+            if (!db || !currentUser) return;
+            try {
+                const userDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'leaderboard', currentUser.uid);
+                const profileName = window.userStats ? window.userStats.displayName : 'Siswa Kaishi';
+                await setDoc(userDocRef, {
+                    uid: currentUser.uid,
+                    displayName: profileName,
+                    xp: window.userStats ? window.userStats.xp : 0,
+                    streak: window.userStats ? window.userStats.streak : 1,
+                    updatedAt: Date.now()
+                }, { merge: true });
+            } catch (e) {
+                console.error("Failed to sync rank data:", e);
+            }
+        };
+    </script>
+
+    <!-- Main Logic Script -->
+    <script>
+        // Data Kana Basic (Seion - 清音)
+        const kanaSeion = [
+            { h: 'あ', k: 'ア', r: 'a' }, { h: 'い', k: 'イ', r: 'i' }, { h: 'う', k: 'ウ', r: 'u' }, { h: 'え', k: 'エ', r: 'e' }, { h: 'お', k: 'オ', r: 'o' },
+            { h: 'か', k: 'カ', r: 'ka' }, { h: 'き', k: 'キ', r: 'ki' }, { h: 'く', k: 'ク', r: 'ku' }, { h: 'け', k: 'ケ', r: 'ke' }, { h: 'こ', k: 'コ', r: 'ko' },
+            { h: 'さ', k: 'サ', r: 'sa' }, { h: 'し', k: 'シ', r: 'shi' }, { h: 'す', k: 'ス', r: 'su' }, { h: 'せ', k: 'セ', r: 'se' }, { h: 'そ', k: 'ソ', r: 'so' },
+            { h: 'た', k: 'タ', r: 'ta' }, { h: 'ち', k: 'チ', r: 'chi' }, { h: 'つ', k: 'ツ', r: 'tsu' }, { h: 'て', k: 'テ', r: 'te' }, { h: 'と', k: 'ト', r: 'to' },
+            { h: 'な', k: 'ナ', r: 'na' }, { h: 'に', k: 'ニ', r: 'ni' }, { h: 'ぬ', k: 'ヌ', r: 'nu' }, { h: 'ね', k: 'ネ', r: 'ne' }, { h: 'の', k: 'ノ', r: 'no' },
+            { h: 'は', k: 'ハ', r: 'ha' }, { h: 'ひ', k: 'ヒ', r: 'hi' }, { h: 'ふ', k: 'フ', r: 'fu' }, { h: 'へ', k: 'ヘ', r: 'he' }, { h: 'ほ', k: 'ホ', r: 'ho' },
+            { h: 'ま', k: 'マ', r: 'ma' }, { h: 'み', k: 'ミ', r: 'mi' }, { h: 'む', k: 'ム', r: 'mu' }, { h: 'め', k: 'メ', r: 'me' }, { h: 'も', k: 'モ', r: 'mo' },
+            { h: 'や', k: 'ヤ', r: 'ya' }, { h: 'ゆ', k: 'ユ', r: 'yu' }, { h: 'よ', k: 'ヨ', r: 'yo' },
+            { h: 'ら', k: 'ラ', r: 'ra' }, { h: 'り', k: 'リ', r: 'ri' }, { h: 'る', k: 'ル', r: 'ru' }, { h: 'れ', k: 'レ', r: 're' }, { h: 'ろ', k: 'ロ', r: 'ro' },
+            { h: 'わ', k: 'ワ', r: 'wa' }, { h: 'を', k: 'ヲ', r: 'wo' }, { h: 'ん', k: 'ン', r: 'n' }
+        ];
+
+        // Data Dakuon (濁音・半濁音)
+        const kanaDakuon = [
+            { h: 'が', k: 'ガ', r: 'ga' }, { h: 'ぎ', k: 'ギ', r: 'gi' }, { h: 'ぐ', k: 'グ', r: 'gu' }, { h: 'げ', k: 'ゲ', r: 'ge' }, { h: 'ご', k: 'ゴ', r: 'go' },
+            { h: 'ざ', k: 'ザ', r: 'za' }, { h: 'じ', k: 'ジ', r: 'ji' }, { h: 'ず', k: 'ズ', r: 'zu' }, { h: 'ぜ', k: 'ゼ', r: 'ze' }, { h: 'ぞ', k: 'ゾ', r: 'zo' },
+            { h: 'だ', k: 'ダ', r: 'da' }, { h: 'ぢ', k: 'ヂ', r: 'ji' }, { h: 'づ', k: 'ヅ', r: 'zu' }, { h: 'で', k: 'デ', r: 'de' }, { h: 'ど', k: 'ド', r: 'do' },
+            { h: 'ば', k: 'バ', r: 'ba' }, { h: 'び', k: 'ビ', r: 'bi' }, { h: 'ぶ', k: 'ブ', r: 'bu' }, { h: 'べ', k: 'ベ', r: 'be' }, { h: 'ぼ', k: 'ボ', r: 'bo' },
+            { h: 'ぱ', k: 'パ', r: 'pa' }, { h: 'ぴ', k: 'ピ', r: 'pi' }, { h: 'ぷ', k: 'プ', r: 'pu' }, { h: 'ぺ', k: 'ペ', r: 'pe' }, { h: 'ぽ', k: 'ポ', r: 'po' }
+        ];
+
+        // Data Yoon (拗音)
+        const kanaYoon = [
+            { h: 'きゃ', k: 'キャ', r: 'kya' }, { h: 'きゅ', k: 'キュ', r: 'kyu' }, { h: 'きょ', k: 'キョ', r: 'kyo' },
+            { h: 'しゃ', k: 'シャ', r: 'sha' }, { h: 'しゅ', k: 'シュ', r: 'shu' }, { h: 'しょ', k: 'ショ', r: 'sho' },
+            { h: 'ちゃ', k: 'チャ', r: 'cha' }, { h: 'ちゅ', k: 'チュ', r: 'chu' }, { h: 'ちょ', k: 'チョ', r: 'cho' }
+        ];
+
+        const allKanaData = [...kanaSeion, ...kanaDakuon, ...kanaYoon];
+
+        // Kana Writing Tutorial & Stroke Dictionary
+        const strokeOrderGuide = {
+            'あ': {
+                count: 3,
+                steps: [
+                    "Langkah 1: Tarik garis horizontal mendatar dari kiri ke kanan dengan sedikit melengkung ke atas.",
+                    "Langkah 2: Tarik garis vertikal memotong di tengah dari atas turun ke bawah.",
+                    "Langkah 3: Buat lengkungan memutar melingkar dari kanan bawah melingkar ke kiri lalu kembali memutar ke kanan."
+                ]
+            },
+            'い': {
+                count: 2,
+                steps: [
+                    "Langkah 1: Tarik garis melengkung dari atas ke bawah kiri dengan kait kecil di bagian ujung bawah.",
+                    "Langkah 2: Tarik garis melengkung pendek sejajar di sebelah kanan dari atas ke bawah."
+                ]
+            },
+            'う': {
+                count: 2,
+                steps: [
+                    "Langkah 1: Buat coretan titik miring pendek di bagian atas tengah.",
+                    "Langkah 2: Tarik garis melengkung membulat seperti telinga dari kiri atas memutar ke bawah kanan."
+                ]
+            },
+            'え': {
+                count: 2,
+                steps: [
+                    "Langkah 1: Buat garis miring pendek di bagian atas.",
+                    "Langkah 2: Tarik garis zig-zag miring dari kiri horizontal, turun miring, lalu meliuk ke kanan bawah."
+                ]
+            },
+            'お': {
+                count: 3,
+                steps: [
+                    "Langkah 1: Buat garis horizontal pendek dari kiri ke kanan.",
+                    "Langkah 2: Tarik garis vertikal memotong garis pertama, buat lingkar loop di bawah lalu melengkung ke kanan.",
+                    "Langkah 3: Tambahkan coretan titik miring kecil di sebelah kanan atas."
+                ]
+            },
+            'か': {
+                count: 3,
+                steps: [
+                    "Langkah 1: Buat garis melengkung ke kanan bawah dengan kait kecil di bagian ujung.",
+                    "Langkah 2: Tarik garis vertikal memotong di bagian tengah melengkung ke bawah.",
+                    "Langkah 3: Buat coretan titik miring sejajar di sebelah kanan luar."
+                ]
+            },
+            'き': {
+                count: 4,
+                steps: [
+                    "Langkah 1: Buat garis horizontal miring ke atas pertama.",
+                    "Langkah 2: Buat garis horizontal miring kedua sejajar di bawah garis pertama.",
+                    "Langkah 3: Tarik garis miring diagonal memotong kedua garis tersebut dari kanan atas ke kiri bawah.",
+                    "Langkah 4: Tambahkan kurva setengah lingkaran terpisah di bagian bawah."
+                ]
+            },
+            'く': {
+                count: 1,
+                steps: [
+                    "Langkah 1: Tarik satu garis menyudut seperti tanda panah ke kiri dari atas ke bawah kanan (sudut lancip)."
+                ]
+            },
+            'け': {
+                count: 3,
+                steps: [
+                    "Langkah 1: Buat garis lurus vertikal di sebelah kiri dengan kait kecil di ujung bawah.",
+                    "Langkah 2: Buat garis horizontal pendek di sebelah kanan.",
+                    "Langkah 3: Tarik garis melengkung dari atas memotong garis horizontal tersebut ke bawah."
+                ]
+            },
+            'こ': {
+                count: 2,
+                steps: [
+                    "Langkah 1: Buat garis horizontal sedikit melengkung di bagian atas.",
+                    "Langkah 2: Buat garis horizontal sejajar di bagian bawah melengkung sedikit ke atas."
+                ]
+            },
+            'default': {
+                count: 2,
+                steps: [
+                    "Langkah 1: Perhatikan bentuk panduan karakter dasar pada kanvas.",
+                    "Langkah 2: Ikuti alur garis dari atas ke bawah, kiri ke kanan secara halus."
+                ]
+            }
+        };
+
+        // Data Kosakata (Kotoba)
+        const kotobaData = [
+            { jp: 'ありがとう', r: 'Arigatou', mean: 'Terima Kasih' },
+            { jp: 'おはよう', r: 'Ohayou', mean: 'Selamat Pagi' },
+            { jp: 'こんにちは', r: 'Konnichiwa', mean: 'Selamat Siang' },
+            { jp: 'こんばんは', r: 'Konbanwa', mean: 'Selamat Malam' },
+            { jp: 'さようなら', r: 'Sayounara', mean: 'Selamat Tinggal' },
+            { jp: 'すみません', r: 'Sumimasen', mean: 'Permisi / Maaf' },
+            { jp: 'はい', r: 'Hai', mean: 'Ya' },
+            { jp: 'いいえ', r: 'Iie', mean: 'Tidak' },
+            { jp: 'たべる', r: 'Taberu', mean: 'Makan' },
+            { jp: 'のむ', r: 'Nomu', mean: 'Minum' },
+            { jp: 'ねこ', r: 'Neko', mean: 'Kucing' },
+            { jp: 'いぬ', r: 'Inu', mean: 'Anjing' },
+            { jp: 'ほん', r: 'Hon', mean: 'Buku' },
+            { jp: 'みず', r: 'Mizu', mean: 'Air' },
+            { jp: 'さくら', r: 'Sakura', mean: 'Bunga Sakura' },
+            { jp: 'わたし', r: 'Watashi', mean: 'Saya' },
+            { jp: 'ともだち', r: 'Tomodachi', mean: 'Teman' },
+            { jp: 'せんせい', r: 'Sensei', mean: 'Guru' },
+            { jp: 'がっこう', r: 'Gakkou', mean: 'Sekolah' },
+            { jp: 'にほん', r: 'Nihon', mean: 'Jepang' }
+        ];
+
+        // Badges Definitions
+        const badgesData = [
+            { id: 'b_first', icon: '🌱', name: 'Awal Mulai', desc: 'Selesaikan kuis pertama' },
+            { id: 'b_perfect', icon: '💯', name: 'Nilai Sempurna', desc: 'Dapatkan skor 100 di kuis' },
+            { id: 'b_streak3', icon: '🔥', name: 'Setia Belajar', desc: 'Capai streak 3 hari berturut-turut' },
+            { id: 'b_writer', icon: '✍️', name: 'Jago Menulis', desc: 'Coba fitur latihan menulis' },
+            { id: 'b_master', icon: '👑', name: 'Siswa Rajin', desc: 'Kumpulkan total 500 XP' }
+        ];
+
+        // State Engine & LocalStorage
+        let userStats = JSON.parse(localStorage.getItem('kaishi_stats')) || {
+            displayName: 'Siswa Kaishi',
+            xp: 0,
+            streak: 1,
+            lastActiveDate: new Date().toDateString(),
+            totalQuizzes: 0,
+            totalQuestions: 0,
+            correctAnswers: 0,
+            unlockedBadges: [],
+            history: [],
+            seionCorrect: 0,
+            dakuonCorrect: 0,
+            kotobaCorrect: 0,
+            wroteChar: false
+        };
+
+        window.userStats = userStats;
+        if (!userStats.displayName) userStats.displayName = 'Siswa Kaishi';
+
+        function checkStreak() {
+            const today = new Date().toDateString();
+            if (userStats.lastActiveDate !== today) {
+                const last = new Date(userStats.lastActiveDate);
+                const now = new Date();
+                const diffTime = Math.abs(now - last);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays <= 2) {
+                    userStats.streak += 1;
+                } else {
+                    userStats.streak = 1;
+                }
+                userStats.lastActiveDate = today;
+                if (userStats.streak >= 3) unlockBadge('b_streak3');
+                saveStats();
+            }
+        }
+
+        function saveStats() {
+            localStorage.setItem('kaishi_stats', JSON.stringify(userStats));
+            updateTopNavbarUI();
+            if (window.syncUserToFirestore) {
+                window.syncUserToFirestore();
+            }
+        }
+
+        function addXP(amount) {
+            userStats.xp += amount;
+            if (userStats.xp >= 500) unlockBadge('b_master');
+            saveStats();
+        }
+
+        function unlockBadge(badgeId) {
+            if (!userStats.unlockedBadges.includes(badgeId)) {
+                userStats.unlockedBadges.push(badgeId);
+                saveStats();
+            }
+        }
+
+        function updateTopNavbarUI() {
+            document.getElementById('streak-counter').innerText = userStats.streak;
+            document.getElementById('xp-counter').innerText = userStats.xp;
+            const displayName = userStats.displayName || 'Siswa Kaishi';
+            document.getElementById('nav-user-name').innerText = displayName;
+            document.getElementById('my-profile-name').innerText = displayName;
+            document.getElementById('my-avatar-char').innerText = displayName.charAt(0).toUpperCase();
+        }
+
+        // Japanese Speech Utterance
+        function speakJapanese(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ja-JP';
+                utterance.rate = 0.85;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Active State Variables
+        let currentPrimaryMode = 'kana';
+        window.currentPrimaryMode = currentPrimaryMode;
+        let kanaType = 'h'; // 'h' (Hiragana) or 'k' (Katakana)
+        let kanaCategory = 'all'; 
+        let quizDirection = 'jp-ro'; 
+        let activeQuizSet = [];
+        let currentIndex = 0;
+        let score = 0;
+        let correctCountCurrentQuiz = 0;
+        let canAnswer = true;
+        const totalQuestions = 20;
+
+        // Flashcard State
+        let flashcardTab = 'kotoba';
+        let flashcardIndex = 0;
+
+        // Writing Canvas & Tutorial Engine State
+        let writingSubMode = 'tutorial'; // 'tutorial' or 'practice'
+        let writingIndex = 0;
+        let currentStrokeStep = 0;
+        let isDrawing = false;
+        let canvas, ctx;
+        let showGuide = true;
+        let currentKanaList = [...kanaSeion];
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
+            localStorage.setItem('kaishi_theme', isDark ? 'dark' : 'light');
+        }
+
+        if (localStorage.getItem('kaishi_theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.getElementById('theme-btn').innerText = '☀️';
+        }
+
+        // Primary Navigation Handler
+        function switchPrimaryMode(mode) {
+            currentPrimaryMode = mode;
+            window.currentPrimaryMode = mode;
+            document.querySelectorAll('.p-nav-btn').forEach(btn => btn.classList.remove('active'));
+            const activeNav = document.getElementById(`pnav-${mode}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            // Hide interfaces
+            document.getElementById('quiz-interface').style.display = 'none';
+            document.getElementById('flashcard-interface').style.display = 'none';
+            document.getElementById('writing-interface').style.display = 'none';
+            document.getElementById('stats-interface').style.display = 'none';
+            document.getElementById('leaderboard-interface').style.display = 'none';
+            document.getElementById('result-interface').style.display = 'none';
+
+            const toolbarPanel = document.getElementById('toolbar-panel');
+            const kanaSubToggle = document.getElementById('kana-sub-toggle');
+            const kanaCatSelector = document.getElementById('kana-cat-selector');
+
+            toolbarPanel.style.display = 'flex';
+            kanaSubToggle.style.display = 'none';
+            kanaCatSelector.style.display = 'none';
+
+            if (mode === 'kana') {
+                kanaSubToggle.style.display = 'flex';
+                kanaCatSelector.style.display = 'flex';
+                document.getElementById('quiz-interface').style.display = 'block';
+                startNewQuiz();
+            } else if (mode === 'kotoba') {
+                toolbarPanel.style.display = 'none';
+                document.getElementById('quiz-interface').style.display = 'block';
+                startNewQuiz();
+            } else if (mode === 'write') {
+                kanaSubToggle.style.display = 'flex';
+                kanaCatSelector.style.display = 'flex';
+                document.getElementById('writing-interface').style.display = 'block';
+                initWritingMode();
+            } else if (mode === 'rank') {
+                toolbarPanel.style.display = 'none';
+                document.getElementById('leaderboard-interface').style.display = 'block';
+                renderGlobalLeaderboardUI();
+            } else if (mode === 'flashcard') {
+                toolbarPanel.style.display = 'none';
+                document.getElementById('flashcard-interface').style.display = 'block';
+                initFlashcardMode();
+            } else if (mode === 'stats') {
+                toolbarPanel.style.display = 'none';
+                document.getElementById('stats-interface').style.display = 'block';
+                renderStatsPage();
+            }
+        }
+
+        // Kana & Quiz Toolbar Switches
+        function toggleKanaType() {
+            kanaType = kanaType === 'h' ? 'k' : 'h';
+            const label = document.getElementById('current-kana-label');
+            const btn = document.getElementById('toggle-kana-btn');
+            if (kanaType === 'h') {
+                label.innerHTML = 'Hiragana (ひらがな)';
+                btn.innerHTML = 'Ganti Katakana ➔';
+            } else {
+                label.innerHTML = 'Katakana (カタカナ)';
+                btn.innerHTML = 'Ganti Hiragana ➔';
+            }
+            if (currentPrimaryMode === 'kana') startNewQuiz();
+            else if (currentPrimaryMode === 'write') initWritingMode();
+        }
+
+        function setQuizDirection(dir) {
+            quizDirection = dir;
+            document.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`dir-${dir}`).classList.add('active');
+            startNewQuiz();
+        }
+
+        function setKanaCategory(cat) {
+            kanaCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`cat-${cat}`).classList.add('active');
+            if (currentPrimaryMode === 'kana') startNewQuiz();
+            else if (currentPrimaryMode === 'write') initWritingMode();
+        }
+
+        // Quiz Logic Engine
+        function startNewQuiz() {
+            currentIndex = 0;
+            score = 0;
+            correctCountCurrentQuiz = 0;
+            canAnswer = true;
+
+            document.getElementById('result-interface').style.display = 'none';
+            document.getElementById('quiz-interface').style.display = 'block';
+            document.getElementById('score-display').innerText = '0';
+
+            let pool = [];
+            if (currentPrimaryMode === 'kana') {
+                if (kanaCategory === 'seion') pool = [...kanaSeion];
+                else if (kanaCategory === 'dakuon') pool = [...kanaDakuon];
+                else if (kanaCategory === 'yoon') pool = [...kanaYoon];
+                else pool = [...allKanaData];
+            } else {
+                pool = [...kotobaData];
+            }
+
+            activeQuizSet = pool.sort(() => Math.random() - 0.5).slice(0, totalQuestions);
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            canAnswer = true;
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('question-count').innerText = `${currentIndex + 1}/${activeQuizSet.length}`;
+
+            const current = activeQuizSet[currentIndex];
+            const jpText = currentPrimaryMode === 'kana' ? (kanaType === 'h' ? current.h : current.k) : current.jp;
+            
+            const jpDisplay = document.getElementById('jp-display');
+            const subDisplay = document.getElementById('sub-display');
+
+            if (quizDirection === 'jp-ro' || currentPrimaryMode === 'kotoba') {
+                jpDisplay.innerText = jpText;
+                subDisplay.innerText = currentPrimaryMode === 'kotoba' ? 'Pilih arti kata dalam Bahasa Indonesia' : 'Pilih cara baca (Romaji) yang tepat';
+            } else {
+                jpDisplay.innerText = current.r;
+                subDisplay.innerText = 'Pilih karakter huruf Bahasa Jepang yang tepat';
+            }
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            let correctAnswerVal = '';
+            let poolDistractors = [];
+
+            if (currentPrimaryMode === 'kana') {
+                if (quizDirection === 'jp-ro') {
+                    correctAnswerVal = current.r;
+                    poolDistractors = allKanaData.map(item => item.r).filter(r => r !== correctAnswerVal);
+                } else {
+                    correctAnswerVal = kanaType === 'h' ? current.h : current.k;
+                    poolDistractors = allKanaData.map(item => kanaType === 'h' ? item.h : item.k).filter(c => c !== correctAnswerVal);
+                }
+            } else {
+                correctAnswerVal = current.mean;
+                poolDistractors = kotobaData.map(item => item.mean).filter(m => m !== correctAnswerVal);
+            }
+
+            const distractors = poolDistractors.sort(() => Math.random() - 0.5).slice(0, 3);
+            const options = [correctAnswerVal, ...distractors].sort(() => Math.random() - 0.5);
+
+            options.forEach(optionText => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-option';
+                btn.innerText = optionText;
+                btn.onclick = () => checkAnswer(optionText, btn, correctAnswerVal);
+                optionsContainer.appendChild(btn);
+            });
+
+            speakJapanese(jpText);
+        }
+
+        function playAudio() {
+            const current = activeQuizSet[currentIndex];
+            if (!current) return;
+            const jpText = currentPrimaryMode === 'kana' ? (kanaType === 'h' ? current.h : current.k) : current.jp;
+            speakJapanese(jpText);
+        }
+
+        function checkAnswer(selected, buttonEl, correctAnswerVal) {
+            if (!canAnswer) return;
+            canAnswer = false;
+
+            const allBtns = document.querySelectorAll('.btn-option');
+            allBtns.forEach(b => b.disabled = true);
+
+            userStats.totalQuestions += 1;
+
+            if (selected === correctAnswerVal) {
+                buttonEl.classList.add('correct');
+                score += 5;
+                correctCountCurrentQuiz += 1;
+                userStats.correctAnswers += 1;
+                addXP(10);
+
+                if (currentPrimaryMode === 'kana') {
+                    if (kanaCategory === 'seion') userStats.seionCorrect += 1;
+                    else userStats.dakuonCorrect += 1;
+                } else {
+                    userStats.kotobaCorrect += 1;
+                }
+
+                document.getElementById('score-display').innerText = score;
+            } else {
+                buttonEl.classList.add('wrong');
+                allBtns.forEach(b => {
+                    if (b.innerText === correctAnswerVal) b.classList.add('correct');
+                });
+            }
+
+            saveStats();
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentIndex += 1;
+            if (currentIndex >= activeQuizSet.length) {
+                showQuizResult();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-interface').style.display = 'none';
+            document.getElementById('result-interface').style.display = 'block';
+
+            const finalScore = Math.round((correctCountCurrentQuiz / activeQuizSet.length) * 100);
+            document.getElementById('final-score').innerText = `${finalScore} / 100`;
+
+            let msg = 'Kerja bagus! Tingkatkan terus latihannya.';
+            if (finalScore === 100) {
+                msg = 'Sempurna! Pengetahuan Anda sangat luar biasa! 💯';
+                unlockBadge('b_perfect');
+            } else if (finalScore >= 80) {
+                msg = 'Sangat Bagus! Teruskan semangat belajar Anda! ✨';
+            }
+
+            document.getElementById('result-message').innerText = msg;
+
+            userStats.totalQuizzes += 1;
+            unlockBadge('b_first');
+            addXP(50);
+
+            const topicName = currentPrimaryMode === 'kana' ? `Kuis Kana (${kanaCategory.toUpperCase()})` : 'Kuis Kosakata';
+            userStats.history.unshift({
+                topic: topicName,
+                score: `${finalScore}%`,
+                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })
+            });
+            if (userStats.history.length > 10) userStats.history.pop();
+
+            saveStats();
+        }
+
+        // Flashcard Mode Logic
+        function initFlashcardMode() {
+            flashcardIndex = 0;
+            renderFlashcard();
+        }
+
+        function switchFlashcardTab(tab) {
+            flashcardTab = tab;
+            document.getElementById('fc-tab-kana').classList.toggle('active', tab === 'kana');
+            document.getElementById('fc-tab-kotoba').classList.toggle('active', tab === 'kotoba');
+            flashcardIndex = 0;
+            renderFlashcard();
+        }
+
+        function renderFlashcard() {
+            const card = document.getElementById('flashcard-card');
+            card.classList.remove('flipped');
+
+            const pool = flashcardTab === 'kana' ? allKanaData : kotobaData;
+            document.getElementById('fc-count').innerText = `${flashcardIndex + 1}/${pool.length}`;
+
+            const current = pool[flashcardIndex];
+
+            if (flashcardTab === 'kana') {
+                document.getElementById('fc-jp-text').innerText = kanaType === 'h' ? current.h : current.k;
+                document.getElementById('fc-romaji-text').innerText = current.r;
+                document.getElementById('fc-meaning-text').innerText = `Karakter Kana (${current.r})`;
+            } else {
+                document.getElementById('fc-jp-text').innerText = current.jp;
+                document.getElementById('fc-romaji-text').innerText = current.r;
+                document.getElementById('fc-meaning-text').innerText = current.mean;
+            }
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard-card').classList.toggle('flipped');
+        }
+
+        function nextFlashcard() {
+            const pool = flashcardTab === 'kana' ? allKanaData : kotobaData;
+            flashcardIndex = (flashcardIndex + 1) % pool.length;
+            renderFlashcard();
+        }
+
+        function prevFlashcard() {
+            const pool = flashcardTab === 'kana' ? allKanaData : kotobaData;
+            flashcardIndex = (flashcardIndex - 1 + pool.length) % pool.length;
+            renderFlashcard();
+        }
+
+        function playFlashcardAudio() {
+            const pool = flashcardTab === 'kana' ? allKanaData : kotobaData;
+            const current = pool[flashcardIndex];
+            const jpText = flashcardTab === 'kana' ? (kanaType === 'h' ? current.h : current.k) : current.jp;
+            speakJapanese(jpText);
+        }
+
+        // Interactive Writing Practice & Tutorial Logic
+        function initWritingMode() {
+            writingIndex = 0;
+            currentStrokeStep = 0;
+            canvas = document.getElementById('paint-canvas');
+            ctx = canvas.getContext('2d');
+
+            if (kanaCategory === 'seion') currentKanaList = [...kanaSeion];
+            else if (kanaCategory === 'dakuon') currentKanaList = [...kanaDakuon];
+            else if (kanaCategory === 'yoon') currentKanaList = [...kanaYoon];
+            else currentKanaList = [...kanaSeion];
+
+            setupWritingPicker();
+            setupCanvasEvents();
+            renderWritingChar();
+        }
+
+        function switchWritingSubMode(sub) {
+            writingSubMode = sub;
+            document.getElementById('subtab-tut').classList.toggle('active', sub === 'tutorial');
+            document.getElementById('subtab-practice').classList.toggle('active', sub === 'practice');
+
+            const tutPanel = document.getElementById('tutorial-step-panel');
+            const evalBox = document.getElementById('practice-eval-box');
+            const modeTitle = document.getElementById('write-mode-title');
+
+            if (sub === 'tutorial') {
+                tutPanel.style.display = 'block';
+                evalBox.style.display = 'none';
+                modeTitle.innerText = 'Tutorial Urutan Coretan';
+            } else {
+                tutPanel.style.display = 'none';
+                evalBox.style.display = 'flex';
+                modeTitle.innerText = 'Latihan Tulis Interaktif';
+            }
+            renderWritingChar();
+        }
+
+        function setupWritingPicker() {
+            const picker = document.getElementById('writing-picker-bar');
+            picker.innerHTML = '';
+
+            currentKanaList.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = `picker-item ${idx === writingIndex ? 'active' : ''}`;
+                div.innerText = kanaType === 'h' ? item.h : item.k;
+                div.onclick = () => {
+                    writingIndex = idx;
+                    currentStrokeStep = 0;
+                    document.querySelectorAll('.picker-item').forEach(p => p.classList.remove('active'));
+                    div.classList.add('active');
+                    renderWritingChar();
+                };
+                picker.appendChild(div);
+            });
+        }
+
+        function renderWritingChar() {
+            const charObj = currentKanaList[writingIndex] || kanaSeion[0];
+            const jpChar = kanaType === 'h' ? charObj.h : charObj.k;
+
+            document.getElementById('write-char-label').innerText = `Huruf: ${jpChar} (${charObj.r})`;
+            document.getElementById('canvas-guide-char').innerText = showGuide ? jpChar : '';
+
+            clearCanvas();
+            renderStepTutorialData(jpChar);
+        }
+
+        function renderStepTutorialData(jpChar) {
+            const guide = strokeOrderGuide[jpChar] || strokeOrderGuide['default'];
+            const totalSteps = guide.count || guide.steps.length;
+
+            if (currentStrokeStep >= totalSteps) currentStrokeStep = 0;
+
+            document.getElementById('stroke-step-badge').innerText = `Langkah ${currentStrokeStep + 1}/${totalSteps}`;
+            document.getElementById('step-desc-text').innerText = guide.steps[currentStrokeStep] || guide.steps[0];
+
+            // Render Dots
+            const dotsContainer = document.getElementById('step-dots-container');
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSteps; i++) {
+                const dot = document.createElement('div');
+                dot.className = `step-dot ${i === currentStrokeStep ? 'active' : ''}`;
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function nextStrokeStep() {
+            const charObj = currentKanaList[writingIndex] || kanaSeion[0];
+            const jpChar = kanaType === 'h' ? charObj.h : charObj.k;
+            const guide = strokeOrderGuide[jpChar] || strokeOrderGuide['default'];
+            const totalSteps = guide.count || guide.steps.length;
+
+            currentStrokeStep = (currentStrokeStep + 1) % totalSteps;
+            renderStepTutorialData(jpChar);
+        }
+
+        function prevStrokeStep() {
+            const charObj = currentKanaList[writingIndex] || kanaSeion[0];
+            const jpChar = kanaType === 'h' ? charObj.h : charObj.k;
+            const guide = strokeOrderGuide[jpChar] || strokeOrderGuide['default'];
+            const totalSteps = guide.count || guide.steps.length;
+
+            currentStrokeStep = (currentStrokeStep - 1 + totalSteps) % totalSteps;
+            renderStepTutorialData(jpChar);
+        }
+
+        function playStrokeAnimation() {
+            let step = 0;
+            const charObj = currentKanaList[writingIndex] || kanaSeion[0];
+            const jpChar = kanaType === 'h' ? charObj.h : charObj.k;
+            const guide = strokeOrderGuide[jpChar] || strokeOrderGuide['default'];
+            const totalSteps = guide.count || guide.steps.length;
+
+            const interval = setInterval(() => {
+                currentStrokeStep = step;
+                renderStepTutorialData(jpChar);
+                step++;
+                if (step >= totalSteps) clearInterval(interval);
+            }, 1200);
+        }
+
+        function setupCanvasEvents() {
+            ctx.lineWidth = 14;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#2563eb';
+
+            const startDraw = (e) => {
+                isDrawing = true;
+                ctx.beginPath();
+                const pos = getCanvasPos(e);
+                ctx.moveTo(pos.x, pos.y);
+
+                if (!userStats.wroteChar) {
+                    userStats.wroteChar = true;
+                    unlockBadge('b_writer');
+                }
+            };
+
+            const draw = (e) => {
+                if (!isDrawing) return;
+                const pos = getCanvasPos(e);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+            };
+
+            const stopDraw = () => {
+                isDrawing = false;
+            };
+
+            canvas.onmousedown = startDraw;
+            canvas.onmousemove = draw;
+            canvas.onmouseup = stopDraw;
+
+            canvas.ontouchstart = (e) => { e.preventDefault(); startDraw(e.touches[0]); };
+            canvas.ontouchmove = (e) => { e.preventDefault(); draw(e.touches[0]); };
+            canvas.ontouchend = stopDraw;
+        }
+
+        function getCanvasPos(evt) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+
+        function clearCanvas() {
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+            document.getElementById('eval-score-val').innerText = '0%';
+            document.getElementById('eval-msg-text').innerText = 'Gambarlah huruf di atas panduan canvas, lalu klik "Evaluasi Tulis" untuk mengecek hasil presisi tulisan Anda.';
+        }
+
+        function toggleCanvasGuide() {
+            showGuide = !showGuide;
+            const charObj = currentKanaList[writingIndex] || kanaSeion[0];
+            const jpChar = kanaType === 'h' ? charObj.h : charObj.k;
+            document.getElementById('canvas-guide-char').innerText = showGuide ? jpChar : '';
+        }
+
+        function playWritingAudio() {
+            const charObj = currentKanaList[writingIndex] || kanaSeion[0];
+            speakJapanese(kanaType === 'h' ? charObj.h : charObj.k);
+        }
+
+        function nextWritingChar() {
+            writingIndex = (writingIndex + 1) % currentKanaList.length;
+            currentStrokeStep = 0;
+            setupWritingPicker();
+            renderWritingChar();
+        }
+
+        // Evaluator Precision Logic for Practice Mode
+        function evaluateUserWriting() {
+            const userImgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            let filledUserPixels = 0;
+
+            for (let i = 3; i < userImgData.length; i += 4) {
+                if (userImgData[i] > 20) filledUserPixels++;
+            }
+
+            if (filledUserPixels < 80) {
+                document.getElementById('eval-score-val').innerText = '0%';
+                document.getElementById('eval-msg-text').innerText = 'Kanvas masih kosong / terlalu sedikit coretan. Coba tuliskan karakter lebih jelas!';
+                return;
+            }
+
+            // Reference Canvas Check
+            const refCanvas = document.createElement('canvas');
+            refCanvas.width = canvas.width;
+            refCanvas.height = canvas.height;
+            const refCtx = refCanvas.getContext('2d');
+
+            const charObj = currentKanaList[writingIndex] || kanaSeion[0];
+            const jpChar = kanaType === 'h' ? charObj.h : charObj.k;
+
+            refCtx.font = '800 10.5rem sans-serif';
+            refCtx.textAlign = 'center';
+            refCtx.textBaseline = 'middle';
+            refCtx.fillStyle = '#000000';
+            refCtx.fillText(jpChar, refCanvas.width / 2, refCanvas.height / 2);
+
+            const refImgData = refCtx.getImageData(0, 0, refCanvas.width, refCanvas.height).data;
+            let matchCount = 0;
+            let refPixelCount = 0;
+
+            for (let i = 3; i < refImgData.length; i += 4) {
+                if (refImgData[i] > 50) {
+                    refPixelCount++;
+                    if (userImgData[i] > 20) {
+                        matchCount++;
+                    }
+                }
+            }
+
+            const accuracy = Math.min(100, Math.round((matchCount / (refPixelCount * 0.45)) * 100));
+            document.getElementById('eval-score-val').innerText = `${accuracy}%`;
+
+            let feedback = 'Bagus! Tetap latih ketelitian alur coretan Anda.';
+            if (accuracy >= 80) {
+                feedback = 'Luar Biasa! Tuisan Anda sangat presisi dan rapi! 🌟 (+15 XP)';
+                addXP(15);
+            } else if (accuracy >= 50) {
+                feedback = 'Kerja bagus! Tuisan sudah cukup mirip, tingkatkan kerapian. (+10 XP)';
+                addXP(10);
+            }
+
+            document.getElementById('eval-msg-text').innerText = feedback;
+        }
+
+        // Render Stats Page
+        function renderStatsPage() {
+            document.getElementById('st-streak').innerText = userStats.streak;
+            document.getElementById('st-total-quizzes').innerText = userStats.totalQuizzes;
+            document.getElementById('st-xp').innerText = userStats.xp;
+
+            const accuracy = userStats.totalQuestions > 0 ? Math.round((userStats.correctAnswers / userStats.totalQuestions) * 100) : 0;
+            document.getElementById('st-accuracy').innerText = `${accuracy}%`;
+
+            const seionPct = Math.min(100, Math.round((userStats.seionCorrect / 46) * 100));
+            const dakuonPct = Math.min(100, Math.round((userStats.dakuonCorrect / 57) * 100));
+            const kotobaPct = Math.min(100, Math.round((userStats.kotobaCorrect / 20) * 100));
+
+            document.getElementById('prog-seion-val').innerText = `${seionPct}%`;
+            document.getElementById('prog-seion-fill').style.width = `${seionPct}%`;
+
+            document.getElementById('prog-dakuon-val').innerText = `${dakuonPct}%`;
+            document.getElementById('prog-dakuon-fill').style.width = `${dakuonPct}%`;
+
+            document.getElementById('prog-kotoba-val').innerText = `${kotobaPct}%`;
+            document.getElementById('prog-kotoba-fill').style.width = `${kotobaPct}%`;
+
+            const badgesContainer = document.getElementById('badges-container');
+            badgesContainer.innerHTML = '';
+
+            badgesData.forEach(badge => {
+                const isUnlocked = userStats.unlockedBadges.includes(badge.id);
+                const bCard = document.createElement('div');
+                bCard.className = `badge-card ${isUnlocked ? 'unlocked' : ''}`;
+                bCard.innerHTML = `
+                    <div class="badge-icon">${badge.icon}</div>
+                    <div class="badge-name">${badge.name}</div>
+                    <div class="badge-desc">${badge.desc}</div>
+                `;
+                badgesContainer.appendChild(bCard);
+            });
+
+            const historyContainer = document.getElementById('history-container');
+            historyContainer.innerHTML = '';
+
+            if (userStats.history.length === 0) {
+                historyContainer.innerHTML = '<div style="font-size:0.8rem; color:var(--text-muted); text-align:center; padding:12px;">Belum ada riwayat kuis.</div>';
+            } else {
+                userStats.history.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = 'history-item';
+                    row.innerHTML = `
+                        <div>
+                            <div class="history-topic">${item.topic}</div>
+                            <div class="history-date">${item.date}</div>
+                        </div>
+                        <div class="history-score">${item.score}</div>
+                    `;
+                    historyContainer.appendChild(row);
+                });
+            }
+        }
+
+        // Leaderboard UI Renderer
+        window.renderGlobalLeaderboardUI = function() {
+            const container = document.getElementById('leaderboard-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            let data = window.globalLeaderboardData || [];
+            
+            if (data.length === 0) {
+                data = [
+                    { uid: window.currentUserUID || 'local-id', displayName: userStats.displayName, xp: userStats.xp, streak: userStats.streak }
+                ];
+            }
+
+            let myRank = '-';
+
+            data.forEach((user, index) => {
+                const rankNum = index + 1;
+                const isMe = user.uid === window.currentUserUID || user.displayName === userStats.displayName;
+                if (isMe) myRank = `#${rankNum}`;
+
+                let badgeClass = 'rank-badge';
+                let rankIcon = rankNum;
+                if (rankNum === 1) { badgeClass += ' rank-1'; rankIcon = '🥇'; }
+                else if (rankNum === 2) { badgeClass += ' rank-2'; rankIcon = '🥈'; }
+                else if (rankNum === 3) { badgeClass += ' rank-3'; rankIcon = '🥉'; }
+
+                const item = document.createElement('div');
+                item.className = `leaderboard-item ${isMe ? 'is-me' : ''}`;
+                item.innerHTML = `
+                    <div class="${badgeClass}">${rankIcon}</div>
+                    <div class="leader-info">
+                        <div>
+                            <div class="leader-name">${escapeHtml(user.displayName || 'Pengguna Kaishi')} ${isMe ? ' (Anda)' : ''}</div>
+                            <div class="leader-stats">🔥 ${user.streak || 1} Hari Streak</div>
+                        </div>
+                    </div>
+                    <div class="leader-score">⚡ ${user.xp || 0} XP</div>
+                `;
+                container.appendChild(item);
+            });
+
+            document.getElementById('my-global-rank').innerText = myRank;
+        };
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+
+        // Modal Controls
+        function openProfileModal() {
+            document.getElementById('username-input').value = userStats.displayName || 'Siswa Kaishi';
+            document.getElementById('profile-modal').classList.add('active');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.remove('active');
+        }
+
+        function saveProfileName() {
+            const inputVal = document.getElementById('username-input').value.trim();
+            if (inputVal.length > 0) {
+                userStats.displayName = inputVal;
+                saveStats();
+                closeProfileModal();
+                if (currentPrimaryMode === 'rank') {
+                    renderGlobalLeaderboardUI();
+                }
+            }
+        }
+
+        function promptResetStats() {
+            const modal = document.getElementById('custom-modal');
+            const confirmBtn = document.getElementById('modal-confirm-btn');
+            modal.classList.add('active');
+
+            confirmBtn.onclick = () => {
+                localStorage.removeItem('kaishi_stats');
+                userStats = {
+                    displayName: 'Siswa Kaishi',
+                    xp: 0, streak: 1, lastActiveDate: new Date().toDateString(),
+                    totalQuizzes: 0, totalQuestions: 0, correctAnswers: 0,
+                    unlockedBadges: [], history: [], seionCorrect: 0, dakuonCorrect: 0,
+                    kotobaCorrect: 0, wroteChar: false
+                };
+                window.userStats = userStats;
+                saveStats();
+                closeModal();
+                renderStatsPage();
+            };
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').classList.remove('active');
+        }
+
+        // Initial App Load
+        window.onload = function() {
+            checkStreak();
+            updateTopNavbarUI();
+            startNewQuiz();
+        };
+    </script>
+</body>
+</html>
