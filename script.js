@@ -13,6 +13,21 @@
                 tech: ['HTML5', 'CSS3', 'JavaScript'],
                 link: 'jepang.html'
             },
+             'sudoku': {
+                icon: 'fa-solid fa-puzzle-piece',
+                title: 'Game Sudoku Puzzle',
+                category: 'Web Game',
+                description: 'Game teka-teki angka interaktif yang dirancang untuk melatih logika dan konsentrasi dengan berbagai pilihan level kesulitan.',
+                features: [
+                        'Pilihan tingkat kesulitan (Easy, Medium, Hard)',
+                        'Fitur validasi jawaban & petunjuk (Hint)',
+                        'Timer dan pencatat rekor skor/waktu terbaik',
+                        'Desain antarmuka bersih & responsif'
+                ],
+                     tech: ['HTML5', 'CSS3', 'JavaScript'],
+                     link: 'sudoku.html'
+             },
+
             'python-calc': {
                 icon: 'fa-solid fa-calculator',
                 title: 'Kalkulator Sederhana Python',
