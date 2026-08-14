@@ -65,7 +65,7 @@
                     'Peningkatan keterlibatan audiens dalam sesi tanya jawab'
                 ],
                 tech: ['Public Speaking', 'Leadership', 'Canva / PPT', 'Communication'],
-                link: '#'
+                link: 'whatsaap.html'
             },
             'competitions': {
                 icon: 'fa-solid fa-trophy',
