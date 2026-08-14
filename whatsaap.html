@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pendaftaran Ekstrakurikuler Pramuka</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f4f1ea;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 500px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border-top: 6px solid #5c3a21; /* Warna khas Cokelat Pramuka */
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h2 {
+      color: #5c3a21;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #8c5a32;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: #25d366; /* Warna khas WhatsApp */
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-submit:hover {
+      background-color: #1eb954;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h2>Pendaftaran Eskul Pramuka</h2>
+      <p>Isi formulir di bawah ini untuk bergabung!</p>
+    </div>
+
+    <form id="pramukaForm">
+      <div class="form-group">
+        <label for="namaLengkap">Nama Lengkap</label>
+        <input type="text" id="namaLengkap" placeholder="Masukkan nama lengkap" required>
+      </div>
+
+      <div class="form-group">
+        <label for="namaPanggilan">Nama Panggilan</label>
+        <input type="text" id="namaPanggilan" placeholder="Masukkan nama panggilan" required>
+      </div>
+
+      <div class="form-group">
+        <label for="kelas">Kelas</label>
+        <input type="text" id="kelas" placeholder="Contoh: X IPA 1 / 7B" required>
+      </div>
+
+      <div class="form-group">
+        <label for="alasan">Alasan Masuk Pramuka</label>
+        <textarea id="alasan" placeholder="Tuliskan alasan kamu ingin bergabung..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Kirim via WhatsApp</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('pramukaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // ==========================================
+      // UBAH NOMOR WHATSAPP DI BAWAH INI (Gunakan kode negara '62' tanpa tanda '+')
+      // Contoh: 6281234567890
+      const nomorWA = "6283878085393"; 
+      // ==========================================
+
+      // Mengambil nilai dari input form
+      const namaLengkap = document.getElementById('namaLengkap').value;
+      const namaPanggilan = document.getElementById('namaPanggilan').value;
+      const kelas = document.getElementById('kelas').value;
+      const alasan = document.getElementById('alasan').value;
+
+      // Menyusun format pesan WhatsApp
+      const pesan = `Halo Pembina Pramuka,%0A%0ASaya ingin mendaftar Ekstrakurikuler Pramuka dengan data sebagai berikut:%0A%0A` +
+                    `*Nama Lengkap:* ${encodeURIComponent(namaLengkap)}%0A` +
+                    `*Nama Panggilan:* ${encodeURIComponent(namaPanggilan)}%0A` +
+                    `*Kelas:* ${encodeURIComponent(kelas)}%0A` +
+                    `*Alasan Masuk:* ${encodeURIComponent(alasan)}%0A%0A` +
+                    `Menerima instruksi selanjutnya, terima kasih!`;
+
+      // Redirect ke WhatsApp
+      const urlWA = `https://wa.me/${nomorWA}?text=${pesan}`;
+      window.open(urlWA, '_blank');
+    });
+  </script>
+
+</body>
+</html>
