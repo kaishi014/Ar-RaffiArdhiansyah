@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pendaftaran Ekstrakurikuler Pramuka</title>
+  <!-- Font Awesome untuk Ikon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     * {
       box-sizing: border-box;
@@ -37,6 +40,12 @@
       margin-bottom: 25px;
     }
 
+    .header i {
+      font-size: 40px;
+      color: #5c3a21;
+      margin-bottom: 10px;
+    }
+
     .header h2 {
       color: #5c3a21;
       font-size: 24px;
@@ -60,8 +69,7 @@
     }
 
     .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .form-group textarea {
       width: 100%;
       padding: 12px;
       border: 1px solid #ccc;
@@ -71,10 +79,9 @@
     }
 
     .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
+    .form-group textarea:focus {
       outline: none;
-      border-color: #8c5a32;
+      border-color: #5c3a21;
     }
 
     .form-group textarea {
@@ -84,7 +91,7 @@
 
     .btn-submit {
       width: 100%;
-      background-color: #25d366; /* Warna khas WhatsApp */
+      background-color: #25d366; /* Warna WhatsApp */
       color: #ffffff;
       border: none;
       padding: 14px;
@@ -92,6 +99,10 @@
       font-weight: bold;
       border-radius: 6px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       transition: background-color 0.3s;
     }
 
@@ -104,10 +115,12 @@
 
   <div class="container">
     <div class="header">
+      <i class="fa-solid fa-campground"></i>
       <h2>Pendaftaran Eskul Pramuka</h2>
-      <p>Isi formulir di bawah ini untuk bergabung!</p>
+      <p>Isi data diri di bawah ini untuk bergabung!</p>
     </div>
 
+    <!-- FORMULIR PENDAFTARAN -->
     <form id="pramukaForm">
       <div class="form-group">
         <label for="namaLengkap">Nama Lengkap</label>
@@ -129,26 +142,28 @@
         <textarea id="alasan" placeholder="Tuliskan alasan kamu ingin bergabung..." required></textarea>
       </div>
 
-      <button type="submit" class="btn-submit">Kirim via WhatsApp</button>
+      <button type="submit" class="btn-submit">
+        <i class="fa-brands fa-whatsapp"></i> Kirim via WhatsApp
+      </button>
     </form>
   </div>
 
+  <!-- SCRIPT JAVASCRIPT UNTUK WAKTU OTOMATIS & WHATSAPP -->
   <script>
     document.getElementById('pramukaForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // ==========================================
-      // UBAH NOMOR WHATSAPP DI BAWAH INI (Gunakan kode negara '62' tanpa tanda '+')
-      // Contoh: 6281234567890
-      const nomorWA = "6283878085393"; 
-      // ==========================================
+      // 1. UBAH NOMOR WHATSAPP KAMU DI SINI (Gunakan kode negara 62, jangan pakai angka 0 di depan)
+      // Contoh: "6281234567890"
+      const nomorWA = "628xxxxxxxxxx"; 
 
-      // Mengambil nilai dari input form
+      // 2. Mengambil data dari form yang diisi pengguna
       const namaLengkap = document.getElementById('namaLengkap').value;
       const namaPanggilan = document.getElementById('namaPanggilan').value;
       const kelas = document.getElementById('kelas').value;
       const alasan = document.getElementById('alasan').value;
 
+      // 3. GENERATE WAKTU OTOMATIS (Hari, Tanggal, Bulan, Tahun & Jam)
       const sekarang = new Date();
       
       const opsiTanggal = { 
@@ -180,7 +195,6 @@
       const urlWA = `https://wa.me/${nomorWA}?text=${pesan}`;
       window.open(urlWA, '_blank');
     });
-
   </script>
 
 </body>
