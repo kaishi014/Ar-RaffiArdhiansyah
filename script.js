@@ -61,8 +61,8 @@
                 description: 'Layanan pendaftaran online untuk calon anggota baru Ekstrakurikuler Pramuka. Isikan data diri kamu dan konfirmasi akan langsung terhubung ke WhatsApp pengurus.',
                 features: [
                         'Pengisian data diri ringkas dan praktis',
-                        'Pengiriman konfirmasi otomatis via WhatsApp',
-                        'Proses verifikasi cepat oleh Pembina/Pengurus'
+                        'Timestamp otomatis (Hari, Tanggal, Jam kirim)',
+                        'Pengiriman konfirmasi langsung ke WhatsApp''
                 ],
                 tech: ['HTML5', 'CSS3', 'JavaScript', 'WhatsApp API'],
                 link: 'whatsaap.html'
