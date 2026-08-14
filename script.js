@@ -54,18 +54,18 @@
                 tech: ['HTML5 Canvas', 'CSS3', 'JavaScript Logic'],
                 link: 'snake.html'
             },
-            'presentation-osis': {
-                icon: 'fa-solid fa-person-chalkboard',
-                title: 'Presentasi Leadership & OSIS',
-                category: 'Public Speaking & Presentation',
-                description: 'Materi presentasi program kerja dan kepemimpinan yang dibawakan saat menjabat sebagai pengurus OSIS periode 2024–2025.',
+            'registration-pramuka': {
+                icon: 'fa-solid fa-campground',
+                title: 'Pendaftaran Eskul Pramuka',
+                category: 'Form Pendaftaran / Ekstrakurikuler',
+                description: 'Layanan pendaftaran online untuk calon anggota baru Ekstrakurikuler Pramuka. Isikan data diri kamu dan konfirmasi akan langsung terhubung ke WhatsApp pengurus.',
                 features: [
-                    'Penyusunan slide visual yang terstruktur',
-                    'Penyampaian gagasan program kerja unggulan',
-                    'Peningkatan keterlibatan audiens dalam sesi tanya jawab'
+                        'Pengisian data diri ringkas dan praktis',
+                        'Pengiriman konfirmasi otomatis via WhatsApp',
+                        'Proses verifikasi cepat oleh Pembina/Pengurus'
                 ],
-                tech: ['Public Speaking', 'Leadership', 'Canva / PPT', 'Communication'],
-                link: '#'
+                tech: ['HTML5', 'CSS3', 'JavaScript', 'WhatsApp API'],
+                link: 'whatsaap.html'
             },
             'competitions': {
                 icon: 'fa-solid fa-trophy',
@@ -80,19 +80,7 @@
                 tech: ['Mental Juara', 'Disiplin', 'Kerja Sama Tim'],
                 link: '#'
             }
-                'registration-pramuka': {
-                icon: 'fa-solid fa-campground',
-                        title: 'Pendaftaran Eskul Pramuka',
-                        category: 'Form Pendaftaran / Ekstrakurikuler',
-                        description: 'Layanan pendaftaran online untuk calon anggota baru Ekstrakurikuler Pramuka. Isikan data diri kamu dan konfirmasi akan langsung terhubung ke WhatsApp pengurus.',
-                        features: [
-                        'Pengisian data diri ringkas dan praktis',
-                        'Pengiriman konfirmasi otomatis via WhatsApp',
-                        'Proses verifikasi cepat oleh Pembina/Pengurus'
-                ],
-                        tech: ['HTML5', 'CSS3', 'JavaScript', 'WhatsApp API'],
-                        link: 'whatsaap.html' // Mengoreksi penulisan 'whatsaap.html' menjadi 'whatsapp.html'
-        }
+        
         };
 
         // FUNGSI MEMBUKA MODAL
