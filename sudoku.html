@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Modern Neon</title>
+    <link rel="stylesheet" href="sty.css">
+
+</head>
+<body>
+
+    <div class="game-container">
+        <div class="header">
+            <div class="title">SUDOKU</div>
+        </div>
+
+        <div class="controls-top">
+            <select id="modeSelect">
+                <option value="easy">Easy (2x3 / 6x6)</option>
+                <option value="medium" selected>Medium (3x3 / 9x9)</option>
+                <option value="hard">Hard (3x3 / 9x9)</option>
+            </select>
+            <select id="levelSelect"></select>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span>Waktu:</span>
+                <span id="timer" class="stat-value">00:00</span>
+            </div>
+            <div class="stat-item">
+                <span>Salah:</span>
+                <span id="mistakes" class="hearts">♥♥♥</span>
+            </div>
+        </div>
+
+        <div class="board-wrapper">
+            <div id="board" class="sudoku-board grid-9"></div>
+        </div>
+
+        <div class="action-bar">
+            <button id="btnNote" class="btn">
+                <span>✏️</span>
+                <span>Catatan</span>
+            </button>
+            <button id="btnErase" class="btn">
+                <span>🗑️</span>
+                <span>Hapus</span>
+            </button>
+            <button id="btnHint" class="btn">
+                <span>💡</span>
+                <span>Petunjuk</span>
+            </button>
+            <button id="btnRestart" class="btn">
+                <span>🔄</span>
+                <span>Reset</span>
+            </button>
+        </div>
+
+        <div id="numpad" class="numpad grid-9"></div>
+
+        <!-- End Game Modal -->
+        <div id="modal" class="modal">
+            <div id="modalTitle" class="modal-title">GAME OVER</div>
+            <div id="modalDesc" class="modal-desc">Kamu melakukan 3 kesalahan!</div>
+            <button id="btnModalAction" class="btn-main">Coba Lagi</button>
+        </div>
+    </div>
+
+   <script src="scrpt.js"></script>
+</body>
+</html>
