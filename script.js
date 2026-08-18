@@ -94,7 +94,7 @@
                                 'Fitur unduh hasil foto berformat PNG (transparan)'
                         ],
                         tech: ['HTML5', 'CSS3', 'JavaScript', 'REST API'],
-                        link: 'bgRemover.html' // Sesuaikan dengan nama file HTML kamu
+                        link: 'bgRemove.html' // Sesuaikan dengan nama file HTML kamu
                                 },
                 
             'competitions': {
