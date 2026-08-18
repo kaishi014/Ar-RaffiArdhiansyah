@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Sandi Morse & Semaphore</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --secondary: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            padding-bottom: 40px;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #34495e;
+            gap: 10px;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav button.active, nav button:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .btn-action {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        .btn-success { background-color: var(--success); }
+        .btn-danger { background-color: var(--accent); }
+
+        .display-area {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: 8px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .morse-text {
+            font-family: monospace;
+            font-size: 32px;
+            letter-spacing: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        #feedback {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .grid-hafalan {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .grid-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .grid-item h3 {
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        canvas {
+            background: #fff;
+            border-radius: 8px;
+        }
+
+        /* Tampilan Tabel Riwayat */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            color: white;
+        }
+
+        .badge-success { background-color: var(--success); }
+        .badge-danger { background-color: var(--accent); }
+
+        .stat-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            flex: 1;
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 24px;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Latihan Sandi Morse & Semaphore</h1>
+    </header>
+
+    <nav>
+        <button class="active" onclick="switchTab('latihan', event)">Modul Latihan</button>
+        <button onclick="switchTab('riwayat', event)">Riwayat Jawaban</button>
+        <button onclick="switchTab('hafalan-morse', event)">Hafalan Morse</button>
+        <button onclick="switchTab('hafalan-semaphore', event)">Hafalan Semaphore</button>
+    </nav>
+
+    <div class="container">
+        <!-- MODUL LATIHAN -->
+        <div id="latihan" class="tab-content active">
+            <div class="card">
+                <h2>Pengaturan Latihan</h2>
+                <hr style="margin: 10px 0 20px 0;">
+
+                <div class="form-group">
+                    <label>Pilih Sandi:</label>
+                    <select id="modeSandi" onchange="resetSoal()">
+                        <option value="morse">Sandi Morse</option>
+                        <option value="semaphore">Sandi Semaphore</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Arah Latihan:</label>
+                    <select id="arahLatihan" onchange="resetSoal()">
+                        <option value="sandiKeKata">Sandi / Peraga ➔ Kata</option>
+                        <option value="kataKeSandi">Kata ➔ Sandi / Peraga</option>
+                    </select>
+                </div>
+
+                <button class="btn-action btn-success" onclick="buatSoalBaru()">Mulai / Soal Baru</button>
+            </div>
+
+            <div class="card">
+                <h2>Area Soal</h2>
+                <div class="display-area">
+                    <div id="targetText" style="font-size: 24px; font-weight: bold; margin-bottom: 10px;"></div>
+                    <div id="morseDisplay" class="morse-text"></div>
+                    <canvas id="semaphoreCanvas" width="200" height="200" style="display:none;"></canvas>
+                </div>
+
+                <div id="audioControl" style="text-align: center; margin-bottom: 15px; display: none;">
+                    <button class="btn-action" onclick="putarSuaraMorse(soalAktifSandi)">🔊 Putar Suara Morse</button>
+                </div>
+
+                <div class="form-group">
+                    <label id="inputLabel">Jawaban Anda:</label>
+                    <input type="text" id="jawabanInput" placeholder="Ketik jawaban di sini..." autocomplete="off">
+                </div>
+
+                <button id="btnJawab" class="btn-action" onclick="cekJawaban()">Periksa Jawaban</button>
+                <div id="feedback"></div>
+            </div>
+        </div>
+
+        <!-- HALAMAN RIWAYAT JAWABAN -->
+        <div id="riwayat" class="tab-content">
+            <div class="card">
+                <h2>Riwayat Jawaban Latihan</h2>
+                <hr style="margin: 10px 0 20px 0;">
+
+                <div class="stat-box">
+                    <div class="stat-item">
+                        <span style="font-size: 14px; color: #666;">Total Percobaan</span>
+                        <h3 id="statTotal">0</h3>
+                    </div>
+                    <div class="stat-item">
+                        <span style="font-size: 14px; color: #666;">Benar</span>
+                        <h3 id="statBenar" style="color: var(--success);">0</h3>
+                    </div>
+                    <div class="stat-item">
+                        <span style="font-size: 14px; color: #666;">Akurasi</span>
+                        <h3 id="statAkurasi" style="color: var(--secondary);">0%</h3>
+                    </div>
+                </div>
+
+                <button class="btn-action btn-danger" onclick="hapusRiwayat()" style="margin-bottom: 15px;">Hapus Semua Riwayat</button>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Modul</th>
+                                <th>Soal</th>
+                                <th>Jawaban User</th>
+                                <th>Kunci Jawaban</th>
+                                <th>Hasil</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelRiwayatBody">
+                            <!-- Data riwayat akan diisi otomatis lewat JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- HAFALAN MORSE -->
+        <div id="hafalan-morse" class="tab-content">
+            <div class="card">
+                <h2>Daftar Hafalan Sandi Morse</h2>
+                <p style="margin-bottom: 15px; color: #666;">Klik tombol suara untuk mendengarkan frekuensi Morse.</p>
+                <div class="grid-hafalan" id="containerMorse"></div>
+            </div>
+        </div>
+
+        <!-- HAFALAN SEMAPHORE -->
+        <div id="hafalan-semaphore" class="tab-content">
+            <div class="card">
+                <h2>Daftar Hafalan Semaphore</h2>
+                <div class="grid-hafalan" id="containerSemaphore" style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const KAMUS_MORSE = {
+            'A': '.-',    'B': '-...',  'C': '-.-.',  'D': '-..',   'E': '.',
+            'F': '..-.',  'G': '--.',   'H': '....',  'I': '..',    'J': '.---',
+            'K': '-.-',   'L': '.-..',  'M': '--',    'N': '-.',    'O': '---',
+            'P': '.--.',  'Q': '--.-',  'R': '.-.',   'S': '...',   'T': '-',
+            'U': '..-',   'V': '...-',  'W': '.--',   'X': '-..-',  'Y': '-.--',
+            'Z': '--..'
+        };
+
+        const KAMUS_SEMAPHORE = {
+            'A': [225, 180], 'B': [270, 180], 'C': [315, 180], 'D': [0, 180],
+            'E': [180, 45],  'F': [180, 90],  'G': [180, 135], 'H': [270, 225],
+            'I': [315, 225], 'J': [0, 90],    'K': [0, 225],   'L': [45, 225],
+            'M': [90, 225],  'N': [135, 225], 'O': [315, 270], 'P': [0, 270],
+            'Q': [45, 270],  'R': [90, 270],  'S': [135, 270], 'T': [0, 315],
+            'U': [45, 315],  'V': [0, 135],   'W': [45, 90],   'X': [45, 135],
+            'Y': [0, 45],    'Z': [135, 90]
+        };
+
+        const BANK_KATA = ["PRAMUKA", "TUNAS", "KELAPA", "SIAGA", "PENGGALANG", "PANDEGA", "BENDERA", "MORSE", "SEMAPHORE", "BOYSCOUT"];
+
+        let soalAktifKata = "";
+        let soalAktifSandi = "";
+        let soalTeksTampilan = "";
+        let audioCtx = null;
+        let sudahDijawab = false;
+
+        // --- SISTEM SUARA MORSE ---
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function bunyiBip(durasi) {
+            return new Promise(resolve => {
+                initAudio();
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 600;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                setTimeout(() => {
+                    osc.stop();
+                    resolve();
+                }, durasi);
+            });
+        }
+
+        async function putarSuaraMorse(kodeMorse) {
+            initAudio();
+            const unit = 100;
+            for (let char of kodeMorse) {
+                if (char === '.') {
+                    await bunyiBip(unit);
+                } else if (char === '-') {
+                    await bunyiBip(unit * 3);
+                } else if (char === ' ') {
+                    await new Promise(r => setTimeout(r, unit * 3));
+                }
+                await new Promise(r => setTimeout(r, unit));
+            }
+        }
+
+        // --- VISUALISASI SEMAPHORE ---
+        function gambarSemaphore(canvasId, sudutArray) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2 + 10;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Kepala
+            ctx.beginPath();
+            ctx.arc(cx, cy - 40, 12, 0, Math.PI * 2);
+            ctx.fillStyle = '#f1c40f';
+            ctx.fill();
+            ctx.stroke();
+
+            // Badan
+            ctx.beginPath();
+            ctx.moveTo(cx, cy - 28);
+            ctx.lineTo(cx, cy + 30);
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#2c3e50';
+            ctx.stroke();
+
+            // Lengan & Bendera
+            sudutArray.forEach(sudut => {
+                let rad = (sudut - 90) * (Math.PI / 180);
+                let armLen = 40;
+                let flagLen = 30;
+
+                let handX = cx + armLen * Math.cos(rad);
+                let handY = cy - 10 + armLen * Math.sin(rad);
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - 10);
+                ctx.lineTo(handX, handY);
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#2c3e50';
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(handX, handY);
+                ctx.rotate(rad);
+
+                ctx.beginPath();
+                ctx.rect(0, -15, 25, 15);
+                ctx.fillStyle = 'red';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(25, 0);
+                ctx.lineTo(0, -15);
+                ctx.fillStyle = 'yellow';
+                ctx.fill();
+
+                ctx.restore();
+            });
+        }
+
+        // --- LOGIKA LATIHAN ---
+        function switchTab(tabId, evt) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            if (evt) evt.target.classList.add('active');
+
+            if (tabId === 'latihan' && !soalAktifKata) {
+                buatSoalBaru();
+            } else if (tabId === 'riwayat') {
+                tampilkanRiwayat();
+            }
+        }
+
+        function teksKeMorse(teks) {
+            return teks.split('').map(h => KAMUS_MORSE[h] || '').join(' ');
+        }
+
+        function buatSoalBaru() {
+            sudahDijawab = false;
+            document.getElementById('btnJawab').disabled = false;
+            const mode = document.getElementById('modeSandi').value;
+            const arah = document.getElementById('arahLatihan').value;
+            
+            document.getElementById('feedback').innerText = "";
+            document.getElementById('jawabanInput').value = "";
+
+            const canvas = document.getElementById('semaphoreCanvas');
+            const morseDisplay = document.getElementById('morseDisplay');
+            const audioControl = document.getElementById('audioControl');
+            const targetText = document.getElementById('targetText');
+
+            canvas.style.display = 'none';
+            morseDisplay.innerText = '';
+            audioControl.style.display = 'none';
+
+            if (mode === 'semaphore' && arah === 'sandiKeKata') {
+                soalAktifKata = String.fromCharCode(65 + Math.floor(Math.random() * 26)); 
+            } else {
+                soalAktifKata = BANK_KATA[Math.floor(Math.random() * BANK_KATA.length)];
+            }
+
+            if (mode === 'morse') {
+                soalAktifSandi = teksKeMorse(soalAktifKata);
+                
+                if (arah === 'sandiKeKata') {
+                    targetText.innerText = "Tentukan Kata dari Sandi Berikut:";
+                    morseDisplay.innerText = soalAktifSandi;
+                    soalTeksTampilan = soalAktifSandi;
+                    audioControl.style.display = 'block';
+                    document.getElementById('inputLabel').innerText = "Jawaban (Huruf/Kata):";
+                } else {
+                    targetText.innerText = `Ubah Kata Berikut ke Sandi Morse: "${soalAktifKata}"`;
+                    soalTeksTampilan = soalAktifKata;
+                    document.getElementById('inputLabel').innerText = "Jawaban (Gunakan titik '.' dan strip '-'), pisahkan huruf dengan spasi:";
+                }
+            } else { // Semaphore
+                if (arah === 'sandiKeKata') {
+                    targetText.innerText = "Sebutkan Huruf dari Peraga Berikut:";
+                    soalTeksTampilan = `Peraga Huruf (${soalAktifKata})`;
+                    canvas.style.display = 'block';
+                    gambarSemaphore('semaphoreCanvas', KAMUS_SEMAPHORE[soalAktifKata]);
+                    document.getElementById('inputLabel').innerText = "Jawaban (Huruf):";
+                } else {
+                    targetText.innerText = `Sebutkan Huruf/Kata Berikut dalam Semaphore: "${soalAktifKata}"`;
+                    soalTeksTampilan = soalAktifKata;
+                    document.getElementById('inputLabel').innerText = "Ketik jawaban Anda kembali untuk konfirmasi:";
+                }
+            }
+        }
+
+        function cekJawaban() {
+            if (sudahDijawab) return;
+
+            const mode = document.getElementById('modeSandi').value;
+            const arah = document.getElementById('arahLatihan').value;
+            const input = document.getElementById('jawabanInput').value.trim().toUpperCase();
+            const feedback = document.getElementById('feedback');
+
+            if (!input) {
+                alert("Silakan isi jawaban terlebih dahulu!");
+                return;
+            }
+
+            let kunci = "";
+            if (arah === 'sandiKeKata') {
+                kunci = soalAktifKata;
+            } else {
+                kunci = (mode === 'morse') ? soalAktifSandi : soalAktifKata;
+            }
+
+            const isBenar = (input === kunci);
+
+            if (isBenar) {
+                feedback.style.color = "var(--success)";
+                feedback.innerText = "BENAR! Selamat, jawaban Anda tepat.";
+            } else {
+                feedback.style.color = "var(--accent)";
+                feedback.innerText = `SALAH! Jawaban yang benar adalah: ${kunci}`;
+            }
+
+            sudahDijawab = true;
+            document.getElementById('btnJawab').disabled = true;
+
+            // Simpan ke Riwayat (localStorage)
+            simpanKeRiwayat({
+                waktu: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+                modul: `${mode.toUpperCase()} (${arah === 'sandiKeKata' ? 'Sandi ➔ Kata' : 'Kata ➔ Sandi'})`,
+                soal: soalTeksTampilan,
+                jawabanUser: input,
+                kunci: kunci,
+                isBenar: isBenar
+            });
+        }
+
+        function resetSoal() {
+            buatSoalBaru();
+        }
+
+        // --- MANAJEMEN RIWAYAT (LOCAL STORAGE) ---
+        function simpanKeRiwayat(data) {
+            let riwayat = JSON.parse(localStorage.getItem('riwayatLatihan')) || [];
+            riwayat.unshift(data); // Tambahkan ke paling atas
+            localStorage.setItem('riwayatLatihan', JSON.stringify(riwayat));
+        }
+
+        function tampilkanRiwayat() {
+            let riwayat = JSON.parse(localStorage.getItem('riwayatLatihan')) || [];
+            let tbody = document.getElementById('tabelRiwayatBody');
+            tbody.innerHTML = '';
+
+            let total = riwayat.length;
+            let totalBenar = riwayat.filter(r => r.isBenar).length;
+            let akurasi = total > 0 ? Math.round((totalBenar / total) * 100) : 0;
+
+            document.getElementById('statTotal').innerText = total;
+            document.getElementById('statBenar').innerText = totalBenar;
+            document.getElementById('statAkurasi').innerText = `${akurasi}%`;
+
+            if (total === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Belum ada riwayat latihan.</td></tr>`;
+                return;
+            }
+
+            riwayat.forEach(item => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.waktu}</td>
+                    <td>${item.modul}</td>
+                    <td><b>${item.soal}</b></td>
+                    <td>${item.jawabanUser}</td>
+                    <td>${item.kunci}</td>
+                    <td>
+                        <span class="badge ${item.isBenar ? 'badge-success' : 'badge-danger'}">
+                            ${item.isBenar ? 'BENAR' : 'SALAH'}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function hapusRiwayat() {
+            if (confirm("Apakah Anda yakin ingin menghapus seluruh riwayat latihan?")) {
+                localStorage.removeItem('riwayatLatihan');
+                tampilkanRiwayat();
+            }
+        }
+
+        // --- MEMUAT HAFALAN ---
+        function muatHafalan() {
+            const containerMorse = document.getElementById('containerMorse');
+            for (let char in KAMUS_MORSE) {
+                let div = document.createElement('div');
+                div.className = 'grid-item';
+                div.innerHTML = `
+                    <h3>${char}</h3>
+                    <div style="font-family:monospace; font-weight:bold;">${KAMUS_MORSE[char]}</div>
+                    <button style="margin-top:5px; cursor:pointer;" onclick="putarSuaraMorse('${KAMUS_MORSE[char]}')">🔊</button>
+                `;
+                containerMorse.appendChild(div);
+            }
+
+            const containerSemaphore = document.getElementById('containerSemaphore');
+            for (let char in KAMUS_SEMAPHORE) {
+                let div = document.createElement('div');
+                div.className = 'grid-item';
+                let canvasId = `sem_${char}`;
+                div.innerHTML = `
+                    <h3>${char}</h3>
+                    <canvas id="${canvasId}" width="100" height="100"></canvas>
+                `;
+                containerSemaphore.appendChild(div);
+                gambarSemaphore(canvasId, KAMUS_SEMAPHORE[char]);
+            }
+        }
+
+        window.onload = function() {
+            buatSoalBaru();
+            muatHafalan();
+        };
+    </script>
+</body>
+</html>
