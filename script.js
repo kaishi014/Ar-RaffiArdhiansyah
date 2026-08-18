@@ -67,6 +67,22 @@
                 tech: ['HTML5', 'CSS3', 'JavaScript', 'WhatsApp API'],
                 link: 'whatsaap.html'
             },
+
+                'morse-semaphore': {
+                        icon: 'fa-solid fa-flag',
+                        title: 'Aplikasi Latihan Morse & Semaphore',
+                        category: 'Web Application',
+                        description: 'Aplikasi interaktif untuk membantu anggota pramuka maupun umum dalam mempelajari, mengkonversi, dan melatih hafalan sandi Morse serta isyarat Semaphore.',
+                        features: [
+                                'Konverter teks ke Sandi Morse (suara & visual)',
+                                'Panduan animasi & gambar posisi bendera Semaphore',
+                                'Kuis interaktif latihan tebak kode & isyarat',
+                                'Desain antarmuka bersih & responsif di smartphone'
+                        ],
+                        tech: ['HTML5', 'CSS3', 'JavaScript'],
+                        link: 'sandi.html' // Sesuaikan dengan nama file HTML kamu
+                                },
+                
             'competitions': {
                 icon: 'fa-solid fa-trophy',
                 title: 'Juara & Prestasi Lomba',
