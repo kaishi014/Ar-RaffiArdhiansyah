@@ -82,6 +82,20 @@
                         tech: ['HTML5', 'CSS3', 'JavaScript'],
                         link: 'sandi.html' // Sesuaikan dengan nama file HTML kamu
                                 },
+                'bg-remover': {
+                        icon: 'fa-solid fa-image',
+                        title: 'Aplikasi Penghapus Background Foto',
+                        category: 'Web Application',
+                        description: 'Aplikasi berbasis web untuk menghapus latar belakang foto secara otomatis dan cepat memanfaatkan integrasi API dari remove.bg.',
+                        features: [
+                                'Fitur upload foto sederhana (Drag & Drop)',
+                                'Pemrosesan hapus latar belakang otomatis via API remove.bg',
+                                'Pratinjau (preview) foto sebelum & sesudah',
+                                'Fitur unduh hasil foto berformat PNG (transparan)'
+                        ],
+                        tech: ['HTML5', 'CSS3', 'JavaScript', 'REST API'],
+                        link: 'bgRemover.html' // Sesuaikan dengan nama file HTML kamu
+                                },
                 
             'competitions': {
                 icon: 'fa-solid fa-trophy',
