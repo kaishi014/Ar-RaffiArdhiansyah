@@ -8,6 +8,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- CSS Tambahan untuk Floating Popup Robot -->
+    <style>
+        .floating-robot-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Efek hover saat kursor diarahkan ke tombol */
+        .floating-robot-btn:hover {
+            transform: translateY(-5px) scale(1.08);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.5);
+            color: #ffffff;
+        }
+
+        /* Animasi denied/pulse lembut agar lebih interaktif */
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(79, 70, 229, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+            }
+        }
+
+        .floating-robot-btn {
+            animation: pulse-glow 2s infinite;
+        }
+    </style>
 </head>
 <body>
 
@@ -138,7 +185,7 @@
                 <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
             </div>
 
-            <!-- PROYEK 4 (PRESENTASI ORGANISASI & PUBLIC SPEAKING) -->
+            <!-- PROYEK 4 -->
             <div class="card clickable-card reveal" onclick="openModal('presentation-osis')">
                 <span class="card-badge">Presentasi</span>
                 <i class="fa-solid fa-person-chalkboard main-icon"></i>
@@ -186,7 +233,6 @@
             Ikuti perjalanan dan aktivitas harian saya di media sosial berikut:
         </p>
         <div class="social-container reveal">
-            <!-- SILAKAN ISI LINK SOSMED ANDA DI BAWAH -->
             <a href="https://www.instagram.com/kaishi014?igsh=MjM0cWFkNDhwYmhk" target="_blank" class="social-btn instagram">
                 <i class="fa-brands fa-instagram"></i> Instagram
             </a>
@@ -206,6 +252,11 @@
     <footer>
         <p>&copy; 2026 Arraffi Ardhiansyah. Dibuat dengan semangat eksplorasi.</p>
     </footer>
+
+    <!-- POPUP MENGAMBANG (FLOATING ROBOT BUTTON) -->
+    <a href="gemini.html" class="floating-robot-btn" title="Tanya AI Gemini">
+        <i class="fa-solid fa-robot"></i>
+    </a>
 
     <!-- JENDELA POPUP (MODAL CONTAINER) -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOuterClick(event)">
@@ -241,8 +292,7 @@
     </div>
 
     <!-- JAVASCRIPT UNTUK INTERAKSI & MODAL POPUP -->
-   <script src="script.js"></script>
-       
+    <script src="script.js"></script>
+        
 </body>
-
 </html>
