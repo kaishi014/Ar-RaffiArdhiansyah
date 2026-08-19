@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini AI Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent-color: #6366f1;
+      --accent-hover: #4f46e5;
+      --user-msg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      --bot-msg: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    body {
+      background: var(--bg-gradient);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-main);
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 800px;
+      height: 90vh;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 20px 24px;
+      background: rgba(15, 23, 42, 0.6);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar-bot {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .header-info h2 { font-size: 1.1rem; font-weight: 700; }
+    .header-info p { font-size: 0.8rem; color: #10b981; display: flex; align-items: center; gap: 6px; }
+    .header-info p::before { content: ''; width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; }
+
+    .chat-box {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: var(--user-msg);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background: var(--bot-msg);
+      color: var(--text-main);
+      border-bottom-left-radius: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    .chat-input-container {
+      padding: 16px 24px 24px;
+      background: rgba(15, 23, 42, 0.6);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 6px 8px 6px 18px;
+    }
+
+    input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    button {
+      width: 42px;
+      height: 42px;
+      border: none;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="avatar-bot"><i class="fa-solid fa-robot"></i></div>
+      <div class="header-info">
+        <h2>Gemini AI</h2>
+        <p>Online</p>
+      </div>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+      <div class="message bot">Halo! Saya asisten AI berbasis Gemini. Ada yang bisa saya bantu hari ini?</div>
+    </div>
+
+    <div class="chat-input-container">
+      <div class="input-wrapper">
+        <input type="text" id="userInput" placeholder="Ketik pesan Anda..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // MASUKKAN API KEY ANDA DI SINI
+    const API_KEY = "AQ.Ab8RN6L1JYGrJr3ancWb2HueyK08e1EcQehs7KQRUIu_-COBXA"; 
+    
+    // Model resmi dan stabil saat ini
+    const MODEL_NAME = "gemini-3.6-flash";
+
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const userMessage = input.value.trim();
+
+      if (!userMessage) return;
+
+      appendMessage(userMessage, "user");
+      input.value = "";
+
+      const loadingDiv = appendMessage("Sedang berpikir...", "bot");
+
+      try {
+        // Menggunakan Endpoint v1beta dengan model gemini-2.0-flash
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: userMessage }] }]
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          loadingDiv.innerText = `Error: ${data.error.message}`;
+          console.error("API Error Detail:", data.error);
+        } else if (data.candidates && data.candidates[0].content) {
+          loadingDiv.innerText = data.candidates[0].content.parts[0].text;
+        } else {
+          loadingDiv.innerText = "Maaf, tidak mendapat respon dari API.";
+        }
+      } catch (error) {
+        console.error("Network Error:", error);
+        loadingDiv.innerText = "Gagal terhubung ke server. Pastikan koneksi internet Anda aktif.";
+      }
+    }
+
+    function appendMessage(text, sender) {
+      const chatBox = document.getElementById("chatBox");
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message", sender);
+      msgDiv.innerText = text;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      return msgDiv;
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    }
+  </script>
+</body>
+</html>
