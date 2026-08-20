@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekapitulasi Kejuaraan & Lomba</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f7f6;
+      color: #333;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #64748b;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .juara-1 { background-color: #fef08a; color: #854d0e; }
+    .juara-2 { background-color: #e2e8f0; color: #475569; }
+    .juara-3 { background-color: #ffedd5; color: #9a3412; }
+    .juara-lain { background-color: #dbeafe; color: #1e40af; }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #0f172a;
+    }
+
+    .card-meta {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Rekapitulasi Kejuaraan & Lomba</h1>
+      <p>Daftar pencapaian dan prestasi yang berhasil diraih</p>
+    </header>
+
+    <div class="grid" id="gallery"></div>
+  </div>
+
+  <script>
+    // ============================================================
+    // TAMBAHKAN ATAU EDIT DATA KEJUARAAN KAMU DI SINI
+    // ============================================================
+    const championshipData = [
+      {
+        namaLomba: "Lomba Desain Web Nasional",
+        kategori: "Juara 1",
+        pemenang: "Ahmad Rizky",
+        tanggal: "15 Agustus 2025",
+        deskripsi: "Mendapatkan trofi emas dan piagam penghargaan dalam kompetisi desain antarmuka tingkat nasional.",
+        foto: "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&auto=format&fit=crop" // Ganti dengan URL / file foto kamu
+      },
+      {
+        namaLomba: "Turnamen Catur Regional",
+        kategori: "Juara 2",
+        pemenang: "Siti Sarah",
+        tanggal: "10 Juli 2025",
+        deskripsi: "Meraih posisi runner-up setelah melalui 7 babak sengit berturut-turut.",
+        foto: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=600&auto=format&fit=crop"
+      },
+      {
+        namaLomba: "Kompetisi Robotika",
+        kategori: "Juara 3",
+        pemenang: "Tim Timang",
+        tanggal: "22 Mei 2025",
+        deskripsi: "Inovasi robot pemilah sampah otomatis berhasil meraih peringkat ketiga.",
+        foto: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&auto=format&fit=crop"
+      }
+    ];
+
+    // ============================================================
+    // FUNGSI UNTUK MENAMPILKAN DATA KE HTML (TIDAK PERLU DIUBAH)
+    // ============================================================
+    function renderCards() {
+      const gallery = document.getElementById('gallery');
+      gallery.innerHTML = '';
+
+      championshipData.forEach(item => {
+        let badgeClass = 'juara-lain';
+        if (item.kategori.toLowerCase().includes('1')) badgeClass = 'juara-1';
+        else if (item.kategori.toLowerCase().includes('2')) badgeClass = 'juara-2';
+        else if (item.kategori.toLowerCase().includes('3')) badgeClass = 'juara-3';
+
+        const cardHTML = `
+          <div class="card">
+            <img src="${item.foto}" alt="${item.namaLomba}">
+            <div class="card-body">
+              <span class="badge ${badgeClass}">${item.kategori}</span>
+              <h2 class="card-title">${item.namaLomba}</h2>
+              <div class="card-meta">
+                <strong>Pemenang:</strong> ${item.pemenang} | <span>${item.tanggal}</span>
+              </div>
+              <p class="card-desc">${item.deskripsi}</p>
+            </div>
+          </div>
+        `;
+        gallery.innerHTML += cardHTML;
+      });
+    }
+
+    renderCards();
+  </script>
+</body>
+</html>
