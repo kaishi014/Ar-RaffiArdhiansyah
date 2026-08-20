@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cara Menggunakan AI yang Sesungguhnya - Executive Keynote Series</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent-blue: #38bdf8;
+      --accent-purple: #8b5cf6;
+      --accent-green: #10b981;
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #2d3748;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      padding: 60px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .series-tag {
+      background: rgba(37, 99, 235, 0.2);
+      color: var(--accent-blue);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 20px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    h1.title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 25px auto;
+    }
+
+    .meta-badges {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .meta-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+    }
+
+    /* SECTION STYLES */
+    section {
+      padding: 50px 0;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 28px;
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+    .intro-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      padding: 20px 25px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    /* CARDS & GRIDS */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    /* ACCORDION (5 LEVEL EVOLUSI) */
+    .accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .accordion-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .accordion-item.active {
+      border-color: var(--primary);
+    }
+
+    .accordion-header {
+      padding: 20px 25px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: rgba(255, 255, 255, 0.02);
+      user-select: none;
+    }
+
+    .accordion-header:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .accordion-header .level-tag {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #fff;
+      margin-right: 10px;
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+      padding: 0 25px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .accordion-item.active .accordion-content {
+      max-height: 500px;
+      padding: 20px 25px 25px 25px;
+    }
+
+    .accordion-content ul {
+      list-style-type: disc;
+      margin-left: 20px;
+      color: var(--text-muted);
+    }
+
+    .accordion-content li {
+      margin-bottom: 8px;
+    }
+
+    /* ARCHITECTURE DIAGRAM (REPLACING IMAGE) */
+    .diagram-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px 0;
+    }
+
+    .diagram-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent-purple);
+      margin-bottom: 20px;
+    }
+
+    .diagram-block {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px dashed var(--accent-purple);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .diagram-pill {
+      background: #334155;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .diagram-arrow {
+      text-align: center;
+      font-size: 1.5rem;
+      color: var(--accent-green);
+      margin: 5px 0;
+    }
+
+    /* FORMULA C.O.R.E */
+    .core-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+    }
+
+    .core-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .core-letter {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--accent-green);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .core-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .core-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* TABLE */
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: rgba(37, 99, 235, 0.15);
+      color: var(--accent-blue);
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    /* PROGRESS BARS */
+    .bars-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    .bar-item {
+      margin-bottom: 20px;
+    }
+
+    .bar-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .bar-track {
+      background: var(--bg-dark);
+      height: 14px;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 7px;
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.1, 0.5, 0.5, 1);
+    }
+
+    /* INTERACTIVE PROMPT GENERATOR (FITUR TAMBAHAN) */
+    .interactive-box {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--accent-green);
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 30px;
+    }
+
+    .interactive-box h3 {
+      color: var(--accent-green);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+      color: var(--text-muted);
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .btn {
+      background: var(--accent-green);
+      color: #0f172a;
+      font-weight: 700;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #059669;
+    }
+
+    .output-prompt {
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 15px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      color: var(--accent-blue);
+    }
+
+    /* KEYNOTE QUOTE BANNER */
+    .quote-box {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid var(--primary);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      margin: 40px 0 20px 0;
+    }
+
+    .quote-box h3 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+      margin-bottom: 15px;
+    }
+
+    .quote-box blockquote {
+      font-size: 1.4rem;
+      font-style: italic;
+      font-weight: 600;
+      max-width: 800px;
+      margin: 0 auto 15px auto;
+      line-height: 1.4;
+    }
+
+    .quote-box p.author {
+      font-size: 1.1rem;
+      color: var(--accent-green);
+      font-weight: 700;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 768px) {
+      h1.title { font-size: 2rem; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER SECTION -->
+  <header>
+    <div class="series-tag">Executive Keynote Series</div>
+    <h1 class="title">Cara Menggunakan AI<br>Yang Sesungguhnya</h1>
+    <p class="subtitle">Mengubah kecerdasan buatan dari sekadar "mesin jawab cepat" menjadi ekstensi pola pikir dan mitra strategis tingkat tinggi.</p>
+    
+    <div class="meta-badges">
+      <span class="meta-badge">📖 Panduan Public Speaker & Profesional</span>
+      <span class="meta-badge">🧠 Human-AI Collaboration Framework</span>
+      <span class="meta-badge">🚀 5 Tingkatan Kematangan AI</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- PARADIGMA & MITOS -->
+    <section>
+      <h2 class="section-title">Paradigma Baru: Mengapa 90% Orang Salah Menggunakan AI?</h2>
+      <div class="intro-box">
+        Kebanyakan orang memperlakukan AI seperti <strong>Kalkulator Teks</strong> atau <strong>Ketik Kata Kunci</strong> di Google. Mereka meminta hasil instan tanpa konteks, lalu kecewa dengan output yang generik dan dangkal.
+      </div>
+
+      <h3 style="margin-bottom: 15px; color: var(--accent-blue);">3 Mitos Pembatas Penggunaan AI</h3>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">Mitos "Prompt Ajaib"</div>
+          <p><strong>Mitos:</strong> Ada mantra prompt rahasia untuk semua solusi.</p>
+          <p><strong>Realita:</strong> Konteks yang jelas dan komunikasi dialektis jauh lebih menentukan kualitas dibanding mantra prompt kaku.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Mitos "Pengerjaan Instan"</div>
+          <p><strong>Mitos:</strong> AI dipakai untuk delegasi total tanpa koreksi.</p>
+          <p><strong>Realita:</strong> AI memberikan draf awal 70%. 30% sisanya adalah kurasi, intuisi, dan sentuhan kritis manusia.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Mitos "Pengganti Otak"</div>
+          <p><strong>Mitos:</strong> Menggunakan AI berarti mematikan daya pikir.</p>
+          <p><strong>Realita:</strong> AI yang sesungguhnya memperluas kapasitas berpikir (Thought Partner) untuk menemukan gagasan baru.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 TINGKATAN EVOLUSI -->
+    <section>
+      <h2 class="section-title">5 Tingkatan Kematangan AI</h2>
+      <p style="margin-bottom: 20px; color: var(--text-muted);">
+        <strong>Spektrum Kematangan Penggunaan AI: Perjalanan Dari "Pengatur" Ke "Orkestrator"</strong><br>
+        Kemampuan AI tidak diukur dari seberapa canggih modelnya, melainkan dari <strong>seberapa dewasa cara berpikir penggunanya</strong>.<br>
+        Pengguna tingkat pemula menggunakan AI untuk mencari fakta singkat, sedangkan <strong>Power User</strong> memanfaatkan AI sebagai arsitektur sistem berpikir dan agen kerja mandiri.
+      </p>
+
+      <div class="accordion">
+        
+        <!-- LEVEL 1 -->
+        <div class="accordion-item active">
+          <div class="accordion-header">
+            <div>
+              <span class="level-tag">Tingkat 1</span>
+              <span>THE OPERATOR — Task Outsourcing (Pengganti Search Engine)</span>
+            </div>
+            <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            <p style="margin-bottom: 10px;"><strong>Pola Kerja:</strong> Memberi perintah satu arah singkat ("Buatkan caption", "Apa arti istilah X").</p>
+            <ul>
+              <li><strong>Karakteristik:</strong> Jawaban bersifat permukaan, penuh halusinasi jika tanpa batasan.</li>
+              <li><strong>Hasil:</strong> Menghemat waktu 5-10 menit, namun hasil masih standar umum.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- LEVEL 2 -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <div>
+              <span class="level-tag">Tingkat 2</span>
+              <span>PROMPT ENGINEER — Structured Prompting Framework</span>
+            </div>
+            <span>►</span>
+          </div>
+          <div class="accordion-content">
+            <p style="margin-bottom: 10px;"><strong>Pola Kerja:</strong> Menggunakan struktur R-C-T-F (Role, Context, Task, Format).</p>
+            <ul>
+              <li><strong>Karakteristik:</strong> Memberikan instruksi spesifik, batasan audiens, dan gaya bahasa.</li>
+              <li><strong>Hasil:</strong> Luaran konsisten, rapi, dan sesuai instruksi teknis awal.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- LEVEL 3 -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <div>
+              <span class="level-tag">Tingkat 3</span>
+              <span>STRATEGIC THOUGHT PARTNER — Collaborative Co-Creation</span>
+            </div>
+            <span>►</span>
+          </div>
+          <div class="accordion-content">
+            <p style="margin-bottom: 10px;"><strong>Pola Kerja:</strong> Meminta AI menguji ide, menjadi Devil's Advocate, atau mencari celah logika.</p>
+            <ul>
+              <li><strong>Instruksi Kunci:</strong> "Kritisi rencana bisnis saya ini dan temukan 3 kelemahannya."</li>
+              <li><strong>Hasil:</strong> Melatih ketajaman strategi & perspektif baru manusia.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- LEVEL 4 -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <div>
+              <span class="level-tag">Tingkat 4</span>
+              <span>COGNITIVE ALIGNMENT — Adaptive Conversational Arc</span>
+            </div>
+            <span>►</span>
+          </div>
+          <div class="accordion-content">
+            <p style="margin-bottom: 10px;"><strong>Pola Kerja:</strong> Diskusi multi-turn berlapis. AI diajak membangun konteks secara bertahap.</p>
+            <ul>
+              <li><strong>Fokus:</strong> Menyelaraskan nilai, gaya analisis, dan perspektif unik pengguna ke dalam memori AI.</li>
+              <li><strong>Hasil:</strong> Ide sintetis yang tidak bisa dihasilkan oleh AI atau manusia sendirian.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- LEVEL 5 -->
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <div>
+              <span class="level-tag">Tingkat 5</span>
+              <span>SYSTEMIC AI ORCHESTRATOR — Context Architecture & Agent</span>
+            </div>
+            <span>►</span>
+          </div>
+          <div class="accordion-content">
+            <p style="margin-bottom: 10px;"><strong>Membangun Sistem Otonom:</strong></p>
+            <ul>
+              <li><strong>Context Engineering:</strong> Menghubungkan basis data, panduan merek, dan dokumen internal.</li>
+              <li><strong>Agentic Workflows:</strong> AI merencanakan langkah, mengeksekusi alat (tools), dan mengevaluasi mandiri.</li>
+              <li><strong>Hasil Ekosistem:</strong> AI bukan lagi sekadar aplikasi chat, melainkan mesin operasional pintar.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE / COGNITIVE PROCESS DIAGRAM -->
+    <section>
+      <h2 class="section-title">Kerangka Kerja Kognitif Sistem AI & Kolaborasi Manusia</h2>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">Visualisasi arsitektur interaksi kognitif dua arah (Bidirectional Interaction / Feedback) antara Manusia dan Sistem AI:</p>
+      
+      <div class="diagram-container">
+        <div class="diagram-title">ARTIFICIAL INTELLIGENCE SYSTEM</div>
+        
+        <div class="diagram-grid">
+          <div class="diagram-pill"><strong>Intelligent Tutoring</strong><br><small>Scaffolding, Personalized, Support</small></div>
+          <div class="diagram-pill"><strong>Conversational AI</strong><br><small>Monitoring, Feedback</small></div>
+          <div class="diagram-pill"><strong>Generative AI</strong><br><small>Knowledge Creation, Problem Solving</small></div>
+          <div class="diagram-pill"><strong>Decision-Support</strong><br><small>Recommendation, Planning</small></div>
+          <div class="diagram-pill"><strong>Knowledge Retrieval</strong><br><small>Information, Memory Augmentation</small></div>
+        </div>
+
+        <div class="diagram-arrow">⬇ ⬆</div>
+
+        <div class="diagram-block" style="border-color: var(--accent-green);">
+          <strong style="color: var(--accent-green);">CO-REGULATION MECHANISMS (Shared Cognitive Control)</strong>
+          <div class="diagram-grid" style="margin-top: 10px;">
+            <div class="diagram-pill">Scaffolding</div>
+            <div class="diagram-pill">Cognitive Offloading</div>
+            <div class="diagram-pill">External Memory</div>
+            <div class="diagram-pill">Strategy Suggestion</div>
+            <div class="diagram-pill">Task Structuring</div>
+            <div class="diagram-pill">Error Monitoring</div>
+            <div class="diagram-pill">Adaptive Feedback</div>
+          </div>
+        </div>
+
+        <div class="diagram-arrow">⬇</div>
+
+        <div class="diagram-block" style="border-color: var(--primary);">
+          <strong style="color: var(--accent-blue);">COGNITIVE PROCESS OUTCOMES</strong>
+          <div class="diagram-grid" style="margin-top: 10px;">
+            <div class="diagram-pill">Learning Efficiency</div>
+            <div class="diagram-pill">Problem Solving</div>
+            <div class="diagram-pill">Knowledge Construction</div>
+            <div class="diagram-pill">Performance Improvement</div>
+            <div class="diagram-pill">Cognitive Load Reduction</div>
+            <div class="diagram-pill">Skill Development</div>
+          </div>
+        </div>
+        <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 10px;">Source: www.frontiersin.org (Frontiers in Psychology)</p>
+      </div>
+    </section>
+
+    <!-- FORMULA C.O.R.E -->
+    <section>
+      <h2 class="section-title">Formula C.O.R.E: Kunci Konteks Tingkat Tinggi</h2>
+      <div class="core-grid">
+        <div class="core-card">
+          <div class="core-letter">C</div>
+          <h4>Context</h4>
+          <p><strong>Konteks Latar Belakang:</strong> Jelaskan siapa Anda, kondisi saat ini, masalah yang dihadapi, serta batasan kondisi riil yang tidak boleh dilanggar.</p>
+        </div>
+
+        <div class="core-card">
+          <div class="core-letter">O</div>
+          <h4>Objective</h4>
+          <p><strong>Target Spesifik:</strong> Tentukan hasil akhir yang terukur. Bukan sekadar "buat laporan", melainkan "buat ringkasan eksekutif 3 paragraf untuk keputusan investasi".</p>
+        </div>
+
+        <div class="core-card">
+          <div class="core-letter">R</div>
+          <h4>Role</h4>
+          <p><strong>Peran Keahlian:</strong> Berikan identitas spesifik pada AI, misalnya "Konsultan Strategi Senior dengan pengalaman 15 tahun di industri retail".</p>
+        </div>
+
+        <div class="core-card">
+          <div class="core-letter">E</div>
+          <h4>Execution Rules</h4>
+          <p><strong>Batasan Eksekusi:</strong> Tentukan format luaran (Tabel, Bullet Points), nada bicara (Profesional, Persuasif), dan poin wajib/larangan.</p>
+        </div>
+      </div>
+
+      <!-- FITUR INTERAKTIF TAMBAHAN: GENERATOR PROMPT C.O.R.E -->
+      <div class="interactive-box">
+        <h3>⚡ Generator Prompt C.O.R.E Interaktif (Fitur Tambahan)</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Isi form di bawah ini untuk membuat prompt terstruktur sesuai formula C.O.R.E secara otomatis:</p>
+        
+        <div class="form-group">
+          <label>Context (Latar Belakang & Masalah):</label>
+          <input type="text" id="inputC" placeholder="Contoh: Saya pemilik startup retail lokal yang sedang mengalami penurunan penjualan 10%">
+        </div>
+        <div class="form-group">
+          <label>Objective (Target Spesifik):</label>
+          <input type="text" id="inputO" placeholder="Contoh: Buatkan 3 opsi strategi pemasaran digital jangka pendek">
+        </div>
+        <div class="form-group">
+          <label>Role (Peran AI):</label>
+          <input type="text" id="inputR" placeholder="Contoh: Perankan dirimu sebagai Chief Marketing Officer senior">
+        </div>
+        <div class="form-group">
+          <label>Execution Rules (Batasan & Format):</label>
+          <input type="text" id="inputE" placeholder="Contoh: Sajikan dalam tabel, gunakan nada lugas dan profesional, tanpa jargon rumit">
+        </div>
+
+        <button class="btn" onclick="generatePrompt()">Hasilkan Prompt C.O.R.E</button>
+
+        <div class="output-prompt" id="promptResult">Prompt Anda akan muncul di sini...</div>
+      </div>
+    </section>
+
+    <!-- MATRIKS PERBANDINGAN -->
+    <section>
+      <h2 class="section-title">Matriks Perbandingan Tingkatan AI</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Tingkat</th>
+              <th>Peran AI Utama</th>
+              <th>Fokus Input Utama</th>
+              <th>Nilai Luaran (Value)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Level 1: Operator</strong></td>
+              <td>Mesin Pencari / Asisten Singkat</td>
+              <td>Kata kunci & pertanyaan instan</td>
+              <td>Efisiensi rendah (jawaban umum)</td>
+            </tr>
+            <tr>
+              <td><strong>Level 2: Engineer</strong></td>
+              <td>Penyusun Draf Terstruktur</td>
+              <td>Prompt R-C-T-F terformat</td>
+              <td>Kecepatan eksekusi tugas teknis</td>
+            </tr>
+            <tr>
+              <td><strong>Level 3: Partner</strong></td>
+              <td>Mitra Berpikir Strategis</td>
+              <td>Uji gagasan & asumsi kritis</td>
+              <td>Inovasi & ketajaman sudut pandang</td>
+            </tr>
+            <tr>
+              <td><strong>Level 4: Co-Creator</strong></td>
+              <td>Ekstensi Kognitif Manusia</td>
+              <td>Diskusi bertahap (Conversational Arc)</td>
+              <td>Sintesis ide tingkat tinggi & unik</td>
+            </tr>
+            <tr>
+              <td><strong>Level 5: Orchestrator</strong></td>
+              <td>Sistem Agen Kerja Mandiri</td>
+              <td>Context Architecture & Data Base</td>
+              <td>Otomatisasi bisnis & alur kerja kompleks</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DAMPAK NILAI & EFISIENSI -->
+    <section>
+      <h2 class="section-title">Dampak Nilai & Efisiensi Berdasarkan Level</h2>
+      <p style="margin-bottom: 20px; color: var(--text-muted);">
+        Lompatan produktivitas terbesar terjadi saat pengguna berpindah dari Level 2 ke Level 3+, tempat di mana AI digunakan untuk <strong>memperluas logika berpikir</strong> bukan sekadar mengetik ulang kalimat.
+      </p>
+
+      <div class="bars-container">
+        <div class="bar-item">
+          <div class="bar-header">
+            <span>Level 1 (Operator)</span>
+            <span>25%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" data-value="25%" style="background-color: #64748b;"></div>
+          </div>
+        </div>
+
+        <div class="bar-item">
+          <div class="bar-header">
+            <span>Level 2 (Prompt Engineer)</span>
+            <span>50%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" data-value="50%" style="background-color: #38bdf8;"></div>
+          </div>
+        </div>
+
+        <div class="bar-item">
+          <div class="bar-header">
+            <span>Level 3 (Thought Partner)</span>
+            <span>75%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" data-value="75%" style="background-color: #818cf8;"></div>
+          </div>
+        </div>
+
+        <div class="bar-item">
+          <div class="bar-header">
+            <span>Level 4 & 5 (Orchestrator)</span>
+            <span>95%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" data-value="95%" style="background-color: var(--accent-green);"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROADMAP TRANSFORMASI -->
+    <section>
+      <h2 class="section-title">Roadmap Transformasi Penggunaan AI</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">1. Shift Mindset</div>
+          <p>Ubah pertanyaan dari <em>"Apa yang bisa AI buatkan?"</em> menjadi <strong>"Bagaimana AI bisa membantu saya berpikir?"</strong></p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">2. Buat Bank Konteks</div>
+          <p>Dokumentasikan profil, target, batasan, dan gaya komunikasi Anda agar siap diberikan ke AI.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">3. Latih Dialektika</div>
+          <p>Mulai kebiasaan berdiskusi 3-5 putaran sebelum meminta luaran akhir dari model AI.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">4. Skalasi Sistem</div>
+          <p>Integrasikan kustomisasi AI, memori panjang, dan alat bantu otomatis untuk tugas rutin Anda.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- POIN UTAMA KEYNOTE & CLOSING -->
+    <section style="border-bottom: none;">
+      <div class="quote-box">
+        <h3>Poin Utama Keynote</h3>
+        <blockquote>
+          "AI tidak akan menggantikan manusia. Tetapi manusia yang mahir menggunakan AI sebagai Mitra Berpikir akan menggantikan mereka yang tidak menggunakannya."
+        </blockquote>
+        <p class="author">Masa Depan Milik Mereka Yang Berpikir Bersama AI</p>
+      </div>
+
+      <div style="text-align: center; margin-top: 30px; color: var(--text-muted);">
+        <p><strong>Sesi Tanya Jawab</strong> | Diskusi & Praktik</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Executive Keynote Series — Cara Menggunakan AI yang Sesungguhnya</p>
+    <p style="margin-top: 5px; opacity: 0.6;">Disalin dan Dikonversi menjadi Aplikasi Web Interaktif secara Utuh.</p>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // ACCORDION TOGGLE
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const item = header.parentElement;
+        const isActive = item.classList.contains('active');
+        
+        // Close all items
+        document.querySelectorAll('.accordion-item').forEach(i => {
+          i.classList.remove('active');
+          i.querySelector('.accordion-header span:last-child').textContent = '►';
+        });
+
+        // Open clicked item if not active
+        if (!isActive) {
+          item.classList.add('active');
+          header.querySelector('span:last-child').textContent = '▼';
+        }
+      });
+    });
+
+    // ANIMATE PROGRESS BARS ON SCROLL
+    function animateBars() {
+      const bars = document.querySelectorAll('.bar-fill');
+      bars.forEach(bar => {
+        const rect = bar.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+          bar.style.width = bar.getAttribute('data-value');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', animateBars);
+    window.addEventListener('load', animateBars);
+
+    // INTERACTIVE PROMPT GENERATOR (FITUR EKSTRA)
+    function generatePrompt() {
+      const c = document.getElementById('inputC').value || '[Konteks Latar Belakang]';
+      const o = document.getElementById('inputO').value || '[Target Spesifik]';
+      const r = document.getElementById('inputR').value || '[Peran AI]';
+      const e = document.getElementById('inputE').value || '[Batasan Eksekusi]';
+
+      const fullPrompt = `[ROLE]\nPerankan dirimu sebagai: ${r}.\n\n[CONTEXT]\n${c}.\n\n[OBJECTIVE]\nTarget utama: ${o}.\n\n[EXECUTION RULES]\n${e}`;
+
+      document.getElementById('promptResult').innerText = fullPrompt;
+    }
+  </script>
+</body>
+</html>
