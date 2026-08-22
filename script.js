@@ -65,8 +65,22 @@
            'Pengiriman konfirmasi langsung ke WhatsApp'
           ],
           tech: ['HTML5', 'CSS3', 'JavaScript', 'WhatsApp API'],
-          link: 'whatsaap.html'
+          link: 'whatsaap.html'      
          },
+        'morse-semaphore': {
+                icon: 'fa-solid fa-tower-cell',
+                title: 'Latihan Morse & Semaphore Interaktif',
+                category: 'Edukasi & Simulasi Sinyal',
+                description: 'Media pembelajaran interaktif yang menggabungkan latihan penerjemahan kode Morse (audio/visual) dan gerakan bendera Semaphore dalam satu aplikasi.',
+                features: [
+        'Konversi teks ke Morse (audio/visual) dan sebaliknya',
+        'Panduan visual posisi tangan dan bendera Semaphore (A-Z)',
+        'Mode kuis tebak kata dan simulasi latihan kecepatan',
+        'Fitur evaluasi skor dan waktu penyelesaian'
+                ],
+                tech: ['HTML5', 'CSS3', 'JavaScript', 'Web Audio API'],
+                link: 'sandi.html'
+        },
          'competitions': {
           icon: 'fa-solid fa-trophy',
           title: 'Juara & Prestasi Lomba',
