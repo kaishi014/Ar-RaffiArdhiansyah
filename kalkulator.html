@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Serbaguna & Lengkap</title>
+    <style>
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --btn-bg: #f9fafb;
+            --btn-hover: #f3f4f6;
+            --btn-active: #e5e7eb;
+            --accent-color: #2563eb;
+            --accent-hover: #1d4ed8;
+            --operator-bg: #eff6ff;
+            --operator-color: #2563eb;
+            --display-bg: #f8fafc;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --btn-bg: #334155;
+            --btn-hover: #475569;
+            --btn-active: #64748b;
+            --accent-color: #3b82f6;
+            --accent-hover: #60a5fa;
+            --operator-bg: #1e3a8a;
+            --operator-color: #93c5fd;
+            --display-bg: #0f172a;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 850px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .nav-tabs {
+            display: flex;
+            background-color: var(--display-bg);
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+            background-color: var(--card-bg);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            min-height: 480px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .history-panel {
+                border-left: none !important;
+                border-top: 1px solid var(--border-color);
+                max-height: 200px;
+            }
+        }
+
+        .calc-panel {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .display {
+            background-color: var(--display-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 90px;
+            word-break: break-all;
+        }
+
+        .display .expression {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            min-height: 1.2em;
+        }
+
+        .display .result {
+            color: var(--text-color);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .keypad {
+            display: grid;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .keypad.standard {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .keypad.scientific {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .btn {
+            background-color: var(--btn-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 15px 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+
+        .btn:hover { background-color: var(--btn-hover); }
+        .btn:active { background-color: var(--btn-active); }
+
+        .btn.operator {
+            background-color: var(--operator-bg);
+            color: var(--operator-color);
+        }
+
+        .btn.equals {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .btn.equals:hover { background-color: var(--accent-hover); }
+
+        .btn.clear { color: #ef4444; }
+
+        /* Form Modes (Financial, Converter) */
+        .form-mode {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--display-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .fin-result-box {
+            background-color: var(--display-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .fin-result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .fin-result-item.total {
+            font-weight: 700;
+            color: var(--accent-color);
+            border-top: 1px solid var(--border-color);
+            padding-top: 8px;
+            margin-bottom: 0;
+        }
+
+        /* History Panel */
+        .history-panel {
+            border-left: 1px solid var(--border-color);
+            background-color: var(--display-bg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .history-header h3 {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .clear-history {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .history-list {
+            list-style: none;
+            overflow-y: auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-item {
+            background-color: var(--card-bg);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .history-item:hover {
+            border-color: var(--accent-color);
+        }
+
+        .history-item .expr { color: var(--text-muted); }
+        .history-item .res {
+            color: var(--text-color);
+            font-weight: 700;
+            font-size: 1rem;
+            text-align: right;
+        }
+
+        .empty-history {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .mode-content { display: none; }
+        .mode-content.active { display: flex; flex-direction: column; gap: 15px; height: 100%; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Kalkulator Multi-Fungsi</h1>
+        <button class="theme-toggle" id="themeToggle">
+            <span id="themeIcon">🌙</span> <span id="themeText">Mode Gelap</span>
+        </button>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchMode('standard')">Standar</button>
+        <button class="tab-btn" onclick="switchMode('scientific')">Sains</button>
+        <button class="tab-btn" onclick="switchMode('financial')">Keuangan</button>
+        <button class="tab-btn" onclick="switchMode('converter')">Konverter</button>
+    </div>
+
+    <div class="main-content">
+        <div class="calc-panel">
+            <!-- DISPLAY (Standar & Sains) -->
+            <div class="display" id="calcDisplay">
+                <div class="expression" id="exprDisplay"></div>
+                <div class="result" id="resDisplay">0</div>
+            </div>
+
+            <!-- MODE STANDAR -->
+            <div id="mode-standard" class="mode-content active">
+                <div class="keypad standard">
+                    <button class="btn clear" onclick="clearCalc()">C</button>
+                    <button class="btn" onclick="deleteLast()">⌫</button>
+                    <button class="btn operator" onclick="appendInput('%')">%</button>
+                    <button class="btn operator" onclick="appendInput('/')">÷</button>
+                    
+                    <button class="btn" onclick="appendInput('7')">7</button>
+                    <button class="btn" onclick="appendInput('8')">8</button>
+                    <button class="btn" onclick="appendInput('9')">9</button>
+                    <button class="btn operator" onclick="appendInput('*')">×</button>
+                    
+                    <button class="btn" onclick="appendInput('4')">4</button>
+                    <button class="btn" onclick="appendInput('5')">5</button>
+                    <button class="btn" onclick="appendInput('6')">6</button>
+                    <button class="btn operator" onclick="appendInput('-')">-</button>
+                    
+                    <button class="btn" onclick="appendInput('1')">1</button>
+                    <button class="btn" onclick="appendInput('2')">2</button>
+                    <button class="btn" onclick="appendInput('3')">3</button>
+                    <button class="btn operator" onclick="appendInput('+')">+</button>
+                    
+                    <button class="btn" onclick="appendInput('00')">00</button>
+                    <button class="btn" onclick="appendInput('0')">0</button>
+                    <button class="btn" onclick="appendInput('.')">.</button>
+                    <button class="btn equals" onclick="calculateResult()">=</button>
+                </div>
+            </div>
+
+            <!-- MODE SAINS -->
+            <div id="mode-scientific" class="mode-content">
+                <div class="keypad scientific">
+                    <button class="btn operator" onclick="appendFunc('sin(')">sin</button>
+                    <button class="btn operator" onclick="appendFunc('cos(')">cos</button>
+                    <button class="btn operator" onclick="appendFunc('tan(')">tan</button>
+                    <button class="btn clear" onclick="clearCalc()">C</button>
+                    <button class="btn" onclick="deleteLast()">⌫</button>
+
+                    <button class="btn operator" onclick="appendFunc('sqrt(')">√</button>
+                    <button class="btn operator" onclick="appendInput('^')">x^y</button>
+                    <button class="btn operator" onclick="appendFunc('log(')">log</button>
+                    <button class="btn operator" onclick="appendInput('(')">(</button>
+                    <button class="btn operator" onclick="appendInput(')')">)</button>
+
+                    <button class="btn operator" onclick="appendInput('π')">π</button>
+                    <button class="btn" onclick="appendInput('7')">7</button>
+                    <button class="btn" onclick="appendInput('8')">8</button>
+                    <button class="btn" onclick="appendInput('9')">9</button>
+                    <button class="btn operator" onclick="appendInput('/')">÷</button>
+
+                    <button class="btn operator" onclick="appendInput('e')">e</button>
+                    <button class="btn" onclick="appendInput('4')">4</button>
+                    <button class="btn" onclick="appendInput('5')">5</button>
+                    <button class="btn" onclick="appendInput('6')">6</button>
+                    <button class="btn operator" onclick="appendInput('*')">×</button>
+
+                    <button class="btn operator" onclick="appendFunc('fact(')">n!</button>
+                    <button class="btn" onclick="appendInput('1')">1</button>
+                    <button class="btn" onclick="appendInput('2')">2</button>
+                    <button class="btn" onclick="appendInput('3')">3</button>
+                    <button class="btn operator" onclick="appendInput('-')">-</button>
+
+                    <button class="btn operator" onclick="appendInput('%')">%</button>
+                    <button class="btn" onclick="appendInput('0')">0</button>
+                    <button class="btn" onclick="appendInput('.')">.</button>
+                    <button class="btn equals" style="grid-column: span 2;" onclick="calculateResult()">=</button>
+                </div>
+            </div>
+
+            <!-- MODE KEUANGAN -->
+            <div id="mode-financial" class="mode-content">
+                <div class="form-mode">
+                    <div class="form-group">
+                        <label>Modal Awal (Rp)</label>
+                        <input type="number" id="finPrincipal" value="10000000" oninput="calculateFinancial()">
+                    </div>
+                    <div class="form-group">
+                        <label>Bunga Tahunan (%)</label>
+                        <input type="number" id="finRate" value="6" step="0.1" oninput="calculateFinancial()">
+                    </div>
+                    <div class="form-group">
+                        <label>Jangka Waktu (Tahun)</label>
+                        <input type="number" id="finTime" value="5" oninput="calculateFinancial()">
+                    </div>
+                    <div class="form-group">
+                        <label>Frekuensi Bunga / Tahun</label>
+                        <select id="finCompound" onchange="calculateFinancial()">
+                            <option value="1">Tahunan (1x)</option>
+                            <option value="4">Triwulanan (4x)</option>
+                            <option value="12" selected>Bulanan (12x)</option>
+                        </select>
+                    </div>
+
+                    <div class="fin-result-box">
+                        <div class="fin-result-item">
+                            <span>Total Modal:</span>
+                            <span id="resPrincipal">Rp 10.000.000</span>
+                        </div>
+                        <div class="fin-result-item">
+                            <span>Estimasi Bunga:</span>
+                            <span id="resInterest">Rp 3.488.502</span>
+                        </div>
+                        <div class="fin-result-item total">
+                            <span>Total Akhir:</span>
+                            <span id="resTotal">Rp 13.488.502</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODE KONVERTER -->
+            <div id="mode-converter" class="mode-content">
+                <div class="form-mode">
+                    <div class="form-group">
+                        <label>Kategori Konversi</label>
+                        <select id="convCategory" onchange="updateUnits(); convertUnit();">
+                            <option value="length">Panjang</option>
+                            <option value="weight">Berat</option>
+                            <option value="temp">Suhu</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nilai Input</label>
+                        <input type="number" id="convValue" value="1" oninput="convertUnit()">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="form-group">
+                            <label>Dari</label>
+                            <select id="convFrom" onchange="convertUnit()"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ke</label>
+                            <select id="convTo" onchange="convertUnit()"></select>
+                        </div>
+                    </div>
+
+                    <div class="fin-result-box" style="text-align: center; margin-top: 15px;">
+                        <span style="font-size: 0.9rem; color: var(--text-muted);">Hasil Konversi:</span>
+                        <div id="convResult" style="font-size: 1.8rem; font-weight: 700; color: var(--accent-color); margin-top: 5px;">
+                            100 cm
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIWAYAT -->
+        <div class="history-panel">
+            <div class="history-header">
+                <h3>Riwayat</h3>
+                <button class="clear-history" onclick="clearHistory()">Hapus All</button>
+            </div>
+            <ul class="history-list" id="historyList">
+                <li class="empty-history">Belum ada riwayat</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    // State Aplikasi
+    let currentInput = '0';
+    let currentExpr = '';
+    let currentMode = 'standard';
+    let history = [];
+
+    // Unit Conversion Config
+    const unitsData = {
+        length: {
+            units: ['Meter (m)', 'Kilometer (km)', 'Centimeter (cm)', 'Mil (mi)', 'Inci (in)'],
+            rates: { 'Meter (m)': 1, 'Kilometer (km)': 1000, 'Centimeter (cm)': 0.01, 'Mil (mi)': 1609.34, 'Inci (in)': 0.0254 }
+        },
+        weight: {
+            units: ['Kilogram (kg)', 'Gram (g)', 'Pound (lbs)', 'Ounce (oz)'],
+            rates: { 'Kilogram (kg)': 1, 'Gram (g)': 0.001, 'Pound (lbs)': 0.453592, 'Ounce (oz)': 0.0283495 }
+        },
+        temp: {
+            units: ['Celsius (°C)', 'Fahrenheit (°F)', 'Kelvin (K)']
+        }
+    };
+
+    // DOM Elements
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+    const resDisplay = document.getElementById('resDisplay');
+    const exprDisplay = document.getElementById('exprDisplay');
+    const calcDisplay = document.getElementById('calcDisplay');
+
+    // --- DARK MODE TOGGLE ---
+    themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            document.body.removeAttribute('data-theme');
+            themeIcon.textContent = '🌙';
+            themeText.textContent = 'Mode Gelap';
+        } else {
+            document.body.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Mode Terang';
+        }
+    });
+
+    // --- MODE SWITCHING ---
+    function switchMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.mode-content').forEach(content => content.classList.remove('active'));
+
+        event.target.classList.add('active');
+        document.getElementById(`mode-${mode}`).classList.add('active');
+
+        if (mode === 'financial' || mode === 'converter') {
+            calcDisplay.style.display = 'none';
+            if (mode === 'financial') calculateFinancial();
+            if (mode === 'converter') { updateUnits(); convertUnit(); }
+        } else {
+            calcDisplay.style.display = 'flex';
+        }
+    }
+
+    // --- CALCULATOR CORE LOGIC ---
+    function updateDisplay() {
+        resDisplay.textContent = currentInput;
+        exprDisplay.textContent = currentExpr;
+    }
+
+    function appendInput(val) {
+        if (currentInput === '0' && val !== '.') {
+            currentInput = val;
+        } else {
+            currentInput += val;
+        }
+        updateDisplay();
+    }
+
+    function appendFunc(fn) {
+        if (currentInput === '0') currentInput = '';
+        currentInput += fn;
+        updateDisplay();
+    }
+
+    function clearCalc() {
+        currentInput = '0';
+        currentExpr = '';
+        updateDisplay();
+    }
+
+    function deleteLast() {
+        if (currentInput.length > 1) {
+            currentInput = currentInput.slice(0, -1);
+        } else {
+            currentInput = '0';
+        }
+        updateDisplay();
+    }
+
+    function calculateResult() {
+        try {
+            let parsedExpr = currentInput
+                .replace(/×/g, '*')
+                .replace(/÷/g, '/')
+                .replace(/π/g, 'Math.PI')
+                .replace(/e/g, 'Math.E')
+                .replace(/sin\(/g, 'Math.sin(')
+                .replace(/cos\(/g, 'Math.cos(')
+                .replace(/tan\(/g, 'Math.tan(')
+                .replace(/sqrt\(/g, 'Math.sqrt(')
+                .replace(/log\(/g, 'Math.log10(')
+                .replace(/\^/g, '**');
+
+            // Handle Factorial n!
+            parsedExpr = parsedExpr.replace(/fact\((\d+)\)/g, (match, n) => {
+                let num = parseInt(n);
+                if (num < 0) return 'NaN';
+                let fact = 1;
+                for (let i = 2; i <= num; i++) fact *= i;
+                return fact;
+            });
+
+            const evalResult = eval(parsedExpr);
+            const formattedResult = Number.isInteger(evalResult) ? evalResult : parseFloat(evalResult.toFixed(8));
+
+            addHistory(currentInput, formattedResult);
+            currentExpr = currentInput + ' =';
+            currentInput = formattedResult.toString();
+            updateDisplay();
+        } catch (err) {
+            resDisplay.textContent = 'Error';
+        }
+    }
+
+    // --- FINANCIAL CALCULATOR ---
+    function calculateFinancial() {
+        const P = parseFloat(document.getElementById('finPrincipal').value) || 0;
+        const r = (parseFloat(document.getElementById('finRate').value) || 0) / 100;
+        const t = parseFloat(document.getElementById('finTime').value) || 0;
+        const n = parseInt(document.getElementById('finCompound').value) || 1;
+
+        const total = P * Math.pow((1 + (r / n)), n * t);
+        const interest = total - P;
+
+        document.getElementById('resPrincipal').textContent = formatIDR(P);
+        document.getElementById('resInterest').textContent = formatIDR(interest);
+        document.getElementById('resTotal').textContent = formatIDR(total);
+    }
+
+    function formatIDR(num) {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
+    }
+
+    // --- UNIT CONVERTER ---
+    function updateUnits() {
+        const cat = document.getElementById('convCategory').value;
+        const fromSel = document.getElementById('convFrom');
+        const toSel = document.getElementById('convTo');
+        
+        fromSel.innerHTML = '';
+        toSel.innerHTML = '';
+
+        unitsData[cat].units.forEach((u, i) => {
+            fromSel.add(new Option(u, u));
+            toSel.add(new Option(u, u));
+        });
+
+        if (toSel.options.length > 1) toSel.selectedIndex = 1;
+    }
+
+    function convertUnit() {
+        const cat = document.getElementById('convCategory').value;
+        const val = parseFloat(document.getElementById('convValue').value) || 0;
+        const from = document.getElementById('convFrom').value;
+        const to = document.getElementById('convTo').value;
+        let res = 0;
+
+        if (cat === 'temp') {
+            res = convertTemperature(val, from, to);
+        } else {
+            const base = val * unitsData[cat].rates[from];
+            res = base / unitsData[cat].rates[to];
+        }
+
+        document.getElementById('convResult').textContent = `${parseFloat(res.toFixed(4))} ${to.split(' ')[1] || ''}`;
+    }
+
+    function convertTemperature(val, from, to) {
+        if (from === to) return val;
+        let celsius = val;
+
+        if (from === 'Fahrenheit (°F)') celsius = (val - 32) * 5/9;
+        if (from === 'Kelvin (K)') celsius = val - 273.15;
+
+        if (to === 'Celsius (°C)') return celsius;
+        if (to === 'Fahrenheit (°F)') return (celsius * 9/5) + 32;
+        if (to === 'Kelvin (K)') return celsius + 273.15;
+    }
+
+    // --- HISTORY SYSTEM ---
+    function addHistory(expr, result) {
+        history.unshift({ expr, result });
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        if (history.length === 0) {
+            list.innerHTML = '<li class="empty-history">Belum ada riwayat</li>';
+            return;
+        }
+
+        list.innerHTML = history.map(item => `
+            <li class="history-item" onclick="useHistory('${item.result}')">
+                <div class="expr">${item.expr}</div>
+                <div class="res">${item.result}</div>
+            </li>
+        `).join('');
+    }
+
+    function useHistory(val) {
+        currentInput = val;
+        updateDisplay();
+    }
+
+    function clearHistory() {
+        history = [];
+        renderHistory();
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (currentMode !== 'standard' && currentMode !== 'scientific') return;
+        if ((e.key >= '0' && e.key <= '9') || e.key === '.') appendInput(e.key);
+        if (['+', '-', '*', '/'].includes(e.key)) appendInput(e.key);
+        if (e.key === 'Enter') calculateResult();
+        if (e.key === 'Backspace') deleteLast();
+        if (e.key === 'Escape') clearCalc();
+    });
+</script>
+
+</body>
+</html>
