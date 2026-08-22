@@ -81,6 +81,20 @@
                 tech: ['HTML5', 'CSS3', 'JavaScript', 'Web Audio API'],
                 link: 'sandi.html'
         },
+                'bg-remover': {
+                        icon: 'fa-solid fa-image-user',
+                        title: 'Hapus Background Foto Automatic',
+                        category: 'Web App / Image Processing',
+                        description: 'Aplikasi berbasis web untuk menghapus latar belakang foto secara otomatis dan presisi tinggi menggunakan integrasi API pemrosesan gambar.',
+                        features: [
+                                'Penghapusan latar belakang otomatis berbasis AI API',
+                                'Fitur upload foto (Drag & Drop) serta pratinjau hasil secara real-time',
+                                'Unduh hasil foto berformat PNG transparan',
+                                'Sistem penanganan error jika limit API habis atau format file tidak valid'
+                        ],
+                        tech: ['HTML5', 'CSS3', 'JavaScript', 'REST API', 'Fetch API'],
+                        link: 'bgRemove.html'
+                },
          'competitions': {
           icon: 'fa-solid fa-trophy',
           title: 'Juara & Prestasi Lomba',
