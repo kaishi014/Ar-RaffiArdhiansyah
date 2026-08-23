@@ -111,6 +111,147 @@
     text-align: center;
     margin-top: 35px;
 }
+        /* --- SERVICES SECTION (CAROUSEL SAMPLING) --- */
+.carousel-wrapper {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Container yang bisa di-scroll ke samping */
+.services-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 15px 5px 25px 5px;
+    /* Menyembunyikan scrollbar bawaan */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE dan Edge */
+}
+
+.services-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* Ukuran & Tampilan Kartu */
+.service-card {
+    flex: 0 0 300px; /* Lebar tetap tiap kartu agar bisa berderet ke samping */
+    background: var(--card-bg, #ffffff);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Gambar Kartu Jasa */
+.service-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+    background-color: #f3f4f6;
+}
+
+.service-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.service-card:hover .service-img-wrapper img {
+    transform: scale(1.08);
+}
+
+/* Badge Layanan */
+.service-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Isi Konten Kartu */
+.service-content {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.service-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-color, #1f2937);
+}
+
+.service-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary, #4b5563);
+    line-height: 1.5;
+}
+
+/* Tombol Panah Navigasi Carousel */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background: #4f46e5;
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+    left: -5px;
+}
+
+.next-btn {
+    right: -5px;
+}
+
+/* Responsif pada Layar HP */
+@media (max-width: 600px) {
+    .service-card {
+        flex: 0 0 260px; /* Sedikit lebih kecil di HP */
+    }
+    .carousel-btn {
+        display: none; /* Di HP bisa langsung di-swipe jari */
+    }
+}
 
 .btn-load-more {
     background: linear-gradient(135deg, #4f46e5, #06b6d4);
@@ -279,6 +420,78 @@
             </p>
         </div>
     </section>
+    <!-- JASA & LAYANAN (SERVICES) -->
+<section id="services">
+    <h2 class="section-title reveal">Jasa & Layanan</h2>
+    <p style="text-align: center; color: var(--text-secondary); margin-top: -30px; margin-bottom: 30px;" class="reveal">
+        Layanan profesional yang siap saya bantu untuk kebutuhan proyek, acara, atau pengembangan Anda.
+    </p>
+
+    <!-- Navigation Arrows untuk Carousel Samping -->
+    <div class="carousel-wrapper reveal">
+        <button class="carousel-btn prev-btn" id="servicePrevBtn" aria-label="Geser Kiri">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        
+        <!-- Track Kartu Geser Samping -->
+        <div class="services-container" id="servicesContainer">
+            
+            <!-- Kartu Jasa 1 -->
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <!-- Ganti URL gambar di bawah sesuai gambar Anda -->
+                    <img src="https://via.placeholder.com/400x250" alt="Pembuatan Website">
+                    <span class="service-badge"><i class="fa-solid fa-code"></i> Web</span>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Pengembangan Web Front-End</h3>
+                    <p class="service-desc">Pembuatan website portofolio, landing page, atau web sekolah yang modern, responsif, dan menarik.</p>
+                </div>
+            </div>
+
+            <!-- Kartu Jasa 2 -->
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="https://via.placeholder.com/400x250" alt="Public Speaking">
+                    <span class="service-badge"><i class="fa-solid fa-microphone"></i> Event</span>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">MC & Public Speaking</h3>
+                    <p class="service-desc">Pemandu acara formal maupun non-formal, moderasi diskusi, dan penyampaian presentasi secara profesional.</p>
+                </div>
+            </div>
+
+            <!-- Kartu Jasa 3 -->
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="https://via.placeholder.com/400x250" alt="Integrasi AI">
+                    <span class="service-badge"><i class="fa-solid fa-robot"></i> AI Tool</span>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Konsultasi & Prompting AI</h3>
+                    <p class="service-desc">Membantu optimasi penggunaan AI (Gemini/ChatGPT) untuk produktivitas belajar, otomatisasi, dan penulisan.</p>
+                </div>
+            </div>
+
+            <!-- Kartu Jasa 4 -->
+            <div class="service-card">
+                <div class="service-img-wrapper">
+                    <img src="https://via.placeholder.com/400x250" alt="Kepemimpinan Organisasi">
+                    <span class="service-badge"><i class="fa-solid fa-users"></i> Leadership</span>
+                </div>
+                <div class="service-content">
+                    <h3 class="service-title">Manajemen Acara / Event</h3>
+                    <p class="service-desc">Pendampingan dan penyusunan konsep acara siswa, kepengurusan organisasi, serta kepemimpinan tim.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="carousel-btn next-btn" id="serviceNextBtn" aria-label="Geser Kanan">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+</section>
 
     <!-- ORGANISASI & PENGALAMAN -->
     <section id="organization">
