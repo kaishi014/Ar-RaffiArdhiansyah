@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cara Menggunakan AI yang Sesungguhnya - Executive Keynote Series</title>
+  <title>Cara Menggunakan AI yang Sesungguhnya</title>
   <style>
     :root {
       --primary: #2563eb;
@@ -13,7 +13,6 @@
       --accent-green: #10b981;
       --bg-dark: #0f172a;
       --bg-card: #1e293b;
-      --bg-card-hover: #2d3748;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --border: #334155;
@@ -42,24 +41,24 @@
     /* HEADER */
     header {
       background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-      padding: 60px 20px;
+      padding: 70px 20px;
       text-align: center;
       border-bottom: 1px solid var(--border);
       position: relative;
     }
 
-    .series-tag {
-      background: rgba(37, 99, 235, 0.2);
-      color: var(--accent-blue);
-      padding: 6px 16px;
+    .speaker-badge {
+      background: rgba(139, 92, 246, 0.2);
+      color: var(--accent-purple);
+      padding: 8px 18px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
       text-transform: uppercase;
       display: inline-block;
       margin-bottom: 20px;
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      border: 1px solid rgba(139, 92, 246, 0.3);
     }
 
     h1.title {
@@ -73,7 +72,7 @@
     .subtitle {
       font-size: 1.2rem;
       color: var(--text-muted);
-      max-width: 800px;
+      max-width: 850px;
       margin: 0 auto 25px auto;
     }
 
@@ -118,14 +117,15 @@
       border-radius: 3px;
     }
 
-    .intro-box {
+    .story-box {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-left: 4px solid var(--primary);
-      padding: 20px 25px;
+      border-left: 4px solid var(--accent-purple);
+      padding: 22px 28px;
       border-radius: 8px;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       margin-bottom: 30px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
     }
 
     /* CARDS & GRIDS */
@@ -220,7 +220,7 @@
     }
 
     .accordion-item.active .accordion-content {
-      max-height: 500px;
+      max-height: 600px;
       padding: 20px 25px 25px 25px;
     }
 
@@ -234,7 +234,7 @@
       margin-bottom: 8px;
     }
 
-    /* ARCHITECTURE DIAGRAM (REPLACING IMAGE) */
+    /* ARCHITECTURE DIAGRAM */
     .diagram-container {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -384,7 +384,7 @@
       transition: width 1.2s cubic-bezier(0.1, 0.5, 0.5, 1);
     }
 
-    /* INTERACTIVE PROMPT GENERATOR (FITUR TAMBAHAN) */
+    /* INTERACTIVE TOOLS */
     .interactive-box {
       background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
       border: 1px solid var(--accent-green);
@@ -412,7 +412,7 @@
       color: var(--text-muted);
     }
 
-    .form-group input, .form-group textarea {
+    .form-group input, .form-group textarea, .form-group select {
       width: 100%;
       padding: 10px;
       background: var(--bg-dark);
@@ -449,7 +449,7 @@
       color: var(--accent-blue);
     }
 
-    /* KEYNOTE QUOTE BANNER */
+    /* QUOTE BANNER */
     .quote-box {
       background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(139, 92, 246, 0.2));
       border: 1px solid var(--primary);
@@ -476,12 +476,6 @@
       line-height: 1.4;
     }
 
-    .quote-box p.author {
-      font-size: 1.1rem;
-      color: var(--accent-green);
-      font-weight: 700;
-    }
-
     footer {
       text-align: center;
       padding: 30px;
@@ -500,9 +494,9 @@
 
   <!-- HEADER SECTION -->
   <header>
-    <div class="series-tag">Executive Keynote Series</div>
+    <div class="speaker-badge">Executive Keynote Series</div>
     <h1 class="title">Cara Menggunakan AI<br>Yang Sesungguhnya</h1>
-    <p class="subtitle">Mengubah kecerdasan buatan dari sekadar "mesin jawab cepat" menjadi ekstensi pola pikir dan mitra strategis tingkat tinggi.</p>
+    <p class="subtitle">Di materi ini, saya bagikan pengalaman dan perjalanan saya mengubah kecerdasan buatan dari sekadar "mesin jawab cepat" menjadi ekstensi pola pikir dan mitra strategis tingkat tinggi.</p>
     
     <div class="meta-badges">
       <span class="meta-badge">📖 Panduan Public Speaker & Profesional</span>
@@ -516,39 +510,39 @@
     <!-- PARADIGMA & MITOS -->
     <section>
       <h2 class="section-title">Paradigma Baru: Mengapa 90% Orang Salah Menggunakan AI?</h2>
-      <div class="intro-box">
-        Kebanyakan orang memperlakukan AI seperti <strong>Kalkulator Teks</strong> atau <strong>Ketik Kata Kunci</strong> di Google. Mereka meminta hasil instan tanpa konteks, lalu kecewa dengan output yang generik dan dangkal.
+      <div class="story-box">
+        <strong>Pengalaman Saya:</strong> Saat pertama kali mengenal AI, saya sering mengamati bagaimana rekan-rekan profesional berinteraksi dengannya. Kebanyakan orang memperlakukan AI seperti <strong>Kalkulator Teks</strong> atau sekadar <strong>Ketik Kata Kunci</strong> di Google. Mereka meminta hasil instan tanpa memberi konteks, lalu kecewa ketika mendapatkan luaran yang generik dan dangkal. Saya sadar, ada paradigma yang perlu kita ubah bersama!
       </div>
 
-      <h3 style="margin-bottom: 15px; color: var(--accent-blue);">3 Mitos Pembatas Penggunaan AI</h3>
+      <h3 style="margin-bottom: 15px; color: var(--accent-blue);">3 Mitos Pembatas yang Saya Temukan di Lapangan</h3>
       <div class="grid-3">
         <div class="card">
           <div class="card-title">Mitos "Prompt Ajaib"</div>
           <p><strong>Mitos:</strong> Ada mantra prompt rahasia untuk semua solusi.</p>
-          <p><strong>Realita:</strong> Konteks yang jelas dan komunikasi dialektis jauh lebih menentukan kualitas dibanding mantra prompt kaku.</p>
+          <p><strong>Realita Saya:</strong> Berdasarkan riset dan praktik saya, konteks yang jelas serta komunikasi dialektis jauh lebih menentukan kualitas dibanding mantra prompt kaku mana pun.</p>
         </div>
 
         <div class="card">
           <div class="card-title">Mitos "Pengerjaan Instan"</div>
           <p><strong>Mitos:</strong> AI dipakai untuk delegasi total tanpa koreksi.</p>
-          <p><strong>Realita:</strong> AI memberikan draf awal 70%. 30% sisanya adalah kurasi, intuisi, dan sentuhan kritis manusia.</p>
+          <p><strong>Realita Saya:</strong> AI hanya memberikan draf awal 70%. Sementara 30% sisanya adalah kurasi, intuisi, dan sentuhan kritis kita sebagai manusia.</p>
         </div>
 
         <div class="card">
           <div class="card-title">Mitos "Pengganti Otak"</div>
           <p><strong>Mitos:</strong> Menggunakan AI berarti mematikan daya pikir.</p>
-          <p><strong>Realita:</strong> AI yang sesungguhnya memperluas kapasitas berpikir (Thought Partner) untuk menemukan gagasan baru.</p>
+          <p><strong>Realita Saya:</strong> Justru sebaliknya! AI yang sesungguhnya memperluas kapasitas berpikir kita (Thought Partner) untuk menemukan gagasan baru yang tak terpikirkan sebelumnya.</p>
         </div>
       </div>
     </section>
 
     <!-- 5 TINGKATAN EVOLUSI -->
     <section>
-      <h2 class="section-title">5 Tingkatan Kematangan AI</h2>
+      <h2 class="section-title">5 Tingkatan Kematangan Penggunaan AI</h2>
       <p style="margin-bottom: 20px; color: var(--text-muted);">
-        <strong>Spektrum Kematangan Penggunaan AI: Perjalanan Dari "Pengatur" Ke "Orkestrator"</strong><br>
-        Kemampuan AI tidak diukur dari seberapa canggih modelnya, melainkan dari <strong>seberapa dewasa cara berpikir penggunanya</strong>.<br>
-        Pengguna tingkat pemula menggunakan AI untuk mencari fakta singkat, sedangkan <strong>Power User</strong> memanfaatkan AI sebagai arsitektur sistem berpikir dan agen kerja mandiri.
+        <strong>Spektrum Kematangan Penggunaan AI: Perjalanan Saya Dari Seorang "Pengatur" Menjadi "Orkestrator"</strong><br>
+        Satu hal penting yang selalu saya tekankan saat membawakan keynote: Kemampuan AI tidak diukur dari seberapa canggih modelnya, melainkan dari <strong>seberapa dewasa cara berpikir penggunanya</strong>.<br>
+        Pengguna pemula menggunakan AI hanya untuk mencari fakta singkat, sementara seorang <strong>Power User</strong> memanfaatkan AI sebagai arsitektur sistem berpikir dan agen kerja mandiri.
       </p>
 
       <div class="accordion">
@@ -563,10 +557,10 @@
             <span>▼</span>
           </div>
           <div class="accordion-content">
-            <p style="margin-bottom: 10px;"><strong>Pola Kerja:</strong> Memberi perintah satu arah singkat ("Buatkan caption", "Apa arti istilah X").</p>
+            <p style="margin-bottom: 10px;"><strong>Pengalaman di Level Ini:</strong> Dulu saya memulai di sini, hanya memberi perintah satu arah yang singkat (seperti "Buatkan caption", "Apa arti istilah X").</p>
             <ul>
               <li><strong>Karakteristik:</strong> Jawaban bersifat permukaan, penuh halusinasi jika tanpa batasan.</li>
-              <li><strong>Hasil:</strong> Menghemat waktu 5-10 menit, namun hasil masih standar umum.</li>
+              <li><strong>Hasil:</strong> Hanya menghemat waktu 5-10 menit, namun hasilnya masih sangat standar umum.</li>
             </ul>
           </div>
         </div>
@@ -581,7 +575,7 @@
             <span>►</span>
           </div>
           <div class="accordion-content">
-            <p style="margin-bottom: 10px;"><strong>Pola Kerja:</strong> Menggunakan struktur R-C-T-F (Role, Context, Task, Format).</p>
+            <p style="margin-bottom: 10px;"><strong>Pengalaman di Level Ini:</strong> Saya mulai merapikan cara berkomunikasi dengan struktur R-C-T-F (Role, Context, Task, Format).</p>
             <ul>
               <li><strong>Karakteristik:</strong> Memberikan instruksi spesifik, batasan audiens, dan gaya bahasa.</li>
               <li><strong>Hasil:</strong> Luaran konsisten, rapi, dan sesuai instruksi teknis awal.</li>
@@ -599,10 +593,10 @@
             <span>►</span>
           </div>
           <div class="accordion-content">
-            <p style="margin-bottom: 10px;"><strong>Pola Kerja:</strong> Meminta AI menguji ide, menjadi Devil's Advocate, atau mencari celah logika.</p>
+            <p style="margin-bottom: 10px;"><strong>Pengalaman di Level Ini:</strong> Ini lompatan terbesar saya! Saya tidak lagi menyuruh AI bekerja, tapi meminta AI menguji ide saya, menjadi Devil's Advocate, atau mencari celah logika bisnis saya.</p>
             <ul>
-              <li><strong>Instruksi Kunci:</strong> "Kritisi rencana bisnis saya ini dan temukan 3 kelemahannya."</li>
-              <li><strong>Hasil:</strong> Melatih ketajaman strategi & perspektif baru manusia.</li>
+              <li><strong>Instruksi Kunci Favorit Saya:</strong> "Kritisi rencana bisnis saya ini dan temukan 3 kelemahannya."</li>
+              <li><strong>Hasil:</strong> Sangat efektif melatih ketajaman strategi & membuka perspektif baru manusia.</li>
             </ul>
           </div>
         </div>
@@ -617,10 +611,10 @@
             <span>►</span>
           </div>
           <div class="accordion-content">
-            <p style="margin-bottom: 10px;"><strong>Pola Kerja:</strong> Diskusi multi-turn berlapis. AI diajak membangun konteks secara bertahap.</p>
+            <p style="margin-bottom: 10px;"><strong>Pengalaman di Level Ini:</strong> Saya membiasakan diskusi multi-turn yang berlapis. AI saya ajak membangun konteks secara bertahap.</p>
             <ul>
-              <li><strong>Fokus:</strong> Menyelaraskan nilai, gaya analisis, dan perspektif unik pengguna ke dalam memori AI.</li>
-              <li><strong>Hasil:</strong> Ide sintetis yang tidak bisa dihasilkan oleh AI atau manusia sendirian.</li>
+              <li><strong>Fokus Utama Saya:</strong> Menyelaraskan nilai, gaya analisis, dan perspektif unik saya ke dalam memori AI.</li>
+              <li><strong>Hasil:</strong> Menghasilkan ide sintetis yang tidak bisa dihasilkan oleh AI atau manusia sendirian.</li>
             </ul>
           </div>
         </div>
@@ -635,11 +629,11 @@
             <span>►</span>
           </div>
           <div class="accordion-content">
-            <p style="margin-bottom: 10px;"><strong>Membangun Sistem Otonom:</strong></p>
+            <p style="margin-bottom: 10px;"><strong>Pengalaman di Level Ini (Tahap Tertinggi Saya):</strong> Membangun Sistem Otonom secara utuh.</p>
             <ul>
               <li><strong>Context Engineering:</strong> Menghubungkan basis data, panduan merek, dan dokumen internal.</li>
               <li><strong>Agentic Workflows:</strong> AI merencanakan langkah, mengeksekusi alat (tools), dan mengevaluasi mandiri.</li>
-              <li><strong>Hasil Ekosistem:</strong> AI bukan lagi sekadar aplikasi chat, melainkan mesin operasional pintar.</li>
+              <li><strong>Hasil Ekosistem Saya:</strong> AI bukan lagi sekadar aplikasi chat, melainkan mesin operasional pintar bagi pekerjaan saya.</li>
             </ul>
           </div>
         </div>
@@ -649,8 +643,8 @@
 
     <!-- ARCHITECTURE / COGNITIVE PROCESS DIAGRAM -->
     <section>
-      <h2 class="section-title">Kerangka Kerja Kognitif Sistem AI & Kolaborasi Manusia</h2>
-      <p style="color: var(--text-muted); margin-bottom: 15px;">Visualisasi arsitektur interaksi kognitif dua arah (Bidirectional Interaction / Feedback) antara Manusia dan Sistem AI:</p>
+      <h2 class="section-title">Kerangka Kerja Kognitif: Bagaimana Saya dan AI Bekerja Bersama</h2>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">Berikut adalah visualisasi arsitektur interaksi kognitif dua arah (Bidirectional Interaction / Feedback) antara logika berpikir saya dan Sistem AI:</p>
       
       <div class="diagram-container">
         <div class="diagram-title">ARTIFICIAL INTELLIGENCE SYSTEM</div>
@@ -697,56 +691,58 @@
 
     <!-- FORMULA C.O.R.E -->
     <section>
-      <h2 class="section-title">Formula C.O.R.E: Kunci Konteks Tingkat Tinggi</h2>
+      <h2 class="section-title">Formula C.O.R.E: Rahasia Konteks Saya</h2>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Setiap kali saya menyusun instruksi strategis ke AI, saya selalu mempraktikkan formula 4 pilar ini:</p>
+
       <div class="core-grid">
         <div class="core-card">
           <div class="core-letter">C</div>
           <h4>Context</h4>
-          <p><strong>Konteks Latar Belakang:</strong> Jelaskan siapa Anda, kondisi saat ini, masalah yang dihadapi, serta batasan kondisi riil yang tidak boleh dilanggar.</p>
+          <p><strong>Konteks Latar Belakang:</strong> Saya jelaskan siapa saya, kondisi saat ini, masalah yang dihadapi, serta batasan kondisi riil yang tidak boleh dilanggar.</p>
         </div>
 
         <div class="core-card">
           <div class="core-letter">O</div>
           <h4>Objective</h4>
-          <p><strong>Target Spesifik:</strong> Tentukan hasil akhir yang terukur. Bukan sekadar "buat laporan", melainkan "buat ringkasan eksekutif 3 paragraf untuk keputusan investasi".</p>
+          <p><strong>Target Spesifik:</strong> Saya tentukan hasil akhir yang terukur. Bukan sekadar "buat laporan", melainkan "buat ringkasan eksekutif 3 paragraf untuk keputusan investasi".</p>
         </div>
 
         <div class="core-card">
           <div class="core-letter">R</div>
           <h4>Role</h4>
-          <p><strong>Peran Keahlian:</strong> Berikan identitas spesifik pada AI, misalnya "Konsultan Strategi Senior dengan pengalaman 15 tahun di industri retail".</p>
+          <p><strong>Peran Keahlian:</strong> Saya berikan identitas spesifik pada AI, misalnya "Konsultan Strategi Senior dengan pengalaman 15 tahun di industri retail".</p>
         </div>
 
         <div class="core-card">
           <div class="core-letter">E</div>
           <h4>Execution Rules</h4>
-          <p><strong>Batasan Eksekusi:</strong> Tentukan format luaran (Tabel, Bullet Points), nada bicara (Profesional, Persuasif), dan poin wajib/larangan.</p>
+          <p><strong>Batasan Eksekusi:</strong> Saya tentukan format luaran (Tabel, Bullet Points), nada bicara (Profesional, Persuasif), dan poin wajib/larangan.</p>
         </div>
       </div>
 
-      <!-- FITUR INTERAKTIF TAMBAHAN: GENERATOR PROMPT C.O.R.E -->
+      <!-- FITUR INTERAKTIF: PROMPT GENERATOR -->
       <div class="interactive-box">
-        <h3>⚡ Generator Prompt C.O.R.E Interaktif (Fitur Tambahan)</h3>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Isi form di bawah ini untuk membuat prompt terstruktur sesuai formula C.O.R.E secara otomatis:</p>
+        <h3>⚡ Generator Prompt C.O.R.E</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Gunakan template racikan saya ini untuk menghasilkan prompt tingkat tinggi secara otomatis:</p>
         
         <div class="form-group">
-          <label>Context (Latar Belakang & Masalah):</label>
-          <input type="text" id="inputC" placeholder="Contoh: Saya pemilik startup retail lokal yang sedang mengalami penurunan penjualan 10%">
+          <label>Context (Latar Belakang & Masalah Anda):</label>
+          <input type="text" id="inputC" placeholder="Contoh: Saya sedang merancang materi presentasi bisnis untuk investor baru minggu depan">
         </div>
         <div class="form-group">
-          <label>Objective (Target Spesifik):</label>
-          <input type="text" id="inputO" placeholder="Contoh: Buatkan 3 opsi strategi pemasaran digital jangka pendek">
+          <label>Objective (Target Spesifik Anda):</label>
+          <input type="text" id="inputO" placeholder="Contoh: Buatkan outline 5 slide presentasi yang persuasif dan fokus pada ROI">
         </div>
         <div class="form-group">
-          <label>Role (Peran AI):</label>
-          <input type="text" id="inputR" placeholder="Contoh: Perankan dirimu sebagai Chief Marketing Officer senior">
+          <label>Role (Peran Spesifik AI):</label>
+          <input type="text" id="inputR" placeholder="Contoh: Perankan dirimu sebagai Venture Capitalist berpengalaman">
         </div>
         <div class="form-group">
           <label>Execution Rules (Batasan & Format):</label>
-          <input type="text" id="inputE" placeholder="Contoh: Sajikan dalam tabel, gunakan nada lugas dan profesional, tanpa jargon rumit">
+          <input type="text" id="inputE" placeholder="Contoh: Gunakan poin-poin lugas, nada profesional, tanpa kalimat klise">
         </div>
 
-        <button class="btn" onclick="generatePrompt()">Hasilkan Prompt C.O.R.E</button>
+        <button class="btn" onclick="generatePrompt()">Buat Prompt C.O.R.E Sekarang</button>
 
         <div class="output-prompt" id="promptResult">Prompt Anda akan muncul di sini...</div>
       </div>
@@ -755,6 +751,8 @@
     <!-- MATRIKS PERBANDINGAN -->
     <section>
       <h2 class="section-title">Matriks Perbandingan Tingkatan AI</h2>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">Tabel perbandingan ini selalu saya gunakan untuk mengukur perkembangan tim saya saat berinteraksi dengan AI:</p>
+      
       <div class="table-responsive">
         <table>
           <thead>
@@ -803,9 +801,9 @@
 
     <!-- DAMPAK NILAI & EFISIENSI -->
     <section>
-      <h2 class="section-title">Dampak Nilai & Efisiensi Berdasarkan Level</h2>
+      <h2 class="section-title">Dampak Nilai & Efisiensi Berdasarkan Pengamatan Saya</h2>
       <p style="margin-bottom: 20px; color: var(--text-muted);">
-        Lompatan produktivitas terbesar terjadi saat pengguna berpindah dari Level 2 ke Level 3+, tempat di mana AI digunakan untuk <strong>memperluas logika berpikir</strong> bukan sekadar mengetik ulang kalimat.
+        Berdasarkan pengamatan saya pribadi, lompatan produktivitas terbesar terjadi saat kita berpindah dari Level 2 ke Level 3+, tempat di mana AI digunakan untuk <strong>memperluas logika berpikir</strong> bukan sekadar mengetik ulang kalimat.
       </p>
 
       <div class="bars-container">
@@ -851,28 +849,53 @@
       </div>
     </section>
 
+    <!-- FITUR INTERAKTIF: KALKULATOR TINGKAT KEMATANGAN -->
+    <section>
+      <h2 class="section-title">Tes Interaktif: Berada di Level Manakah Anda?</h2>
+      <div class="interactive-box" style="border-color: var(--accent-purple);">
+        <h3 style="color: var(--accent-purple);">📊 Kalkulator Kematangan Penggunaan AI</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Jawab pertanyaan di bawah ini untuk mengetahui tingkat keahlian AI Anda saat ini berdasarkan kriteria saya:</p>
+        
+        <div class="form-group">
+          <label>Bagaimana biasanya Anda memberikan perintah ke AI?</label>
+          <select id="calcQ1">
+            <option value="1">Pertanyaan singkat 1 kalimat tanpa instruksi khusus</option>
+            <option value="2">Instruksi terstruktur dengan batasan peran dan format</option>
+            <option value="3">Meminta AI mengkritisi ide atau menjadi lawan diskusi</option>
+            <option value="5">Menggunakan basis data tersambung dan agen otomatis</option>
+          </select>
+        </div>
+
+        <button class="btn" style="background: var(--accent-purple); color: #fff;" onclick="calculateLevel()">Cek Level Saya</button>
+
+        <div class="output-prompt" id="calcResult" style="color: #a7f3d0;">Hasil analisis level Anda akan muncul di sini...</div>
+      </div>
+    </section>
+
     <!-- ROADMAP TRANSFORMASI -->
     <section>
-      <h2 class="section-title">Roadmap Transformasi Penggunaan AI</h2>
+      <h2 class="section-title">Roadmap Transformasi AI</h2>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Langkah-langkah konkrit yang selalu saya sarankan untuk Anda yang ingin naik kelas:</p>
+
       <div class="grid-2">
         <div class="card">
           <div class="card-title">1. Shift Mindset</div>
-          <p>Ubah pertanyaan dari <em>"Apa yang bisa AI buatkan?"</em> menjadi <strong>"Bagaimana AI bisa membantu saya berpikir?"</strong></p>
+          <p>Ubah pertanyaan Anda dari <em>"Apa yang bisa AI buatkan?"</em> menjadi <strong>"Bagaimana AI bisa membantu saya berpikir?"</strong></p>
         </div>
 
         <div class="card">
           <div class="card-title">2. Buat Bank Konteks</div>
-          <p>Dokumentasikan profil, target, batasan, dan gaya komunikasi Anda agar siap diberikan ke AI.</p>
+          <p>Dokumentasikan profil, target, batasan, dan gaya komunikasi Anda dalam satu tempat agar siap diberikan ke AI kapan saja.</p>
         </div>
 
         <div class="card">
           <div class="card-title">3. Latih Dialektika</div>
-          <p>Mulai kebiasaan berdiskusi 3-5 putaran sebelum meminta luaran akhir dari model AI.</p>
+          <p>Mulai kebiasaan berdiskusi 3-5 putaran (multi-turn) sebelum meminta luaran akhir dari model AI.</p>
         </div>
 
         <div class="card">
           <div class="card-title">4. Skalasi Sistem</div>
-          <p>Integrasikan kustomisasi AI, memori panjang, dan alat bantu otomatis untuk tugas rutin Anda.</p>
+          <p>Integrasikan kustomisasi AI, memori panjang, dan alat bantu otomatis untuk tugas-tugas rutin Anda.</p>
         </div>
       </div>
     </section>
@@ -880,23 +903,23 @@
     <!-- POIN UTAMA KEYNOTE & CLOSING -->
     <section style="border-bottom: none;">
       <div class="quote-box">
-        <h3>Poin Utama Keynote</h3>
+        <h3>Poin Utama Keynote Saya</h3>
         <blockquote>
           "AI tidak akan menggantikan manusia. Tetapi manusia yang mahir menggunakan AI sebagai Mitra Berpikir akan menggantikan mereka yang tidak menggunakannya."
         </blockquote>
-        <p class="author">Masa Depan Milik Mereka Yang Berpikir Bersama AI</p>
+        <p style="font-size: 0.9rem; color: #fff; margin-top: 10px;">Masa Depan Milik Mereka Yang Berpikir Bersama AI</p>
       </div>
 
       <div style="text-align: center; margin-top: 30px; color: var(--text-muted);">
-        <p><strong>Sesi Tanya Jawab</strong> | Diskusi & Praktik</p>
+        <p><strong>Sesi Tanya Jawab</strong> | Mari Kita Berdiskusi & Praktik Bersama!</p>
       </div>
     </section>
 
   </main>
 
   <footer>
-    <p>Executive Keynote Series — Cara Menggunakan AI yang Sesungguhnya</p>
-    <p style="margin-top: 5px; opacity: 0.6;">Disalin dan Dikonversi menjadi Aplikasi Web Interaktif secara Utuh.</p>
+    <p>Executive Keynote Series</p>
+    <p style="margin-top: 5px; opacity: 0.6;">di buat oleh Ar Raffi Ardhiansyah.</p>
   </footer>
 
   <!-- JAVASCRIPT -->
@@ -907,13 +930,11 @@
         const item = header.parentElement;
         const isActive = item.classList.contains('active');
         
-        // Close all items
         document.querySelectorAll('.accordion-item').forEach(i => {
           i.classList.remove('active');
           i.querySelector('.accordion-header span:last-child').textContent = '►';
         });
 
-        // Open clicked item if not active
         if (!isActive) {
           item.classList.add('active');
           header.querySelector('span:last-child').textContent = '▼';
@@ -935,16 +956,34 @@
     window.addEventListener('scroll', animateBars);
     window.addEventListener('load', animateBars);
 
-    // INTERACTIVE PROMPT GENERATOR (FITUR EKSTRA)
+    // INTERACTIVE PROMPT GENERATOR
     function generatePrompt() {
-      const c = document.getElementById('inputC').value || '[Konteks Latar Belakang]';
-      const o = document.getElementById('inputO').value || '[Target Spesifik]';
+      const c = document.getElementById('inputC').value || '[Konteks Latar Belakang Anda]';
+      const o = document.getElementById('inputO').value || '[Target Spesifik Anda]';
       const r = document.getElementById('inputR').value || '[Peran AI]';
-      const e = document.getElementById('inputE').value || '[Batasan Eksekusi]';
+      const e = document.getElementById('inputE').value || '[Batasan Eksekusi Anda]';
 
-      const fullPrompt = `[ROLE]\nPerankan dirimu sebagai: ${r}.\n\n[CONTEXT]\n${c}.\n\n[OBJECTIVE]\nTarget utama: ${o}.\n\n[EXECUTION RULES]\n${e}`;
+      const fullPrompt = `[ROLE]\nPerankan dirimu sebagai: ${r}.\n\n[CONTEXT]\n${c}.\n\n[OBJECTIVE]\nTarget utama yang ingin dicapai: ${o}.\n\n[EXECUTION RULES]\n${e}`;
 
       document.getElementById('promptResult').innerText = fullPrompt;
+    }
+
+    // CALCULATOR LEVEL AI
+    function calculateLevel() {
+      const val = document.getElementById('calcQ1').value;
+      let res = "";
+
+      if(val === "1") {
+        res = "Level Anda: LEVEL 1 (THE OPERATOR)\nSaran: Mulailah menggunakan pola R-C-T-F dan berikan konteks lebih detail dalam prompt Anda.";
+      } else if(val === "2") {
+        res = "Level Anda: LEVEL 2 (PROMPT ENGINEER)\nSaran: Bagus! Sekarang cobalah meminta AI mengkritisi ide Anda (Devil's Advocate) untuk masuk ke Level 3.";
+      } else if(val === "3") {
+        res = "Level Anda: LEVEL 3 (STRATEGIC THOUGHT PARTNER)\nSaran: Luar biasa! Anda sudah menjadikan AI sebagai mitra berpikir strategis. Tingkatkan ke diskusi multi-turn berlapis.";
+      } else {
+        res = "Level Anda: LEVEL 5 (SYSTEMIC AI ORCHESTRATOR)\nSaran: Hebat! Anda sudah memanfaatkan ekosistem dan arsitektur agen otonom secara maksimal.";
+      }
+
+      document.getElementById('calcResult').innerText = res;
     }
   </script>
 </body>
