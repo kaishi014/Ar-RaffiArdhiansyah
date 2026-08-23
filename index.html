@@ -110,8 +110,7 @@
 .load-more-container {
     text-align: center;
     margin-top: 35px;
-}
-/* --- SERVICES SECTION (FULL WIDTH & AUTO SCROLL) --- */
+}/* --- SERVICES SECTION (FULL WIDTH & AUTO SCROLL) --- */
 #services {
     width: 100%;
     padding-left: 0;
@@ -134,10 +133,11 @@
     display: flex;
     gap: 20px;
     overflow-x: auto;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth;  <-- DIHAPUS agar animasi JavaScript tidak patah/bergetar */
     padding: 15px 20px 25px 20px; /* Padding memberi ruang di tepi layar */
     scrollbar-width: none; /* Menyembunyikan scrollbar Firefox */
     -ms-overflow-style: none; /* Menyembunyikan scrollbar IE/Edge */
+    will-change: scroll-position; /* Optimasi performa render browser */
 }
 
 .services-container::-webkit-scrollbar {
@@ -230,7 +230,7 @@
     border-radius: 50%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     cursor: pointer;
-    z-index: 10;
+    z-index: 20; /* Ditingkatkan agar selalu klik-able di atas kartu */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -428,7 +428,7 @@
             </p>
         </div>
     </section>
-    <!-- JASA & LAYANAN (SERVICES) -->
+   <!-- JASA & LAYANAN (SERVICES) -->
 <section id="services">
     <h2 class="section-title reveal">Jasa & Layanan</h2>
     <p style="text-align: center; color: var(--text-secondary); margin-top: -30px; margin-bottom: 30px;" class="reveal">
@@ -447,7 +447,6 @@
             <!-- Kartu Jasa 1 -->
             <div class="service-card">
                 <div class="service-img-wrapper">
-                    <!-- Ganti URL gambar di bawah sesuai gambar Anda -->
                     <img src="https://via.placeholder.com/400x250" alt="Pembuatan Website">
                     <span class="service-badge"><i class="fa-solid fa-code"></i> Web</span>
                 </div>
@@ -500,7 +499,6 @@
         </button>
     </div>
 </section>
-
     <!-- ORGANISASI & PENGALAMAN -->
     <section id="organization">
         <h2 class="section-title reveal">Pengalaman & Organisasi</h2>
