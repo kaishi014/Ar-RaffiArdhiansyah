@@ -4,19 +4,52 @@ document.addEventListener("DOMContentLoaded", function () {
     const prevBtn = document.getElementById("servicePrevBtn");
     const nextBtn = document.getElementById("serviceNextBtn");
 
-    if (container && prevBtn && nextBtn) {
-        const scrollAmount = 320; // Jarak geser setiap klik (lebar kartu + gap)
+    if (!container) return;
 
+    const scrollAmount = 320; // Jarak geser
+    let autoScrollInterval;
+
+    // Fungsi Menggulir ke Kanan Otomatis
+    function startAutoScroll() {
+        autoScrollInterval = setInterval(() => {
+            // Jika sudah di paling ujung kanan, kembali ke paling awal (kiri)
+            if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 5) {
+                container.scrollTo({ left: 0, behavior: "smooth" });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+            }
+        }, 3000); // Bergulir tiap 3 detik (3000 ms)
+    }
+
+    // Fungsi Hentikan Scroll Otomatis
+    function stopAutoScroll() {
+        clearInterval(autoScrollInterval);
+    }
+
+    // Jalankan Auto-Scroll Pertama Kali
+    startAutoScroll();
+
+    // Hentikan auto-scroll saat disentuh/di-hover pengguna, lalu jalankan lagi saat dilepas
+    container.addEventListener("mouseenter", stopAutoScroll);
+    container.addEventListener("mouseleave", startAutoScroll);
+    container.addEventListener("touchstart", stopAutoScroll);
+    container.addEventListener("touchend", startAutoScroll);
+
+    // Navigasi Tombol
+    if (nextBtn && prevBtn) {
         nextBtn.addEventListener("click", () => {
+            stopAutoScroll();
             container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+            startAutoScroll();
         });
 
         prevBtn.addEventListener("click", () => {
+            stopAutoScroll();
             container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+            startAutoScroll();
         });
     }
-});
-        const projectData = {
+});        const projectData = {
          'jepang': {
           icon: 'fa-solid fa-language',
           title: 'Web Belajar Bahasa Jepang',
