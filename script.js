@@ -1,4 +1,21 @@
         // DATA LENGKAP PROYEK & PRESENTASI
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("servicesContainer");
+    const prevBtn = document.getElementById("servicePrevBtn");
+    const nextBtn = document.getElementById("serviceNextBtn");
+
+    if (container && prevBtn && nextBtn) {
+        const scrollAmount = 320; // Jarak geser setiap klik (lebar kartu + gap)
+
+        nextBtn.addEventListener("click", () => {
+            container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        });
+
+        prevBtn.addEventListener("click", () => {
+            container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+        });
+    }
+});
         const projectData = {
          'jepang': {
           icon: 'fa-solid fa-language',
