@@ -13,6 +13,21 @@
           tech: ['HTML5', 'CSS3', 'JavaScript'],
           link: 'jepang.html'
          },
+                'presentation-osis':{
+                        icon: 'fa-solid fa-brain',
+                        title: 'Cara Menggunakan AI yang Sesungguhnya',
+                        category: 'Keynote & Interactive Learning',
+                        description: 'Modul interaktif dan panduan komprehensif kolaborasi Human-AI: Mengubah kecerdasan buatan dari sekadar alat jawab cepat menjadi mitra berpikir strategis.',
+                        features: [
+                                'Paradigma baru & pembongkaran 3 mitos penggunaan AI',
+                                'Interaktif: 5 Tingkatan Kematangan Penggunaan AI',
+                                'Framework Formula C.O.R.E & Generator Prompt Otomatis',
+                                'Kalkulator Kematangan Penggunaan AI untuk evaluasi mandiri'
+                        ],
+                        tech: ['HTML5', 'CSS3', 'JavaScript (ES6)', 'Interactive UI'],
+                        link: 'osis.html' 
+                                },
+                
          'sudoku': {
           icon: 'fa-solid fa-puzzle-piece',
           title: 'Game Sudoku Puzzle',
