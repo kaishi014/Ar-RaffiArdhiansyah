@@ -4,52 +4,64 @@ document.addEventListener("DOMContentLoaded", function () {
     const prevBtn = document.getElementById("servicePrevBtn");
     const nextBtn = document.getElementById("serviceNextBtn");
 
-    if (!container) return;
+    if (!container) return; // Menghentikan skrip jika elemen tidak ditemukan
 
-    const scrollAmount = 320; // Jarak geser
-    let autoScrollInterval;
+    const scrollAmount = 320; // Jarak gulir tiap langkah (lebar kartu + gap)
+    let autoScrollTimer = null;
 
-    // Fungsi Menggulir ke Kanan Otomatis
+    // 1. Fungsi untuk menggulir ke kanan secara otomatis
     function startAutoScroll() {
-        autoScrollInterval = setInterval(() => {
-            // Jika sudah di paling ujung kanan, kembali ke paling awal (kiri)
-            if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 5) {
+        // Cegah timer ganda
+        stopAutoScroll();
+
+        autoScrollTimer = setInterval(() => {
+            // Cek apakah scroll sudah mencapai ujung paling kanan
+            const maxScrollLeft = container.scrollWidth - container.clientWidth;
+            
+            if (container.scrollLeft >= maxScrollLeft - 5) {
+                // Jika sudah di ujung kanan, kembali mulus ke paling awal (kiri)
                 container.scrollTo({ left: 0, behavior: "smooth" });
             } else {
+                // Geser ke kanan
                 container.scrollBy({ left: scrollAmount, behavior: "smooth" });
             }
-        }, 3000); // Bergulir tiap 3 detik (3000 ms)
+        }, 3000); // 3000 ms = Bergulir otomatis setiap 3 detik
     }
 
-    // Fungsi Hentikan Scroll Otomatis
+    // 2. Fungsi untuk menghentikan guliran otomatis
     function stopAutoScroll() {
-        clearInterval(autoScrollInterval);
+        if (autoScrollTimer) {
+            clearInterval(autoScrollTimer);
+        }
     }
 
-    // Jalankan Auto-Scroll Pertama Kali
+    // Jalankan auto-scroll pertama kali
     startAutoScroll();
 
-    // Hentikan auto-scroll saat disentuh/di-hover pengguna, lalu jalankan lagi saat dilepas
+    // 3. Hentikan auto-scroll saat disentuh / kursor diarahkan ke kartu
     container.addEventListener("mouseenter", stopAutoScroll);
     container.addEventListener("mouseleave", startAutoScroll);
-    container.addEventListener("touchstart", stopAutoScroll);
-    container.addEventListener("touchend", startAutoScroll);
+    container.addEventListener("touchstart", stopAutoScroll, { passive: true });
+    container.addEventListener("touchend", startAutoScroll, { passive: true });
 
-    // Navigasi Tombol
-    if (nextBtn && prevBtn) {
+    // 4. Navigasi Tombol Manual (Kiri & Kanan)
+    if (nextBtn) {
         nextBtn.addEventListener("click", () => {
             stopAutoScroll();
             container.scrollBy({ left: scrollAmount, behavior: "smooth" });
             startAutoScroll();
         });
+    }
 
+    if (prevBtn) {
         prevBtn.addEventListener("click", () => {
             stopAutoScroll();
             container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
             startAutoScroll();
         });
     }
-});        const projectData = {
+});
+const projectData = {
          'jepang': {
           icon: 'fa-solid fa-language',
           title: 'Web Belajar Bahasa Jepang',
