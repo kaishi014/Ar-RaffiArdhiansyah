@@ -111,33 +111,42 @@
     text-align: center;
     margin-top: 35px;
 }
-        /* --- SERVICES SECTION (CAROUSEL SAMPLING) --- */
-.carousel-wrapper {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+/* --- SERVICES SECTION (FULL WIDTH & AUTO SCROLL) --- */
+#services {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    overflow: hidden; /* Mencegah scrollbar horizontal muncul di layar utama */
 }
 
-/* Container yang bisa di-scroll ke samping */
+/* Membentang penuh dari layar kiri sampai kanan */
+.carousel-wrapper {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+/* Container tempat kartu menggulir */
 .services-container {
     display: flex;
     gap: 20px;
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding: 15px 5px 25px 5px;
-    /* Menyembunyikan scrollbar bawaan */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE dan Edge */
+    padding: 15px 20px 25px 20px; /* Padding memberi ruang di tepi layar */
+    scrollbar-width: none; /* Menyembunyikan scrollbar Firefox */
+    -ms-overflow-style: none; /* Menyembunyikan scrollbar IE/Edge */
 }
 
 .services-container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none; /* Menyembunyikan scrollbar Chrome/Safari */
 }
 
-/* Ukuran & Tampilan Kartu */
+/* Ukuran & Tampilan Kartu Jasa */
 .service-card {
-    flex: 0 0 300px; /* Lebar tetap tiap kartu agar bisa berderet ke samping */
+    flex: 0 0 300px; /* Lebar tetap tiap kartu */
     background: var(--card-bg, #ffffff);
     border-radius: 12px;
     overflow: hidden;
@@ -236,23 +245,22 @@
 }
 
 .prev-btn {
-    left: -5px;
+    left: 15px; /* Disesuaikan agar berada di dalam tepi layar */
 }
 
 .next-btn {
-    right: -5px;
+    right: 15px; /* Disesuaikan agar berada di dalam tepi layar */
 }
 
 /* Responsif pada Layar HP */
 @media (max-width: 600px) {
     .service-card {
-        flex: 0 0 260px; /* Sedikit lebih kecil di HP */
+        flex: 0 0 260px;
     }
     .carousel-btn {
-        display: none; /* Di HP bisa langsung di-swipe jari */
+        display: none;
     }
 }
-
 .btn-load-more {
     background: linear-gradient(135deg, #4f46e5, #06b6d4);
     color: #fff;
