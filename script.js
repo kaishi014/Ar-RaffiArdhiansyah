@@ -166,18 +166,18 @@ const projectData = {
         tech: ['HTML5', 'CSS3', 'JavaScript', 'REST API', 'Fetch API'],
         link: 'bgRemove.html'
     },
-    'competitions': {
-        icon: 'fa-solid fa-trophy',
-        title: 'Juara & Prestasi Lomba',
-        category: 'Achievements',
-        description: 'Pengalaman bertanding dan memenangkan berbagai kompetisi baik bidang akademik, keorganisasian, maupun olahraga/seni.',
+    'morse': {
+        icon: 'fa-solid fa-lightbulb',
+        title: 'Web Senter Transceiver Morse',
+        category: 'Web Application',
+        description: 'Website interaktif yang memanfaatkan kilat kamera (flash/torch) pada smartphone untuk mengirimkan pesan rahasia atau sinyal darurat menggunakan pola kode Morse secara otomatis.',
         features: [
-            'Pengalaman bertanding di tingkat sekolah dan daerah',
-            'Penerapan disiplin latihan dari Pencak Silat & Marching Band',
-            'Kerja sama tim yang solid saat berorientasi kompetisi'
+            'Pengiriman sinyal Morse otomatis melalui senter HP',
+            'Pengaturan pola kode Morse dan durasi kedipan langsung di dalam kode',
+            'Desain antarmuka gelap (Dark Mode) yang rapi dan responsif'
         ],
-        tech: ['Mental Juara', 'Disiplin', 'Kerja Sama Tim'],
-        link: 'morse.html'
+        tech: ['HTML5', 'CSS3', 'JavaScript (MediaDevices API)'],
+        link: 'morse.html' 
     }
 };
 
