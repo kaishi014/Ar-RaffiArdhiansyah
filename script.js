@@ -177,7 +177,7 @@ const projectData = {
             'Kerja sama tim yang solid saat berorientasi kompetisi'
         ],
         tech: ['Mental Juara', 'Disiplin', 'Kerja Sama Tim'],
-        link: '#'
+        link: 'morse.html'
     }
 };
 
