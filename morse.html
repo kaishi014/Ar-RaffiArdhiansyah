@@ -26,16 +26,22 @@
             border-radius: 8px;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+            transition: background-color 0.3s;
         }
         button:disabled {
             background-color: #555;
             box-shadow: none;
             cursor: not-allowed;
         }
+        button.wa-btn {
+            background-color: #25D366;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+        }
         #status {
             margin-top: 20px;
             font-size: 18px;
             color: #bbb;
+            text-align: center;
         }
     </style>
 </head>
@@ -48,8 +54,12 @@
         const PESAN_MORSE = "... --- ..."; 
         const UNIT_TIME = 200; 
 
+        // Ganti nomor WhatsApp di bawah ini (gunakan format kode negara, misal: 6281234567890)
+        const NOMOR_WA = "6281234567890"; 
+        const TEKS_WA = encodeURIComponent("Halo, saya ingin menanyakan/mengulang pesan Morse yang dikirim tadi.");
+
         let track = null;
-        let jumlahSelesai = 0; // Penanda berapa kali proses sudah dijalankan
+        let sudahSelesai = false;
 
         async function inisialisasiSenter() {
             try {
@@ -84,10 +94,9 @@
             const btn = document.getElementById("startBtn");
             const statusDiv = document.getElementById("status");
 
-            // Cek jika sudah pernah dijalankan 2 kali (awal + 1x ulang)
-            if (jumlahSelesai >= 2) {
-                statusDiv.innerText = "Batas pengulangan sudah habis!";
-                btn.disabled = true;
+            // Jika sudah selesai 1x, arahkan langsung ke WhatsApp jika diklik lagi
+            if (sudahSelesai) {
+                window.location.href = `https://wa.me/${NOMOR_WA}?text=${TEKS_WA}`;
                 return;
             }
 
@@ -143,17 +152,13 @@
             }
 
             await setSenter(false);
-            jumlahSelesai++; // Menambah hitungan penggunaan
+            sudahSelesai = true; // Kunci agar tidak bisa diulang
 
-            if (jumlahSelesai === 1) {
-                statusDiv.innerText = "Pesan selesai! Anda memiliki 1 kali kesempatan mengulang.";
-                btn.innerText = "Ulangi Kirim Morse";
-                btn.disabled = false;
-            } else {
-                statusDiv.innerText = "Pesan selesai! Batas pengulangan telah habis.";
-                btn.innerText = "Selesai";
-                btn.disabled = true; // Tombol terkunci permanen
-            }
+            // Ubah tombol menjadi tombol WhatsApp
+            statusDiv.innerText = "Pesan selesai dikirim! Percobaan telah habis.";
+            btn.innerText = "Tanya / Mengulang via WhatsApp";
+            btn.classList.add("wa-btn");
+            btn.disabled = false;
         }
     </script>
 </body>
