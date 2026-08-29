@@ -34,33 +34,33 @@
         }
         #status {
             margin-top: 20px;
-            font-size: 16px;
+            font-size: 18px;
             color: #bbb;
         }
     </style>
 </head>
 <body>
 
-    <button id="startBtn" onclick="kirimMorse()">Kirim Pesan Morse</button>
+    <button id="startBtn" onclick="mulaiHitungMundur()">Mulai Kirim Morse</button>
     <div id="status">Klik tombol untuk memulai</div>
 
     <script>
-        // Seting pesan Morse di sini (Gunakan '.' untuk titik dan '-' untuk strip)
-  
-        const PESAN_MORSE = "-.- .- -. . ... ...- .- .-. .-"; 
-        
-        const UNIT_TIME = 200; // Durasi 1 titik (.) dalam milidetik (ms)
+        const PESAN_MORSE = "... --- ..."; 
+        const UNIT_TIME = 200; 
 
         let track = null;
+        let jumlahSelesai = 0; // Penanda berapa kali proses sudah dijalankan
 
         async function inisialisasiSenter() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'environment' } // Gunakan kamera belakang
+                    video: { facingMode: 'environment' }
                 });
                 track = stream.getVideoTracks()[0];
+                return true;
             } catch (err) {
                 alert("Gagal mengakses kamera/senter: " + err.message);
+                return false;
             }
         }
 
@@ -80,47 +80,80 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        async function kirimMorse() {
+        async function mulaiHitungMundur() {
             const btn = document.getElementById("startBtn");
             const statusDiv = document.getElementById("status");
-            
-            btn.disabled = true;
-            statusDiv.innerText = "Menginisialisasi senter...";
 
-            if (!track) {
-                await inisialisasiSenter();
-            }
-
-            if (!track) {
-                btn.disabled = false;
-                statusDiv.innerText = "Senter tidak tersedia.";
+            // Cek jika sudah pernah dijalankan 2 kali (awal + 1x ulang)
+            if (jumlahSelesai >= 2) {
+                statusDiv.innerText = "Batas pengulangan sudah habis!";
+                btn.disabled = true;
                 return;
             }
 
-            statusDiv.innerText = "Mengirim pesan: " ;
+            btn.disabled = true;
+            statusDiv.innerText = "Meminta izin senter...";
+
+            if (!track) {
+                const berhasil = await inisialisasiSenter();
+                if (!berhasil) {
+                    btn.disabled = false;
+                    statusDiv.innerText = "Senter tidak tersedia.";
+                    return;
+                }
+            }
+
+            // Hitung Mundur 3 Detik
+            let hitung = 3;
+            statusDiv.innerText = `Senter akan menyala dalam ${hitung}...`;
+
+            const timer = setInterval(async () => {
+                hitung--;
+                if (hitung > 0) {
+                    statusDiv.innerText = `Senter akan menyala dalam ${hitung}...`;
+                } else {
+                    clearInterval(timer);
+                    await kirimMorse();
+                }
+            }, 1000);
+        }
+
+        async function kirimMorse() {
+            const btn = document.getElementById("startBtn");
+            const statusDiv = document.getElementById("status");
+
+            statusDiv.innerText = "Mengirim pesan: " + PESAN_MORSE;
 
             for (let i = 0; i < PESAN_MORSE.length; i++) {
                 const char = PESAN_MORSE[i];
 
                 if (char === '.') {
                     await setSenter(true);
-                    await delay(UNIT_TIME);        // Senter menyala singkat
+                    await delay(UNIT_TIME);
                     await setSenter(false);
-                    await delay(UNIT_TIME);        // Jeda antar simbol
+                    await delay(UNIT_TIME);
                 } else if (char === '-') {
                     await setSenter(true);
-                    await delay(UNIT_TIME * 3);    // Senter menyala lama
+                    await delay(UNIT_TIME * 3);
                     await setSenter(false);
-                    await delay(UNIT_TIME);        // Jeda antar simbol
+                    await delay(UNIT_TIME);
                 } else if (char === ' ') {
-                    await delay(UNIT_TIME * 3);    // Jeda antar huruf/spasi
+                    await delay(UNIT_TIME * 3);
                 }
             }
 
-            // Matikan senter setelah selesai
             await setSenter(false);
-            statusDiv.innerText = "Pesan selesai dikirim!";
-            btn.disabled = false;
+            jumlahSelesai++; // Menambah hitungan penggunaan
+
+            if (jumlahSelesai === 1) {
+                statusDiv.innerText = "Pesan selesai! Anda memiliki 1 kali kesempatan mengulang.";
+                btn.innerText = "Ulangi Kirim Morse";
+                btn.disabled = false;
+            } else {
+                statusDiv.innerText = "Pesan selesai! Batas pengulangan telah habis.";
+                btn.innerText = "Selesai";
+                btn.disabled = true; // Tombol terkunci permanen
+            }
         }
     </script>
 </body>
