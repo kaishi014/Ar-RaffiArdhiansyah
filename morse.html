@@ -63,10 +63,8 @@
         const PESAN_MORSE = "-- . -. ..- .--- ..-  .-.. .- .--. .- -. --. .- -.  .- -.- .- .-. .-- .- -. --. .."; 
         
         // Kecepatan Tingkat Purwa (Pemula):
-        // Unit waktu diperlambat menjadi 300 ms (default normal biasanya 100 - 150 ms)
         const UNIT_TIME = 300; 
 
-        // Ganti nomor WhatsApp Anda (Gunakan kode negara, contoh: 6281234567890)
         const NOMOR_WA = "6283878085393"; 
         const TEKS_WA = encodeURIComponent("Halo kakk arraffi ganteng, saya ingin menanyakan/mengulang pesan Morse yang dikirim tadi.");
 
@@ -204,7 +202,7 @@
 
             // Ubah tampilan menjadi tombol WhatsApp
             statusDiv.innerText = "Sinyal selesai dikirim! Percobaan telah habis.";
-            btn.innerText = "Tanya / Mengulang via WhatsApp";
+            btn.innerText = "Mengulang via WhatsApp";
             btn.classList.add("wa-btn");
             btn.disabled = false;
         }
