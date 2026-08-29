@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senter Kode Morse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #ff9800;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+        }
+        button:disabled {
+            background-color: #555;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="startBtn" onclick="kirimMorse()">Kirim Pesan Morse</button>
+    <div id="status">Klik tombol untuk memulai</div>
+
+    <script>
+        // Seting pesan Morse di sini (Gunakan '.' untuk titik dan '-' untuk strip)
+  
+        const PESAN_MORSE = "-.- .- -. . ... ...- .- .-. .-"; 
+        
+        const UNIT_TIME = 200; // Durasi 1 titik (.) dalam milidetik (ms)
+
+        let track = null;
+
+        async function inisialisasiSenter() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'environment' } // Gunakan kamera belakang
+                });
+                track = stream.getVideoTracks()[0];
+            } catch (err) {
+                alert("Gagal mengakses kamera/senter: " + err.message);
+            }
+        }
+
+        async function setSenter(status) {
+            if (track) {
+                try {
+                    await track.applyConstraints({
+                        advanced: [{ torch: status }]
+                    });
+                } catch (e) {
+                    console.error("Fitur torch tidak didukung:", e);
+                }
+            }
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function kirimMorse() {
+            const btn = document.getElementById("startBtn");
+            const statusDiv = document.getElementById("status");
+            
+            btn.disabled = true;
+            statusDiv.innerText = "Menginisialisasi senter...";
+
+            if (!track) {
+                await inisialisasiSenter();
+            }
+
+            if (!track) {
+                btn.disabled = false;
+                statusDiv.innerText = "Senter tidak tersedia.";
+                return;
+            }
+
+            statusDiv.innerText = "Mengirim pesan: " ;
+
+            for (let i = 0; i < PESAN_MORSE.length; i++) {
+                const char = PESAN_MORSE[i];
+
+                if (char === '.') {
+                    await setSenter(true);
+                    await delay(UNIT_TIME);        // Senter menyala singkat
+                    await setSenter(false);
+                    await delay(UNIT_TIME);        // Jeda antar simbol
+                } else if (char === '-') {
+                    await setSenter(true);
+                    await delay(UNIT_TIME * 3);    // Senter menyala lama
+                    await setSenter(false);
+                    await delay(UNIT_TIME);        // Jeda antar simbol
+                } else if (char === ' ') {
+                    await delay(UNIT_TIME * 3);    // Jeda antar huruf/spasi
+                }
+            }
+
+            // Matikan senter setelah selesai
+            await setSenter(false);
+            statusDiv.innerText = "Pesan selesai dikirim!";
+            btn.disabled = false;
+        }
+    </script>
+</body>
+</html>
