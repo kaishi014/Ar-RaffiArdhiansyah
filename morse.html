@@ -57,18 +57,18 @@
     <button id="startBtn" onclick="mulaiProses()">Mulai Kirim Morse</button>
     
     <!-- Tombol WhatsApp (Awalnya tersembunyi) -->
-    <button id="waBtn" onclick="bukaWhatsApp()">Tanya / Mengulang via WhatsApp</button>
+    <button id="waBtn" onclick="bukaWhatsApp()">Mengulang via WhatsApp</button>
 
     <div id="status">Klik tombol untuk memulai</div>
     <div id="warningNote" class="warning-note">Pastikan volume media HP Anda dalam keadaan aktif/maksimal.</div>
 
     <script>
-        const PESAN_MORSE = "-- . _. ..- .--- ..-  .-.. .- .--. .- -. --. .- -.  ... .- -- -... .. .-.. --- - ---"; 
+        const PESAN_MORSE = "-- . -. ..- .--- ..-  .-.. .- .--. .- -. --. .- -.  ... .- -- -... .. .-.. --- - ---"; 
         const UNIT_TIME = 300; // Kecepatan tingkat Purwa (Pemula)
 
         // Ganti nomor WhatsApp Anda (Format internasional: 628xxxxxxx)
         const NOMOR_WA = "6283878085393"; 
-        const TEKS_WA = encodeURIComponent("Halo kak arraffi ganteng, saya ingin menanyakan/mengulang pesan Morse yang dikirim tadi.");
+        const TEKS_WA = encodeURIComponent("Halo kakK arraffi ganteng, saya ingin menanyakan/mengulang pesan Morse yang dikirim tadi.");
 
         let track = null;
         let audioCtx = null;
