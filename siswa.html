@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Productivity Hub</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen">
+
+  <!-- ================= LOGGING / AUTH SECTION ================= -->
+  <div id="authSection" class="flex justify-center items-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+      <div class="text-center mb-6">
+        <i class="fa-solid fa-graduation-cap text-4xl text-indigo-600 mb-2"></i>
+        <h1 class="text-2xl font-bold text-slate-800">Siswa Hub</h1>
+        <p class="text-sm text-slate-500">Masuk untuk mengelola produktivitasmu</p>
+      </div>
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Nama Siswa</label>
+          <input type="text" id="usernameInput" required placeholder="Masukkan nama kamu..." class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-semibold transition">Masuk / Daftar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MAIN DASHBOARD SECTION ================= -->
+  <div id="dashboardSection" class="hidden min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-graduation-cap text-2xl text-indigo-600"></i>
+          <span class="font-bold text-lg">Siswa Hub</span>
+        </div>
+        <div class="flex items-center space-x-3">
+          <span class="text-sm font-medium text-slate-600">
+              Halo, <b id="displayUsername" class="text-indigo-600"></b>!
+              </span>
+          <button onclick="confirmLogout()" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg border border-red-200 font-semibold transition">Keluar</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-3 gap-6 flex-grow w-full">
+      
+      <!-- KOLOM 1: Jadwal & Catatan -->
+      <div class="space-y-6">
+        <!-- Jadwal Pelajaran -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="font-bold text-indigo-900 flex items-center gap-2"><i class="fa-regular fa-calendar-check"></i> Jadwal Pelajaran</h2>
+          </div>
+          <form onsubmit="addSchedule(event)" class="space-y-2 mb-4">
+            <select id="scheduleDay" class="w-full text-xs p-2 border rounded-lg outline-none">
+              <option value="Senin">Senin</option>
+              <option value="Selasa">Selasa</option>
+              <option value="Rabu">Rabu</option>
+              <option value="Kamis">Kamis</option>
+              <option value="Jumat">Jumat</option>
+              <option value="Sabtu">Sabtu</option>
+              <option value="Minggu">Minggu</option>
+            </select>
+            <input type="text" id="scheduleSubject" placeholder="Mata Pelajaran" required class="w-full text-xs p-2 border rounded-lg outline-none">
+            <input type="time" id="scheduleTime" required class="w-full text-xs p-2 border rounded-lg outline-none">
+            
+            <!-- Opsi Pengingat untuk Jadwal -->
+            <div class="flex items-center gap-2 pt-1">
+              <input type="checkbox" id="scheduleReminder" class="rounded text-indigo-600 cursor-pointer">
+              <label for="scheduleReminder" class="text-xs text-slate-600 cursor-pointer select-none">Ingatkan saat jam kelas tiba</label>
+            </div>
+
+            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 mt-2">+ Tambah Jadwal</button>
+          </form>
+          <div id="scheduleList" class="space-y-2 max-h-48 overflow-y-auto text-sm"></div>
+        </div>
+
+        <!-- Catatan Cepat -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-regular fa-sticky-note"></i> Catatan Cepat</h2>
+          <form onsubmit="addNote(event)" class="space-y-2 mb-4">
+            <input type="text" id="noteTitle" placeholder="Judul Pengingat" required class="w-full text-xs p-2 border rounded-lg outline-none">
+            <textarea id="noteContent" placeholder="Isi catatan..." required class="w-full text-xs p-2 border rounded-lg outline-none h-16"></textarea>
+            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700">+ Simpan Catatan</button>
+          </form>
+          <div id="notesList" class="space-y-2 max-h-48 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <!-- KOLOM 2: Manajemen PR & Kalender -->
+      <div class="space-y-6">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-book-bookmark"></i> Daftar PR & Tugas</h2>
+          <form onsubmit="addHomework(event)" class="space-y-2 mb-4">
+            <input type="text" id="hwSubject" placeholder="Mata Pelajaran / Nama PR" required class="w-full text-xs p-2 border rounded-lg outline-none">
+            <label class="block text-xs text-slate-500 font-medium">Tanggal Pengumpulan (Deadline):</label>
+            <input type="date" id="hwDeadline" required class="w-full text-xs p-2 border rounded-lg outline-none">
+            
+            <label class="block text-xs text-slate-500 font-medium">Foto Soal / Tugas (Opsional):</label>
+            <input type="file" id="hwImage" accept="image/*" capture="environment" class="w-full text-xs p-1 border rounded-lg outline-none bg-slate-50">
+            
+            <!-- Opsi Pengingat untuk PR -->
+            <div class="flex items-center gap-2 pt-1 bg-indigo-50/50 p-2 rounded-lg border border-indigo-100">
+              <input type="checkbox" id="hwReminder" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
+              <label for="hwReminder" class="text-xs text-indigo-900 font-medium cursor-pointer select-none">
+                <i class="fa-solid fa-bell text-indigo-500 mr-1"></i> Aktifkan Pengingat Notifikasi
+              </label>
+            </div>
+
+            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 mt-2">+ Tambah PR</button>
+          </form>
+          <div id="homeworkList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <!-- KOLOM 3: To-Do List Harian -->
+      <div class="space-y-6">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check"></i> To-Do List Harian</h2>
+          <form onsubmit="addTodo(event)" class="space-y-2 mb-4">
+            <div class="flex gap-2">
+              <input type="text" id="todoInput" placeholder="Kegiatan hari ini..." required class="flex-grow text-xs p-2 border rounded-lg outline-none">
+              <button type="submit" class="text-xs bg-indigo-600 text-white px-3 py-2 rounded-lg font-semibold hover:bg-indigo-700">+</button>
+            </div>
+          </form>
+          <div id="todoList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ================= MODAL KONFIRMASI ================= -->
+  <div id="confirmModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl text-center space-y-4">
+      <div id="modalIcon" class="w-12 h-12 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <div>
+        <h3 id="modalTitle" class="font-bold text-slate-800 text-base mb-1">Konfirmasi Action</h3>
+        <p id="modalMessage" class="text-xs text-slate-500">Apakah kamu yakin?</p>
+      </div>
+      <div class="flex gap-3 justify-center pt-2">
+        <button onclick="closeConfirmModal()" class="w-full py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
+        <button id="confirmActionBtn" class="w-full py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl transition">Ya, Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL LIHAT GAMBAR ================= -->
+  <div id="imageModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex justify-center items-center p-4" onclick="closeImageModal()">
+    <div class="relative max-w-2xl w-full max-h-[90vh] flex justify-center items-center">
+      <img id="fullImage" src="" alt="Foto Tugas" class="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl">
+      <button onclick="closeImageModal()" class="absolute -top-4 -right-4 bg-white text-slate-800 rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-lg">✕</button>
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    let currentUser = null;
+    let db = { schedules: [], homeworks: [], todos: [], notes: [] };
+    let confirmCallback = null;
+    let notifiedItems = new Set();
+
+    function getCurrentFormattedDateTime() {
+      const now = new Date();
+      const optionsDate = { day: '2-digit', month: 'short', year: 'numeric' };
+      const optionsTime = { hour: '2-digit', minute: '2-digit' };
+      return `${now.toLocaleDateString('id-ID', optionsDate)} ${now.toLocaleTimeString('id-ID', optionsTime)}`;
+    }
+
+    // Initialize App
+    window.onload = () => {
+      const savedUser = localStorage.getItem('siswa_hub_user');
+      if (savedUser) {
+        currentUser = savedUser;
+        loadUserData();
+        showDashboard();
+      }
+    };
+
+    // --- HELPER MINTA IZIN NOTIFIKASI HANYA SAAT DIBUTUHKAN ---
+    async function ensureNotificationPermission() {
+      if (!("Notification" in window)) return false;
+      if (Notification.permission === "granted") return true;
+      if (Notification.permission !== "denied") {
+        const permission = await Notification.requestPermission();
+        return permission === "granted";
+      }
+      return false;
+    }
+
+    function sendNotification(title, body) {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, {
+          body: body,
+          icon: 'https://cdn-icons-png.flaticon.com/512/2991/2991106.png'
+        });
+      }
+    }
+
+    // Pengecek otomatis setiap 30 detik
+    setInterval(() => {
+      if (!currentUser) return;
+
+      const now = new Date();
+      const todayStr = now.toISOString().split('T')[0];
+      const currentTimeStr = now.toTimeString().substring(0, 5);
+      const daysInIndonesian = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const currentDay = daysInIndonesian[now.getDay()];
+
+      // 1. Notifikasi PR (Hanya jika Opsi Pengingat Aktif)
+      db.homeworks.forEach(hw => {
+        if (hw.reminder && !hw.completed && hw.deadline === todayStr) {
+          const notifKey = `hw_${hw.id}_${todayStr}`;
+          if (!notifiedItems.has(notifKey)) {
+            sendNotification(`⚠️ PR Hari Ini: ${hw.subject}`, `Jangan lupa mengumpulkan PR ${hw.subject} hari ini!`);
+            notifiedItems.add(notifKey);
+          }
+        }
+      });
+
+      // 2. Notifikasi Jadwal (Hanya jika Opsi Pengingat Aktif)
+      db.schedules.forEach(s => {
+        if (s.reminder && s.day === currentDay && s.time === currentTimeStr) {
+          const notifKey = `sch_${s.id}_${todayStr}_${currentTimeStr}`;
+          if (!notifiedItems.has(notifKey)) {
+            sendNotification(`📚 Jam Pelajaran Now: ${s.subject}`, `Waktunya kelas ${s.subject} (${s.time})`);
+            notifiedItems.add(notifKey);
+          }
+        }
+      });
+
+    }, 30000);
+
+    // --- AUTH & USER DATA ---
+    function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('usernameInput').value.trim();
+      if (username) {
+        currentUser = username;
+        localStorage.setItem('siswa_hub_user', username);
+        loadUserData();
+        showDashboard();
+      }
+    }
+
+    function confirmLogout() {
+      openConfirmModal(
+        'Konfirmasi Keluar',
+        'Apakah kamu yakin ingin keluar dari akun ini?',
+        'Keluar',
+        'fa-right-from-bracket',
+        () => {
+          localStorage.removeItem('siswa_hub_user');
+          currentUser = null;
+          document.getElementById('authSection').classList.remove('hidden');
+          document.getElementById('dashboardSection').classList.add('hidden');
+        }
+      );
+    }
+
+    function showDashboard() {
+      document.getElementById('authSection').classList.add('hidden');
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      document.getElementById('displayUsername').innerText = currentUser;
+      renderAll();
+    }
+
+    function loadUserData() {
+      const data = localStorage.getItem(`siswa_hub_data_${currentUser}`);
+      db = data ? JSON.parse(data) : { schedules: [], homeworks: [], todos: [], notes: [] };
+    }
+
+    function saveData() {
+      localStorage.setItem(`siswa_hub_data_${currentUser}`, JSON.stringify(db));
+      renderAll();
+    }
+
+    // --- MODAL FUNCTIONS ---
+    function openConfirmModal(title, message, buttonText, iconClass, onConfirm) {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalMessage').innerText = message;
+      document.getElementById('confirmActionBtn').innerText = buttonText;
+      document.getElementById('modalIcon').innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+      confirmCallback = onConfirm;
+      document.getElementById('confirmModal').classList.remove('hidden');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirmModal').classList.add('hidden');
+      confirmCallback = null;
+    }
+
+    document.getElementById('confirmActionBtn').onclick = () => {
+      if (confirmCallback) confirmCallback();
+      closeConfirmModal();
+    };
+
+    function showFullImage(imageSrc) {
+      document.getElementById('fullImage').src = imageSrc;
+      document.getElementById('imageModal').classList.remove('hidden');
+    }
+
+    function closeImageModal() {
+      document.getElementById('imageModal').classList.add('hidden');
+    }
+
+    // --- SCHEDULE FUNCTIONS ---
+    async function addSchedule(e) {
+      e.preventDefault();
+      const enableReminder = document.getElementById('scheduleReminder').checked;
+      
+      if (enableReminder) {
+        await ensureNotificationPermission();
+      }
+
+      db.schedules.push({
+        id: Date.now(),
+        day: document.getElementById('scheduleDay').value,
+        subject: document.getElementById('scheduleSubject').value,
+        time: document.getElementById('scheduleTime').value,
+        reminder: enableReminder,
+        createdAt: getCurrentFormattedDateTime()
+      });
+      document.getElementById('scheduleSubject').value = '';
+      document.getElementById('scheduleTime').value = '';
+      document.getElementById('scheduleReminder').checked = false;
+      saveData();
+    }
+
+    function confirmDeleteSchedule(id) {
+      openConfirmModal('Hapus Jadwal', 'Apakah kamu yakin ingin menghapus jadwal pelajaran ini?', 'Hapus', 'fa-trash', () => {
+        db.schedules = db.schedules.filter(item => item.id !== id);
+        saveData();
+      });
+    }
+
+    // --- HOMEWORK FUNCTIONS ---
+    async function addHomework(e) {
+      e.preventDefault();
+      const subject = document.getElementById('hwSubject').value;
+      const deadline = document.getElementById('hwDeadline').value;
+      const enableReminder = document.getElementById('hwReminder').checked;
+      const fileInput = document.getElementById('hwImage');
+      const file = fileInput.files[0];
+
+      if (enableReminder) {
+        await ensureNotificationPermission();
+      }
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          saveHomeworkData(subject, deadline, reader.result, enableReminder);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        saveHomeworkData(subject, deadline, null, enableReminder);
+      }
+    }
+
+    function saveHomeworkData(subject, deadline, imageBase64, reminder) {
+      db.homeworks.push({
+        id: Date.now(),
+        subject: subject,
+        deadline: deadline,
+        image: imageBase64,
+        reminder: reminder,
+        completed: false,
+        createdAt: getCurrentFormattedDateTime(),
+        completedAt: null
+      });
+      document.getElementById('hwSubject').value = '';
+      document.getElementById('hwDeadline').value = '';
+      document.getElementById('hwImage').value = '';
+      document.getElementById('hwReminder').checked = false;
+      saveData();
+    }
+
+    async function toggleHomeworkReminder(id) {
+      const item = db.homeworks.find(h => h.id === id);
+      if (item) {
+        item.reminder = !item.reminder;
+        if (item.reminder) {
+          await ensureNotificationPermission();
+        }
+        saveData();
+      }
+    }
+
+    function toggleHomework(id) {
+      const item = db.homeworks.find(h => h.id === id);
+      if (item) {
+        item.completed = !item.completed;
+        item.completedAt = item.completed ? getCurrentFormattedDateTime() : null;
+      }
+      saveData();
+    }
+
+    function confirmDeleteHomework(id) {
+      openConfirmModal('Hapus PR', 'Apakah kamu yakin ingin menghapus PR ini?', 'Hapus', 'fa-trash', () => {
+        db.homeworks = db.homeworks.filter(h => h.id !== id);
+        saveData();
+      });
+    }
+
+    function createGoogleCalendarLink(title, dateStr) {
+      const date = new Date(dateStr);
+      const isoDate = date.toISOString().replace(/-|:|\.\d\d\d/g, "").substring(0, 8);
+      const url = `https://calendar.google.com/render?action=TEMPLATE&text=${encodeURIComponent('PR: ' + title)}&dates=${isoDate}/${isoDate}&details=${encodeURIComponent('Pengingat pengumpulan PR untuk mata pelajaran ' + title)}`;
+      window.open(url, '_blank');
+    }
+
+    // --- TODO FUNCTIONS ---
+    function addTodo(e) {
+      e.preventDefault();
+      const text = document.getElementById('todoInput').value;
+      db.todos.push({
+        id: Date.now(),
+        text: text,
+        completed: false,
+        createdAt: getCurrentFormattedDateTime(),
+        completedAt: null
+      });
+      document.getElementById('todoInput').value = '';
+      saveData();
+    }
+
+    function toggleTodo(id) {
+      const item = db.todos.find(t => t.id === id);
+      if (item) {
+        item.completed = !item.completed;
+        item.completedAt = item.completed ? getCurrentFormattedDateTime() : null;
+      }
+      saveData();
+    }
+
+    function confirmDeleteTodo(id) {
+      openConfirmModal('Hapus Tugas', 'Apakah kamu yakin ingin menghapus tugas kegiatan ini?', 'Hapus', 'fa-trash', () => {
+        db.todos = db.todos.filter(t => t.id !== id);
+        saveData();
+      });
+    }
+
+    // --- NOTES FUNCTIONS ---
+    function addNote(e) {
+      e.preventDefault();
+      db.notes.push({
+        id: Date.now(),
+        title: document.getElementById('noteTitle').value,
+        content: document.getElementById('noteContent').value,
+        createdAt: getCurrentFormattedDateTime()
+      });
+      document.getElementById('noteTitle').value = '';
+      document.getElementById('noteContent').value = '';
+      saveData();
+    }
+
+    function confirmDeleteNote(id) {
+      openConfirmModal('Hapus Catatan', 'Apakah kamu yakin ingin menghapus catatan ini?', 'Hapus', 'fa-trash', () => {
+        db.notes = db.notes.filter(n => n.id !== id);
+        saveData();
+      });
+    }
+
+    // --- RENDER ALL UI ---
+    function renderAll() {
+      // Render Schedule
+      const schList = document.getElementById('scheduleList');
+      schList.innerHTML = db.schedules.length === 0 ? '<p class="text-xs text-slate-400">Belum ada jadwal.</p>' :
+        db.schedules.map(s => `
+          <div class="flex justify-between items-start p-2.5 bg-slate-50 rounded-lg border text-xs">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-indigo-600">[${s.day}]</span>
+                <span class="font-semibold">${s.subject}</span>
+                ${s.reminder ? '<i class="fa-solid fa-bell text-amber-500 text-[10px]" title="Pengingat aktif"></i>' : ''}
+              </div>
+              <div class="text-[10px] text-slate-500 mt-0.5"><i class="fa-regular fa-clock"></i> Jam: ${s.time}</div>
+              <div class="text-[9px] text-slate-400 mt-0.5"><i class="fa-regular fa-plus"></i> Dibuat: ${s.createdAt || '-'}</div>
+            </div>
+            <button onclick="confirmDeleteSchedule(${s.id})" class="text-red-400 hover:text-red-600 ml-2"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `).join('');
+
+      // Render Homework
+      const hwList = document.getElementById('homeworkList');
+      hwList.innerHTML = db.homeworks.length === 0 ? '<p class="text-xs text-slate-400">Tidak ada PR aktif.</p>' :
+        db.homeworks.map(h => `
+          <div class="p-3 bg-slate-50 rounded-xl border text-xs flex flex-col gap-1.5 ${h.completed ? 'opacity-60 bg-slate-100' : ''}">
+            <div class="flex justify-between items-start">
+              <span class="font-semibold text-slate-700 ${h.completed ? 'line-through' : ''}">${h.subject}</span>
+              <button onclick="confirmDeleteHomework(${h.id})" class="text-red-400 hover:text-red-600 ml-2"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            
+            <div class="text-[11px] text-slate-500 flex items-center gap-2">
+              <span><i class="fa-regular fa-calendar-check"></i> Tenggat: <b>${h.deadline}</b></span>
+              <button onclick="toggleHomeworkReminder(${h.id})" class="text-[10px] ${h.reminder ? 'text-amber-600 bg-amber-50 border-amber-200' : 'text-slate-400 bg-slate-100 border-slate-200'} border px-1.5 py-0.5 rounded flex items-center gap-1">
+                <i class="fa-solid fa-bell"></i> ${h.reminder ? 'Notif On' : 'Notif Off'}
+              </button>
+            </div>
+            <div class="text-[9px] text-slate-400"><i class="fa-regular fa-calendar-plus"></i> Ditambahkan: ${h.createdAt || '-'}</div>
+            ${h.completed && h.completedAt ? `<div class="text-[9px] text-emerald-600 font-medium"><i class="fa-solid fa-circle-check"></i> Selesai pada: ${h.completedAt}</div>` : ''}
+
+            ${h.image ? `
+              <div class="mt-1">
+                <img src="${h.image}" onclick="showFullImage('${h.image}')" class="w-full h-24 object-cover rounded-lg cursor-pointer hover:opacity-90 border" title="Klik untuk memperbesar">
+              </div>
+            ` : ''}
+
+            <div class="flex gap-2 mt-1">
+              <button onclick="toggleHomework(${h.id})" class="text-[10px] px-2 py-1 rounded ${h.completed ? 'bg-slate-200 text-slate-700' : 'bg-emerald-100 text-emerald-700 font-semibold'}">
+                ${h.completed ? 'Batal Selesai' : 'Tandai Selesai'}
+              </button>
+              <button onclick="createGoogleCalendarLink('${h.subject}', '${h.deadline}')" class="text-[10px] bg-blue-50 text-blue-600 border border-blue-200 px-2 py-1 rounded font-semibold hover:bg-blue-100">
+                <i class="fa-solid fa-calendar-plus"></i> Google Calendar
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+      // Render Todos
+      const todoList = document.getElementById('todoList');
+      todoList.innerHTML = db.todos.length === 0 ? '<p class="text-xs text-slate-400">Belum ada kegiatan.</p>' :
+        db.todos.map(t => `
+          <div class="flex justify-between items-start p-2.5 bg-slate-50 rounded-lg border text-xs">
+            <div class="flex items-start gap-2 cursor-pointer flex-grow" onclick="toggleTodo(${t.id})">
+              <input type="checkbox" ${t.completed ? 'checked' : ''} class="mt-0.5 pointer-events-none">
+              <div>
+                <span class="${t.completed ? 'line-through text-slate-400' : 'text-slate-700 font-medium'}">${t.text}</span>
+                <div class="text-[9px] text-slate-400 mt-0.5"><i class="fa-regular fa-clock"></i> Dibuat: ${t.createdAt || '-'}</div>
+                ${t.completed && t.completedAt ? `<div class="text-[9px] text-emerald-600 font-medium"><i class="fa-solid fa-check"></i> Selesai: ${t.completedAt}</div>` : ''}
+              </div>
+            </div>
+            <button onclick="confirmDeleteTodo(${t.id})" class="text-red-400 hover:text-red-600 ml-2"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `).join('');
+
+      // Render Notes
+      const notesList = document.getElementById('notesList');
+      notesList.innerHTML = db.notes.length === 0 ? '<p class="text-xs text-slate-400">Belum ada catatan.</p>' :
+        db.notes.map(n => `
+          <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-xs space-y-1">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-amber-900">${n.title}</span>
+              <button onclick="confirmDeleteNote(${n.id})" class="text-red-400 hover:text-red-600 ml-2"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <p class="text-amber-800 text-[11px] whitespace-pre-line">${n.content}</p>
+            <div class="text-[9px] text-amber-600/70 pt-1"><i class="fa-regular fa-clock"></i> Disimpan: ${n.createdAt || '-'}</div>
+          </div>
+        `).join('');
+    }
+  </script>
+</body>
+</html>
