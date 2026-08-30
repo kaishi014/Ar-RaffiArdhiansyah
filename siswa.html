@@ -110,7 +110,7 @@
             <div class="flex items-center gap-2 pt-1 bg-indigo-50/50 p-2 rounded-lg border border-indigo-100">
               <input type="checkbox" id="hwReminder" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
               <label for="hwReminder" class="text-xs text-indigo-900 font-medium cursor-pointer select-none">
-                <i class="fa-solid fa-bell text-indigo-500 mr-1"></i> Aktifkan Pengingat Notifikasi
+                <i class="fa-solid fa-bell text-indigo-500 mr-1"></i> Aktifkan Pengingat Notifikasi (H-1 & Hari H)
               </label>
             </div>
 
@@ -221,18 +221,43 @@
       if (!currentUser) return;
 
       const now = new Date();
+      // Tanggal Hari Ini (format YYYY-MM-DD)
       const todayStr = now.toISOString().split('T')[0];
+
+      // Tanggal Besok / H-1 Deadline (format YYYY-MM-DD)
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
       const currentTimeStr = now.toTimeString().substring(0, 5);
       const daysInIndonesian = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
       const currentDay = daysInIndonesian[now.getDay()];
 
       // 1. Notifikasi PR (Hanya jika Opsi Pengingat Aktif)
       db.homeworks.forEach(hw => {
-        if (hw.reminder && !hw.completed && hw.deadline === todayStr) {
-          const notifKey = `hw_${hw.id}_${todayStr}`;
-          if (!notifiedItems.has(notifKey)) {
-            sendNotification(`⚠️ PR Hari Ini: ${hw.subject}`, `Jangan lupa mengumpulkan PR ${hw.subject} hari ini!`);
-            notifiedItems.add(notifKey);
+        if (hw.reminder && !hw.completed) {
+          // A. Notifikasi H-1 (Pengingat Sehari Sebelum Tenggat)
+          if (hw.deadline === tomorrowStr) {
+            const notifKeyH1 = `hw_h1_${hw.id}_${todayStr}`;
+            if (!notifiedItems.has(notifKeyH1)) {
+              sendNotification(
+                `⏳ Pengingat H-1: ${hw.subject}`, 
+                `Besok adalah tenggat pengumpulan PR ${hw.subject}. Pastikan tugasmu sudah siap!`
+              );
+              notifiedItems.add(notifKeyH1);
+            }
+          }
+
+          // B. Notifikasi Hari H (Tanggal Tenggat)
+          if (hw.deadline === todayStr) {
+            const notifKeyHariH = `hw_today_${hw.id}_${todayStr}`;
+            if (!notifiedItems.has(notifKeyHariH)) {
+              sendNotification(
+                `🚨 PR Hari Ini: ${hw.subject}`, 
+                `Hari ini adalah deadline pengumpulan PR ${hw.subject}! Jangan sampai terlambat.`
+              );
+              notifiedItems.add(notifKeyHariH);
+            }
           }
         }
       });
