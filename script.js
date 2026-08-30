@@ -71,6 +71,22 @@ const projectData = {
         tech: ['HTML5', 'CSS3', 'JavaScript'],
         link: 'jepang.html'
     },
+    'siswa-hub': {
+    icon: 'fa-solid fa-graduation-cap',
+    title: 'Student Productivity Hub (Siswa Hub)',
+    category: 'Web App / Productivity & Management',
+    description: 'Aplikasi web manajemen produktivitas siswa untuk mengelola jadwal pelajaran, daftar PR & tugas lengkap dengan pengingat notifikasi otomatis, catatan cepat, dan To-Do List harian.',
+    features: [
+        'Sistem Login / Autentikasi lokal per nama siswa dengan LocalStorage',
+        'Manajemen Jadwal Pelajaran & Catatan Cepat dilengkapi stempel waktu',
+        'Manajemen PR & Tugas dengan upload foto lampiran soal (opsi klik perbesar)',
+        'Sistem Notifikasi Pengingat opsional (dapat diaktifkan/dimatikan per tugas & jadwal)',
+        'Integrasi tombol "Tambah ke Google Calendar" untuk pengingat tenggat PR',
+        'To-Do List Harian interaktif dan modal konfirmasi hapus data'
+    ],
+    tech: ['HTML5', 'Tailwind CSS', 'JavaScript (ES6+)', 'Web Notifications API', 'LocalStorage'],
+    link: 'siswa.html'
+},
     'presentation-osis': {
         icon: 'fa-solid fa-brain',
         title: 'Cara Menggunakan AI yang Sesungguhnya',
