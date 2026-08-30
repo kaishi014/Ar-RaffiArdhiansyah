@@ -23,21 +23,19 @@
             font-size: 18px;
             font-weight: bold;
             color: #fff;
-            background-color: #ff9800;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
             transition: background-color 0.3s;
         }
-        button:disabled {
-            background-color: #555;
-            box-shadow: none;
-            cursor: not-allowed;
+        #startBtn {
+            background-color: #ff9800;
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
         }
-        button.wa-btn {
+        #waBtn {
             background-color: #25D366;
             box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+            display: none; /* Sembunyi secara default */
         }
         #status {
             margin-top: 20px;
@@ -55,21 +53,24 @@
 </head>
 <body>
 
-    <button id="startBtn" onclick="mulaiHitungMundur()">Mulai Kirim Morse</button>
+    <!-- Tombol Utama Mulai -->
+    <button id="startBtn" onclick="mulaiProses()">Mulai Kirim Morse</button>
+    
+    <!-- Tombol WhatsApp (Awalnya tersembunyi) -->
+    <button id="waBtn" onclick="bukaWhatsApp()">Tanya / Mengulang via WhatsApp</button>
+
     <div id="status">Klik tombol untuk memulai</div>
-    <div class="warning-note"> Pastikan volume media HP Anda dalam keadaan aktif/maksimal.</div>
+    <div id="warningNote" class="warning-note">Pastikan volume media HP Anda dalam keadaan aktif/maksimal.</div>
 
     <script>
-        const PESAN_MORSE = "-- . -. ..- .--- ..-  .-.. .- .--. .- -. --. .- -.  .- -.- .- .-. .-- .- -. --. .."; 
-        
-        // Kecepatan Tingkat Purwa (Pemula):
-        const UNIT_TIME = 300; 
+        const PESAN_MORSE = "-- . _. ..- .--- ..-  .-.. .- .--. .- -. --. .- -.  ... .- -- -... .. .-.. --- - ---"; 
+        const UNIT_TIME = 300; // Kecepatan tingkat Purwa (Pemula)
 
+        // Ganti nomor WhatsApp Anda (Format internasional: 628xxxxxxx)
         const NOMOR_WA = "6283878085393"; 
-        const TEKS_WA = encodeURIComponent("Halo kakk arraffi ganteng, saya ingin menanyakan/mengulang pesan Morse yang dikirim tadi.");
+        const TEKS_WA = encodeURIComponent("Halo kak arraffi ganteng, saya ingin menanyakan/mengulang pesan Morse yang dikirim tadi.");
 
         let track = null;
-        let sudahSelesai = false;
         let audioCtx = null;
 
         async function inisialisasiSenter() {
@@ -85,7 +86,6 @@
             }
         }
 
-        // Fungsi Audio Synthesizer (Sinyal Suara Bip)
         function playTone(duration) {
             return new Promise(resolve => {
                 if (!audioCtx) {
@@ -96,9 +96,7 @@
                 const gain = audioCtx.createGain();
 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, audioCtx.currentTime); // Frekuensi nada 600Hz (nada standar morse)
-                
-                // Set volume internal Web Audio ke 100% (Maksimal)
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
                 gain.gain.setValueAtTime(1.0, audioCtx.currentTime); 
 
                 osc.connect(gain);
@@ -128,20 +126,16 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        async function mulaiHitungMundur() {
-            const btn = document.getElementById("startBtn");
+        async function mulaiProses() {
+            const startBtn = document.getElementById("startBtn");
             const statusDiv = document.getElementById("status");
 
-            // Jika sudah pernah diklik 1x, arahkan langsung ke WhatsApp
-            if (sudahSelesai) {
-                window.location.href = `https://wa.me/${NOMOR_WA}?text=${TEKS_WA}`;
-                return;
-            }
-
-            btn.disabled = true;
+            // 1. Langsung hilangkan tombol "Mulai Kirim Morse"
+            startBtn.style.display = "none";
+            document.getElementById("warningNote").style.display = "none";
+            
             statusDiv.innerText = "Meminta izin senter & audio...";
 
-            // Mengaktifkan AudioContext saat ada gesture/klik pengguna
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
@@ -149,13 +143,12 @@
             if (!track) {
                 const berhasil = await inisialisasiSenter();
                 if (!berhasil) {
-                    btn.disabled = false;
                     statusDiv.innerText = "Senter tidak tersedia.";
                     return;
                 }
             }
 
-            // Hitung Mundur 3 Detik
+            // 2. Hitung Mundur 3 Detik
             let hitung = 3;
             statusDiv.innerText = `Senter & Suara akan menyala dalam ${hitung}...`;
 
@@ -171,40 +164,38 @@
         }
 
         async function kirimMorse() {
-            const btn = document.getElementById("startBtn");
             const statusDiv = document.getElementById("status");
+            const waBtn = document.getElementById("waBtn");
 
-            statusDiv.innerText = "Mengirim sinyal: " ;
+            statusDiv.innerText = "Mengirim sinyal: " + PESAN_MORSE;
 
             for (let i = 0; i < PESAN_MORSE.length; i++) {
                 const char = PESAN_MORSE[i];
 
                 if (char === '.') {
-                    // Titik (Dot): Senter dan Suara aktif bersamaan selama 1 unit
                     setSenter(true);
                     await playTone(UNIT_TIME);
                     setSenter(false);
-                    await delay(UNIT_TIME); // Jeda antar simbol
+                    await delay(UNIT_TIME);
                 } else if (char === '-') {
-                    // Strip (Dash): Senter dan Suara aktif bersamaan selama 3 unit
                     setSenter(true);
                     await playTone(UNIT_TIME * 3);
                     setSenter(false);
-                    await delay(UNIT_TIME); // Jeda antar simbol
+                    await delay(UNIT_TIME);
                 } else if (char === ' ') {
-                    // Spasi antar kata/huruf
                     await delay(UNIT_TIME * 3);
                 }
             }
 
             await setSenter(false);
-            sudahSelesai = true; // Kunci akses percobaan
 
-            // Ubah tampilan menjadi tombol WhatsApp
+            // 3. Sinyal selesai -> Munculkan pesan selesai & Tombol WhatsApp
             statusDiv.innerText = "Sinyal selesai dikirim! Percobaan telah habis.";
-            btn.innerText = "Mengulang via WhatsApp";
-            btn.classList.add("wa-btn");
-            btn.disabled = false;
+            waBtn.style.display = "inline-block";
+        }
+
+        function bukaWhatsApp() {
+            window.location.href = `https://wa.me/${NOMOR_WA}?text=${TEKS_WA}`;
         }
     </script>
 </body>
