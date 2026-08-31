@@ -1,147 +1,996 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Productivity Hub (PWA)</title>
-  
-  <!-- Manifest PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#4f46e5">
-
-  <!-- Tailwind CSS & Icons -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Siswa Hub | Student Productivity</title>
+  <meta name="description" content="Dashboard produktivitas siswa untuk jadwal, tugas, catatan, dan pengingat sekolah." />
+  <meta name="theme-color" content="#312e81" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #f4f7ff;
+      --bg-secondary: #eef2ff;
+      --panel: rgba(255,255,255,0.9);
+      --panel-strong: #ffffff;
+      --border: rgba(148, 163, 184, 0.18);
+      --indigo-700: #4338ca;
+      --indigo-900: #312e81;
+      --slate-700: #334155;
+      --slate-500: #64748b;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 25px 50px rgba(15, 23, 42, 0.15);
+    }
 
-  <!-- AUTH SECTION -->
-  <div id="authSection" class="flex justify-center items-center min-h-screen p-4">
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-      <div class="text-center mb-6">
-        <i class="fa-solid fa-graduation-cap text-4xl text-indigo-600 mb-2"></i>
-        <h1 class="text-2xl font-bold text-slate-800">Siswa Hub</h1>
-        <p class="text-sm text-slate-500">Masuk untuk mengelola produktivitasmu</p>
-      </div>
+    html[data-theme="dark"] {
+      --bg: #0f172a;
+      --bg-secondary: #1e293b;
+      --panel: rgba(30, 41, 59, 0.72);
+      --panel-strong: #1e293b;
+      --border: rgba(71, 85, 105, 0.2);
+      --slate-700: #cbd5e1;
+      --slate-500: #94a3b8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.12), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.12), transparent 32%),
+        var(--bg);
+      color: var(--slate-700);
+      transition: background-color 0.4s ease, color 0.3s ease;
+    }
+
+    body { min-height: 100vh; }
+
+    @keyframes slideInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .auth-shell {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px 18px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .auth-card {
+      width: min(100%, 440px);
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: var(--shadow-soft);
+      border-radius: 28px;
+      padding: 32px 28px;
+      animation: slideInUp 0.6s ease;
+      transition: all 0.3s ease;
+    }
+
+    html[data-theme="dark"] .auth-card {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(71, 85, 105, 0.3);
+    }
+
+    .auth-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .brand-badge {
+      width: 68px;
+      height: 68px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      font-size: 28px;
+      margin: 0 auto 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--indigo-700), #8b5cf6);
+      box-shadow: 0 18px 30px rgba(99, 102, 241, 0.35);
+      animation: scaleIn 0.6s ease 0.1s both;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--indigo-900);
+      margin: 0;
+    }
+
+    .muted { color: var(--slate-500); }
+
+    .glass-input,
+    .glass-select,
+    .glass-textarea {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      background: rgba(248, 250, 252, 0.92);
+      color: var(--slate-700);
+      padding: 12px 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    html[data-theme="dark"] .glass-input,
+    html[data-theme="dark"] .glass-select,
+    html[data-theme="dark"] .glass-textarea {
+      background: rgba(15, 23, 42, 0.5);
+      border-color: rgba(71, 85, 105, 0.3);
+      color: var(--slate-700);
+    }
+
+    .glass-input:focus,
+    .glass-select:focus,
+    .glass-textarea:focus {
+      border-color: rgba(99, 102, 241, 0.7);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+      background: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    html[data-theme="dark"] .glass-input:focus,
+    html[data-theme="dark"] .glass-select:focus,
+    html[data-theme="dark"] .glass-textarea:focus {
+      background: rgba(30, 41, 59, 0.9);
+    }
+
+    .premium-btn,
+    .secondary-btn,
+    .icon-button,
+    .text-button,
+    .install-button {
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .premium-btn {
+      width: 100%;
+      border-radius: 16px;
+      padding: 13px 16px;
+      background: linear-gradient(135deg, #4338ca, #7c3aed);
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 18px 30px rgba(79, 70, 229, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .premium-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0));
+      transition: left 0.3s ease;
+      z-index: 0;
+    }
+
+    .premium-btn:hover::before {
+      left: 100%;
+    }
+
+    .premium-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 40px rgba(79, 70, 229, 0.35);
+    }
+
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: #e2e8f0;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    html[data-theme="dark"] .secondary-btn {
+      background: rgba(71, 85, 105, 0.3);
+      color: var(--slate-700);
+    }
+
+    .dashboard-shell {
+      min-height: 100vh;
+      padding: 26px 18px 42px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .topbar {
+      max-width: 1280px;
+      margin: 0 auto 28px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.7);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      animation: slideInDown 0.5s ease;
+      transition: all 0.3s ease;
+    }
+
+    html[data-theme="dark"] .topbar {
+      background: rgba(30, 41, 59, 0.72);
+      border-color: rgba(71, 85, 105, 0.2);
+    }
+
+    .topbar:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      color: var(--indigo-900);
+    }
+
+    html[data-theme="dark"] .brand-wrap {
+      color: #e0e7ff;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--indigo-700), #8b5cf6);
+      box-shadow: 0 12px 18px rgba(99, 102, 241, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .brand-mark:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--indigo-700);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .theme-toggle:hover {
+      background: rgba(99, 102, 241, 0.2);
+      transform: scale(1.05);
+    }
+
+    html[data-theme="dark"] .theme-toggle {
+      background: rgba(71, 85, 105, 0.3);
+      color: #e0e7ff;
+      border-color: rgba(71, 85, 105, 0.4);
+    }
+
+    .user-zone {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .welcome-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--slate-500);
+    }
+
+    .username-tag {
+      color: var(--indigo-700);
+      font-weight: 800;
+    }
+
+    html[data-theme="dark"] .username-tag {
+      color: #a5b4fc;
+    }
+
+    .logout-btn {
+      padding: 9px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      background: rgba(254, 242, 242, 0.92);
+      color: #dc2626;
+      font-weight: 700;
+      font-size: 0.77rem;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: #fee2e2;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(220, 38, 38, 0.15);
+    }
+
+    html[data-theme="dark"] .logout-btn {
+      background: rgba(127, 29, 29, 0.4);
+      border-color: rgba(220, 38, 38, 0.3);
+    }
+
+    .dashboard-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      animation: slideInUp 0.6s ease 0.1s both;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 22px 18px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    html[data-theme="dark"] .panel {
+      background: var(--panel);
+      border-color: var(--border);
+    }
+
+    .panel:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--indigo-900);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    html[data-theme="dark"] .panel-title {
+      color: #e0e7ff;
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.08));
+      border-radius: 18px;
+      padding: 14px 12px;
+      border: 1px solid rgba(99,102,241,0.12);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    html[data-theme="dark"] .stat-card {
+      background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.15));
+      border-color: rgba(99,102,241,0.2);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(99, 102, 241, 0.15);
+    }
+
+    .stat-numeric {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--indigo-900);
+      margin-bottom: 4px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    html[data-theme="dark"] .stat-numeric {
+      color: #a5b4fc;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      color: var(--slate-500);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .stacked-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(99, 102, 241, 0.05);
+      border: 1px solid rgba(99,102,241,0.14);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: var(--indigo-900);
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    html[data-theme="dark"] .toggle-row {
+      background: rgba(99,102,241,0.1);
+      border-color: rgba(99,102,241,0.2);
+      color: #a5b4fc;
+    }
+
+    .toggle-row:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: rgba(99,102,241,0.3);
+    }
+
+    .toggle-row input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--indigo-700);
+      cursor: pointer;
+    }
+
+    .data-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 310px;
+      overflow-y: auto;
+      animation: slideInUp 0.5s ease 0.2s both;
+    }
+
+    .data-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(248, 250, 252, 0.9);
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 16px;
+      padding: 12px 12px;
+      transition: all 0.3s ease;
+    }
+
+    html[data-theme="dark"] .data-card {
+      background: rgba(30, 41, 59, 0.5);
+      border-color: rgba(71, 85, 105, 0.2);
+    }
+
+    .data-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 8px 16px rgba(99, 102, 241, 0.1);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .card-headline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: var(--indigo-700);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    html[data-theme="dark"] .card-headline {
+      color: #a5b4fc;
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(99,102,241,0.1);
+      color: var(--indigo-700);
+      font-size: 0.68rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    html[data-theme="dark"] .card-badge {
+      background: rgba(99,102,241,0.2);
+      color: #a5b4fc;
+    }
+
+    .card-badge:hover {
+      transform: scale(1.05);
+    }
+
+    .card-title {
+      font-size: 0.83rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    html[data-theme="dark"] .card-title {
+      color: #e2e8f0;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .reminder-pill {
+      background: rgba(245,158,11,0.12);
+      color: #b45309;
+    }
+
+    html[data-theme="dark"] .reminder-pill {
+      background: rgba(245,158,11,0.2);
+    }
+
+    .icon-button {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: transparent;
+      color: #64748b;
+      font-size: 0.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .icon-button:hover {
+      background: rgba(239,68,68,0.08);
+      color: #dc2626;
+      transform: scale(1.1) rotate(10deg);
+    }
+
+    html[data-theme="dark"] .icon-button {
+      color: #94a3b8;
+    }
+
+    html[data-theme="dark"] .icon-button:hover {
+      background: rgba(220, 38, 38, 0.15);
+    }
+
+    .note-card { align-items: flex-start; }
+
+    .note-card h4 {
+      margin: 0 0 6px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #7c2d12;
+    }
+
+    html[data-theme="dark"] .note-card h4 {
+      color: #fed7aa;
+    }
+
+    .note-card p {
+      margin: 0;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      color: var(--slate-600);
+      word-break: break-word;
+    }
+
+    html[data-theme="dark"] .note-card p {
+      color: #cbd5e1;
+    }
+
+    .task-card { align-items: flex-start; }
+
+    .task-main {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .task-check {
+      margin-top: 3px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--indigo-700);
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .task-check:hover {
+      transform: scale(1.15);
+    }
+
+    .meta-text {
+      font-size: 0.68rem;
+      color: var(--slate-500);
+      margin-top: 3px;
+    }
+
+    .meta-text strong { color: var(--slate-700); }
+
+    html[data-theme="dark"] .meta-text strong {
+      color: var(--slate-300);
+    }
+
+    .task-label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: #0f172a;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    html[data-theme="dark"] .task-label {
+      color: #e2e8f0;
+    }
+
+    .history-card {
+      align-items: flex-start;
+      background: rgba(236,253,245,0.8);
+      border-color: rgba(16,185,129,0.18);
+      transition: all 0.3s ease;
+    }
+
+    html[data-theme="dark"] .history-card {
+      background: rgba(16,185,129,0.15);
+      border-color: rgba(16,185,129,0.25);
+    }
+
+    .history-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 8px 16px rgba(16, 185, 129, 0.15);
+    }
+
+    .history-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .history-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .history-tag {
+      display: inline-flex;
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: rgba(16,185,129,0.14);
+      color: #047857;
+      font-size: 0.58rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    html[data-theme="dark"] .history-tag {
+      background: rgba(16,185,129,0.25);
+      color: #6ee7b7;
+    }
+
+    .history-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #0f172a;
+      text-decoration: line-through;
+      word-break: break-word;
+    }
+
+    html[data-theme="dark"] .history-title {
+      color: #e2e8f0;
+    }
+
+    .text-button {
+      color: #b45309;
+      background: rgba(245,158,11,0.08);
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .text-button:hover {
+      background: rgba(245,158,11,0.16);
+      transform: translateY(-1px);
+    }
+
+    html[data-theme="dark"] .text-button {
+      color: #fcd34d;
+      background: rgba(245,158,11,0.15);
+    }
+
+    .empty-state {
+      margin: 0;
+      padding: 14px 10px;
+      font-size: 0.74rem;
+      color: var(--slate-500);
+      text-align: center;
+      border: 1px dashed rgba(148,163,184,0.25);
+      border-radius: 14px;
+      background: rgba(248,250,252,0.4);
+      animation: fadeIn 0.3s ease;
+    }
+
+    html[data-theme="dark"] .empty-state {
+      background: rgba(15, 23, 42, 0.3);
+      border-color: rgba(71, 85, 105, 0.25);
+      color: var(--slate-500);
+    }
+
+    .hidden { display: none !important; }
+
+    .install-button {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 40;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0f172a, #312e81);
+      color: white;
+      box-shadow: 0 24px 35px rgba(15, 23, 42, 0.28);
+      transition: all 0.3s ease;
+      animation: slideInUp 0.5s ease;
+    }
+
+    .install-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 28px 45px rgba(15, 23, 42, 0.35);
+    }
+
+    @media (max-width: 980px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .stat-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 620px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .user-zone {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .stat-strip { grid-template-columns: 1fr; }
+      .auth-card { padding: 26px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="authSection" class="auth-shell">
+    <div class="auth-card">
+      <div class="brand-badge"><i class="fa-solid fa-graduation-cap"></i></div>
+      <h1 class="hero-title text-center">Siswa Hub</h1>
+      <p class="text-center muted mt-2 mb-6">Kelola jadwal, tugas, catatan, dan pengingat dengan lebih terstruktur.</p>
+
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium mb-1">Nama Siswa</label>
-          <input type="text" id="usernameInput" required placeholder="Masukkan nama kamu..." class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none">
+          <label for="usernameInput" class="block text-sm font-semibold mb-2 text-slate-600">Nama Siswa</label>
+          <input id="usernameInput" type="text" required placeholder="Masukkan nama kamu..." class="glass-input" />
         </div>
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-semibold transition">Masuk / Daftar</button>
+        <button type="submit" class="premium-btn">Masuk / Daftar</button>
       </form>
     </div>
   </div>
 
-  <!-- DASHBOARD SECTION -->
-  <div id="dashboardSection" class="hidden min-h-screen flex flex-col">
-    <header class="bg-white shadow-sm sticky top-0 z-10">
-      <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-graduation-cap text-2xl text-indigo-600"></i>
-          <span class="font-bold text-lg">Siswa Hub</span>
-        </div>
-        <div class="flex items-center space-x-3">
-          <span class="text-sm font-medium text-slate-600">Halo, <b id="displayUsername" class="text-indigo-600"></b>!</span>
-          <button onclick="confirmLogout()" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg border border-red-200 font-semibold transition">Keluar</button>
-        </div>
+  <div id="dashboardSection" class="dashboard-shell hidden">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark"><i class="fa-solid fa-graduation-cap"></i></div>
+        <span>Siswa Hub</span>
+      </div>
+
+      <div class="user-zone">
+        <span class="welcome-tag">Halo, <span id="displayUsername" class="username-tag"></span>!</span>
+        <button id="notificationStatusBtn" class="theme-toggle" title="Status notifikasi / Uji coba" style="background: rgba(34, 197, 94, 0.1); color: #16a34a;">
+          <i class="fa-solid fa-bell"></i>
+        </button>
+        <button id="themeToggle" class="theme-toggle" title="Alihkan tema">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button onclick="confirmLogout()" class="logout-btn">Keluar</button>
       </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-3 gap-6 flex-grow w-full">
-      <!-- KOLOM 1: Jadwal & Catatan -->
-      <div class="space-y-6">
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-regular fa-calendar-check text-indigo-600"></i> Jadwal Pelajaran</h2>
-          <form onsubmit="addSchedule(event)" class="space-y-2 mb-4">
-            <select id="scheduleDay" class="w-full text-xs p-2 border rounded-lg outline-none bg-slate-50">
-              <option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option><option value="Sabtu">Sabtu</option><option value="Minggu">Minggu</option>
-            </select>
-            <input type="text" id="scheduleSubject" placeholder="Mata Pelajaran" required class="w-full text-xs p-2 border rounded-lg outline-none">
-            <input type="time" id="scheduleTime" required class="w-full text-xs p-2 border rounded-lg outline-none">
-            <div class="flex items-center gap-2 pt-1 bg-indigo-50/50 p-2 rounded-lg border border-indigo-100">
-              <input type="checkbox" id="scheduleReminder" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
-              <label for="scheduleReminder" class="text-xs text-indigo-900 font-medium cursor-pointer select-none">
-                <i class="fa-solid fa-bell text-indigo-500 mr-1"></i> Aktifkan Pengingat
-              </label>
-            </div>
-            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">+ Tambah Jadwal</button>
-          </form>
-          <div id="scheduleList" class="space-y-2 max-h-64 overflow-y-auto"></div>
+    <main class="dashboard-grid">
+      <section class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><i class="fa-regular fa-calendar-check"></i> Jadwal Pelajaran</h2>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-regular fa-sticky-note text-indigo-600"></i> Catatan Cepat</h2>
-          <form onsubmit="addNote(event)" class="space-y-2 mb-4">
-            <input type="text" id="noteTitle" placeholder="Judul Pengingat" required class="w-full text-xs p-2 border rounded-lg outline-none">
-            <textarea id="noteContent" placeholder="Isi catatan..." required class="w-full text-xs p-2 border rounded-lg outline-none h-16"></textarea>
-            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">+ Simpan Catatan</button>
-          </form>
-          <div id="notesList" class="space-y-2 max-h-48 overflow-y-auto"></div>
-        </div>
-      </div>
+        <form onsubmit="addSchedule(event)" class="stacked-form">
+          <select id="scheduleDay" class="glass-select">
+            <option value="Senin">Senin</option>
+            <option value="Selasa">Selasa</option>
+            <option value="Rabu">Rabu</option>
+            <option value="Kamis">Kamis</option>
+            <option value="Jumat">Jumat</option>
+            <option value="Sabtu">Sabtu</option>
+            <option value="Minggu">Minggu</option>
+          </select>
+          <input type="text" id="scheduleSubject" placeholder="Mata pelajaran" required class="glass-input" />
+          <input type="time" id="scheduleTime" required class="glass-input" />
+          <label class="toggle-row">
+            <input type="checkbox" id="scheduleReminder" />
+            <span><i class="fa-solid fa-bell mr-1"></i> Aktifkan pengingat</span>
+          </label>
+          <button type="submit" class="premium-btn">+ Tambah Jadwal</button>
+        </form>
 
-      <!-- KOLOM 2: PR & To-Do List Aktif -->
-      <div class="space-y-6">
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-book-bookmark text-indigo-600"></i> Daftar PR & Tugas</h2>
-          <form onsubmit="addHomework(event)" class="space-y-2 mb-4">
-            <input type="text" id="hwSubject" placeholder="Mata Pelajaran / Nama PR" required class="w-full text-xs p-2 border rounded-lg outline-none">
-            <label class="block text-xs text-slate-500 font-medium">Tanggal Tenggat (Deadline):</label>
-            <input type="date" id="hwDeadline" required class="w-full text-xs p-2 border rounded-lg outline-none">
+        <div id="scheduleList" class="data-list"></div>
+      </section>
 
-            <div class="flex items-center gap-2 pt-1 bg-indigo-50/50 p-2 rounded-lg border border-indigo-100">
-              <input type="checkbox" id="hwReminder" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
-              <label for="hwReminder" class="text-xs text-indigo-900 font-medium cursor-pointer select-none">
-                <i class="fa-solid fa-bell text-indigo-500 mr-1"></i> Pengingat Notifikasi (Pengingat Hari H)
-              </label>
-            </div>
-            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">+ Tambah PR</button>
-          </form>
-          <div id="homeworkList" class="space-y-2 max-h-64 overflow-y-auto"></div>
+      <section class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><i class="fa-solid fa-book-bookmark"></i> PR & Tugas</h2>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check text-indigo-600"></i> To-Do List Harian</h2>
-          <form onsubmit="addTodo(event)" class="space-y-2 mb-4">
-            <div class="flex gap-2">
-              <input type="text" id="todoInput" placeholder="Kegiatan hari ini..." required class="flex-grow text-xs p-2 border rounded-lg outline-none">
-              <button type="submit" class="text-xs bg-indigo-600 text-white px-3 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">+</button>
-            </div>
-          </form>
-          <div id="todoList" class="space-y-2 max-h-64 overflow-y-auto"></div>
-        </div>
-      </div>
+        <form onsubmit="addHomework(event)" class="stacked-form">
+          <input type="text" id="hwSubject" placeholder="Mata pelajaran / nama PR" required class="glass-input" />
+          <label class="text-xs font-semibold text-slate-500">Tanggal tenggat</label>
+          <input type="date" id="hwDeadline" required class="glass-input" />
+          <label class="toggle-row">
+            <input type="checkbox" id="hwReminder" />
+            <span><i class="fa-solid fa-bell mr-1"></i> Pengingat hari H</span>
+          </label>
+          <button type="submit" class="premium-btn">+ Tambah PR</button>
+        </form>
 
-      <!-- KOLOM 3: Riwayat Tugas Selesai -->
-      <div class="space-y-6">
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="font-bold text-emerald-800 flex items-center gap-2">
-              <i class="fa-solid fa-clock-rotate-left text-emerald-600"></i> Riwayat Tugas Selesai
-            </h2>
-            <button onclick="clearHistory()" class="text-[11px] text-red-500 hover:text-red-700 font-medium">Hapus Semua</button>
+        <div id="homeworkList" class="data-list"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title"><i class="fa-solid fa-clock-rotate-left"></i> Riwayat</h2>
+          <button onclick="clearHistory()" class="text-button">Hapus Semua</button>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-card">
+            <div id="statSchedule" class="stat-numeric">0</div>
+            <div class="stat-label">Jadwal</div>
           </div>
-          <p class="text-[11px] text-slate-400 mb-3">Tugas atau PR yang sudah dicentang selesai akan tersimpan di sini beserta tanggal pembuatan dan waktu selesainya.</p>
-          <div id="historyList" class="space-y-2 max-h-[36rem] overflow-y-auto"></div>
+          <div class="stat-card">
+            <div id="statHomework" class="stat-numeric">0</div>
+            <div class="stat-label">PR aktif</div>
+          </div>
+          <div class="stat-card">
+            <div id="statTodo" class="stat-numeric">0</div>
+            <div class="stat-label">Todo</div>
+          </div>
         </div>
-      </div>
+
+        <div class="panel-header" style="margin-top: 18px; margin-bottom: 12px;">
+          <h2 class="panel-title"><i class="fa-regular fa-sticky-note"></i> Catatan Cepat</h2>
+        </div>
+
+        <form onsubmit="addNote(event)" class="stacked-form">
+          <input type="text" id="noteTitle" placeholder="Judul pengingat" required class="glass-input" />
+          <textarea id="noteContent" placeholder="Isi catatanmu..." required class="glass-textarea" rows="3"></textarea>
+          <button type="submit" class="premium-btn">+ Simpan Catatan</button>
+        </form>
+
+        <div id="notesList" class="data-list" style="max-height: 220px;"></div>
+
+        <div class="panel-header" style="margin-top: 24px; margin-bottom: 12px;">
+          <h2 class="panel-title"><i class="fa-solid fa-list-check"></i> To-Do Harian</h2>
+        </div>
+
+        <form onsubmit="addTodo(event)" class="stacked-form">
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="todoInput" placeholder="Kegiatan hari ini..." required class="glass-input" style="flex:1;" />
+            <button type="submit" class="premium-btn" style="width:auto; padding-left:18px; padding-right:18px;">+</button>
+          </div>
+        </form>
+
+        <div id="todoList" class="data-list" style="max-height: 220px;"></div>
+
+        <div class="panel-header" style="margin-top: 24px; margin-bottom: 12px;">
+          <h2 class="panel-title"><i class="fa-solid fa-check-double"></i> Riwayat Tugas Selesai</h2>
+        </div>
+
+        <div id="historyList" class="data-list" style="max-height: 260px;"></div>
+      </section>
     </main>
   </div>
 
-  <!-- MODAL KONFIRMASI -->
-  <div id="confirmModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex justify-center items-center p-4">
-    <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl text-center space-y-4">
+  <div id="confirmModal" class="hidden fixed inset-0 bg-slate-900/55 backdrop-blur-sm z-50 flex justify-center items-center p-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl text-center space-y-4">
       <div id="modalIcon" class="w-12 h-12 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto text-xl">
         <i class="fa-solid fa-triangle-exclamation"></i>
       </div>
       <div>
-        <h3 id="modalTitle" class="font-bold text-slate-800 text-base mb-1">Konfirmasi Action</h3>
+        <h3 id="modalTitle" class="font-bold text-slate-800 text-base mb-1">Konfirmasi</h3>
         <p id="modalMessage" class="text-xs text-slate-500">Apakah kamu yakin?</p>
       </div>
       <div class="flex gap-3 justify-center pt-2">
-        <button onclick="closeConfirmModal()" class="w-full py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
-        <button id="confirmActionBtn" class="w-full py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl transition">Ya, Hapus</button>
+        <button onclick="closeConfirmModal()" class="secondary-btn w-full py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
+        <button id="confirmActionBtn" class="premium-btn w-full py-2 text-xs font-semibold rounded-xl transition" style="box-shadow:none;">Ya, Hapus</button>
       </div>
     </div>
   </div>
@@ -151,70 +1000,41 @@
     let db = { schedules: [], homeworks: [], todos: [], notes: [] };
     let confirmCallback = null;
     let swRegistration = null;
-    const notifiedIds = new Set(); // Menyimpan ID pengingat yang sudah dikirim agar tidak berulang
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then((reg) => { swRegistration = reg; })
-          .catch((err) => console.log('Service Worker Failed:', err));
-      });
-    }
+    const notifiedIds = new Set();
 
     function getCurrentFormattedDateTime() {
       const now = new Date();
       return `${now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })} ${now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}`;
     }
 
-    window.onload = () => {
-      const savedUser = localStorage.getItem('siswa_hub_user');
-      if (savedUser) {
-        currentUser = savedUser;
-        loadUserData();
-        showDashboard();
-      }
-      // Memulai Pengecekan Notifikasi Otomatis Setiap 30 Detik
-      setInterval(checkAndTriggerReminders, 30000);
-    };
-
-    function handleLogin(e) {
-      e.preventDefault();
-      const username = document.getElementById('usernameInput').value.trim();
-      if (username) {
-        currentUser = username;
-        localStorage.setItem('siswa_hub_user', username);
-        loadUserData();
-        showDashboard();
-      }
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
 
-    function confirmLogout() {
-      openConfirmModal('Konfirmasi Keluar', 'Apakah kamu yakin ingin keluar dari aplikasi?', 'Keluar', 'fa-right-from-bracket', () => {
-        localStorage.removeItem('siswa_hub_user');
-        currentUser = null;
-        document.getElementById('authSection').classList.remove('hidden');
-        document.getElementById('dashboardSection').classList.add('hidden');
-      });
+    function loadUserData() {
+      const data = localStorage.getItem(`siswa_hub_data_${currentUser}`);
+      db = data ? JSON.parse(data) : { schedules: [], homeworks: [], todos: [], notes: [] };
+      if (!db.schedules) db.schedules = [];
+      if (!db.homeworks) db.homeworks = [];
+      if (!db.todos) db.todos = [];
+      if (!db.notes) db.notes = [];
+    }
+
+    function saveData() {
+      localStorage.setItem(`siswa_hub_data_${currentUser}`, JSON.stringify(db));
+      renderAll();
     }
 
     function showDashboard() {
       document.getElementById('authSection').classList.add('hidden');
       document.getElementById('dashboardSection').classList.remove('hidden');
       document.getElementById('displayUsername').innerText = currentUser;
-      renderAll();
-    }
-
-    function loadUserData() {
-      const data = localStorage.getItem(`siswa_hub_data_${currentUser}`);
-      db = data ? JSON.parse(data) : { schedules: [], homeworks: [], todos: [], notes: [] };
-      if(!db.schedules) db.schedules = [];
-      if(!db.homeworks) db.homeworks = [];
-      if(!db.todos) db.todos = [];
-      if(!db.notes) db.notes = [];
-    }
-
-    function saveData() {
-      localStorage.setItem(`siswa_hub_data_${currentUser}`, JSON.stringify(db));
+      updateNotificationStatus();
       renderAll();
     }
 
@@ -237,67 +1057,153 @@
       closeConfirmModal();
     };
 
-    async function ensureNotificationPermission() {
-      if (!("Notification" in window)) return false;
-      if (Notification.permission === "granted") return true;
-      const permission = await Notification.requestPermission();
-      return permission === "granted";
+    function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('usernameInput').value.trim();
+      if (!username) return;
+
+      currentUser = username;
+      localStorage.setItem('siswa_hub_user', username);
+      loadUserData();
+      showDashboard();
     }
 
-    function triggerNotification(title, body) {
-      if (swRegistration && swRegistration.active) {
-        swRegistration.active.postMessage({
-          type: 'SHOW_NOTIFICATION',
-          payload: { title, body }
-        });
-      } else if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(title, { body: body, icon: 'https://cdn-icons-png.flaticon.com/512/2991/2991106.png' });
+    function confirmLogout() {
+      openConfirmModal('Konfirmasi Keluar', 'Apakah kamu yakin ingin keluar dari aplikasi?', 'Keluar', 'fa-right-from-bracket', () => {
+        localStorage.removeItem('siswa_hub_user');
+        currentUser = null;
+        document.getElementById('authSection').classList.remove('hidden');
+        document.getElementById('dashboardSection').classList.add('hidden');
+        document.getElementById('loginForm').reset();
+      });
+    }
+
+    async function ensureNotificationPermission() {
+      if (!('Notification' in window)) {
+        console.warn('Notifikasi tidak didukung di browser ini');
+        return false;
+      }
+
+      if (Notification.permission === 'granted') {
+        return true;
+      }
+
+      if (Notification.permission === 'denied') {
+        console.warn('Notifikasi telah ditolak. Hubungi pengaturan browser.');
+        return false;
+      }
+
+      try {
+        const permission = await Notification.requestPermission();
+        const isGranted = permission === 'granted';
+        localStorage.setItem('siswa_hub_notification_permission', isGranted ? 'granted' : 'denied');
+        return isGranted;
+      } catch (error) {
+        console.error('Gagal meminta izin notifikasi:', error);
+        return false;
       }
     }
 
-    // FUNGSI PENGECEK PENGINGAT OTOMATIS
-    function checkAndTriggerReminders() {
-      if (!("Notification" in window) || Notification.permission !== "granted") return;
-
-      const now = new Date();
-      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      const currentDay = days[now.getDay()];
-      const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      const currentDateStr = now.toISOString().split('T')[0];
-
-      // 1. Cek Jadwal Pelajaran
-      db.schedules.forEach(s => {
-        if (s.reminder && s.day === currentDay && s.time === currentTimeStr) {
-          const notifKey = `sched_${s.id}_${currentDateStr}_${s.time}`;
-          if (!notifiedIds.has(notifKey)) {
-            triggerNotification(`📚 Jadwal Sekarang: ${s.subject}`, `Waktunya kelas ${s.subject} (${s.time})`);
-            notifiedIds.add(notifKey);
-          }
+    function triggerNotification(title, body) {
+      try {
+        if (swRegistration && swRegistration.active) {
+          swRegistration.active.postMessage({
+            type: 'SHOW_NOTIFICATION',
+            payload: { title, body, icon: './icon.svg' }
+          });
+          console.log('Notifikasi terkirim via Service Worker:', title);
+        } else if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification(title, {
+            body,
+            icon: './icon.svg',
+            badge: './icon.svg',
+            tag: title,
+            requireInteraction: false,
+            silent: false
+          });
+          console.log('Notifikasi terkirim langsung:', title);
         }
-      });
-
-      // 2. Cek Pengingat PR (Pengingat Jam 08:00 Pagi pada Tanggal Deadline)
-      db.homeworks.forEach(h => {
-        if (h.reminder && !h.completed && h.deadline === currentDateStr && currentTimeStr === '08:00') {
-          const notifKey = `hw_${h.id}_${currentDateStr}`;
-          if (!notifiedIds.has(notifKey)) {
-            triggerNotification(`⏰ Tenggat PR Hari Ini: ${h.subject}`, `PR "${h.subject}" harus dikumpulkan hari ini!`);
-            notifiedIds.add(notifKey);
-          }
-        }
-      });
+      } catch (error) {
+        console.error('Gagal mengirim notifikasi:', error);
+      }
     }
 
-    // FUNGSI TAMBAH DATA
+    function checkAndTriggerReminders() {
+      if (!('Notification' in window) || Notification.permission !== 'granted') {
+        return;
+      }
+
+      try {
+        const now = new Date();
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const currentDay = days[now.getDay()];
+        const currentHour = String(now.getHours()).padStart(2, '0');
+        const currentMinute = String(now.getMinutes()).padStart(2, '0');
+        const currentTimeStr = `${currentHour}:${currentMinute}`;
+        const currentDateStr = now.toISOString().split('T')[0];
+
+        // Cek jadwal pelajaran (pemicu 2 menit sebelum jadwal)
+        db.schedules.forEach((s) => {
+          if (s.reminder && s.day === currentDay && s.time) {
+            const [schedHour, schedMin] = s.time.split(':');
+            const schedDate = new Date();
+            schedDate.setHours(parseInt(schedHour), parseInt(schedMin), 0);
+            const timeDiffMinutes = (schedDate - now) / (1000 * 60);
+
+            // Trigger 2 menit sebelum atau tepat pada waktu
+            if (timeDiffMinutes >= -1 && timeDiffMinutes <= 2) {
+              const notifKey = `sched_${s.id}_${currentDateStr}`;
+              if (!notifiedIds.has(notifKey)) {
+                triggerNotification(
+                  `📚 Jadwal Sekarang: ${s.subject}`,
+                  `Kelas ${s.subject} dimulai pada ${s.time}`
+                );
+                notifiedIds.add(notifKey);
+              }
+            }
+          }
+        });
+
+        // Cek PR (pengingat pagi hari, 08:00 pada hari deadline)
+        db.homeworks.forEach((h) => {
+          if (h.reminder && !h.completed && h.deadline) {
+            const deadlineDate = new Date(h.deadline);
+            const formattedDeadline = deadlineDate.toISOString().split('T')[0];
+
+            // Trigger antara 08:00-09:00 pada hari deadline
+            if (
+              formattedDeadline === currentDateStr &&
+              currentHour === '08' &&
+              !notifiedIds.has(`hw_${h.id}_${currentDateStr}`)
+            ) {
+              triggerNotification(
+                `⏰ Tenggat PR Hari Ini: ${h.subject}`,
+                `Batas pengumpulan: ${h.deadline}`
+              );
+              notifiedIds.add(`hw_${h.id}_${currentDateStr}`);
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Gagal dalam pengecekan reminder:', error);
+      }
+    }
+
     async function addSchedule(e) {
       e.preventDefault();
       const enableReminder = document.getElementById('scheduleReminder').checked;
-      if (enableReminder) await ensureNotificationPermission();
+      
+      if (enableReminder) {
+        const hasPermission = await ensureNotificationPermission();
+        if (!hasPermission) {
+          alert('Notifikasi tidak diizinkan. Periksa pengaturan browser untuk mengaktifkan notifikasi.');
+        }
+      }
 
       db.schedules.push({
         id: Date.now(),
         day: document.getElementById('scheduleDay').value,
-        subject: document.getElementById('scheduleSubject').value,
+        subject: document.getElementById('scheduleSubject').value.trim(),
         time: document.getElementById('scheduleTime').value,
         reminder: enableReminder,
         createdAt: getCurrentFormattedDateTime()
@@ -312,11 +1218,17 @@
     async function addHomework(e) {
       e.preventDefault();
       const enableReminder = document.getElementById('hwReminder').checked;
-      if (enableReminder) await ensureNotificationPermission();
+      
+      if (enableReminder) {
+        const hasPermission = await ensureNotificationPermission();
+        if (!hasPermission) {
+          alert('Notifikasi tidak diizinkan. Periksa pengaturan browser untuk mengaktifkan notifikasi.');
+        }
+      }
 
       db.homeworks.push({
         id: Date.now(),
-        subject: document.getElementById('hwSubject').value,
+        subject: document.getElementById('hwSubject').value.trim(),
         deadline: document.getElementById('hwDeadline').value,
         reminder: enableReminder,
         completed: false,
@@ -332,9 +1244,12 @@
 
     function addTodo(e) {
       e.preventDefault();
+      const text = document.getElementById('todoInput').value.trim();
+      if (!text) return;
+
       db.todos.push({
         id: Date.now(),
-        text: document.getElementById('todoInput').value,
+        text,
         completed: false,
         createdAt: getCurrentFormattedDateTime(),
         completedAt: null
@@ -346,10 +1261,14 @@
 
     function addNote(e) {
       e.preventDefault();
+      const title = document.getElementById('noteTitle').value.trim();
+      const content = document.getElementById('noteContent').value.trim();
+      if (!title || !content) return;
+
       db.notes.push({
         id: Date.now(),
-        title: document.getElementById('noteTitle').value,
-        content: document.getElementById('noteContent').value,
+        title,
+        content,
         createdAt: getCurrentFormattedDateTime()
       });
 
@@ -358,7 +1277,6 @@
       saveData();
     }
 
-    // FUNGSI KONFIRMASI HAPUS DATA
     function deleteSchedule(id) {
       const schedule = db.schedules.find(item => item.id === id);
       const name = schedule ? `${schedule.subject} (${schedule.day})` : 'jadwal ini';
@@ -395,118 +1313,268 @@
       });
     }
 
-    // FUNGSI TOGGLE SELESAI
     function toggleHomework(id) {
       const hw = db.homeworks.find(item => item.id === id);
-      if (hw) {
-        hw.completed = !hw.completed;
-        hw.completedAt = hw.completed ? getCurrentFormattedDateTime() : null;
-      }
+      if (!hw) return;
+
+      hw.completed = !hw.completed;
+      hw.completedAt = hw.completed ? getCurrentFormattedDateTime() : null;
       saveData();
     }
 
     function toggleTodo(id) {
       const todo = db.todos.find(item => item.id === id);
-      if (todo) {
-        todo.completed = !todo.completed;
-        todo.completedAt = todo.completed ? getCurrentFormattedDateTime() : null;
-      }
+      if (!todo) return;
+
+      todo.completed = !todo.completed;
+      todo.completedAt = todo.completed ? getCurrentFormattedDateTime() : null;
       saveData();
     }
 
     function clearHistory() {
-      openConfirmModal('Hapus Seluruh Riwayat', 'Apakah Anda yakin ingin menghapus seluruh riwayat tugas yang telah selesai? Data yang dihapus tidak dapat dikembalikan.', 'Hapus Semua', 'fa-trash-triangle', () => {
+      openConfirmModal('Hapus Seluruh Riwayat', 'Apakah Anda yakin ingin menghapus seluruh tugas yang sudah selesai? Data tidak dapat dikembalikan.', 'Hapus Semua', 'fa-trash-triangle', () => {
         db.homeworks = db.homeworks.filter(h => !h.completed);
         db.todos = db.todos.filter(t => !t.completed);
         saveData();
       });
     }
 
-    // FUNGSI RENDER TAMPILAN
     function renderAll() {
-      // 1. Render Jadwal
       const scheduleList = document.getElementById('scheduleList');
-      scheduleList.innerHTML = db.schedules.length === 0 ? '<p class="text-xs text-slate-400">Belum ada jadwal.</p>' :
-        db.schedules.map(s => `
-          <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/60 flex items-center justify-between text-xs">
+      scheduleList.innerHTML = db.schedules.length === 0 ? '<p class="empty-state">Belum ada jadwal.</p>' :
+        db.schedules.map((s) => `
+          <div class="data-card">
             <div>
-              <span class="font-bold text-indigo-700">${s.day}</span> - <span class="font-medium text-slate-700">${s.subject}</span>
-              <div class="text-[11px] text-slate-500"><i class="fa-regular fa-clock"></i> ${s.time} ${s.reminder ? '<span class="text-amber-500 ml-1"><i class="fa-solid fa-bell"></i></span>' : ''}</div>
+              <div class="card-headline">${escapeHtml(s.day)} <span class="card-badge">${escapeHtml(s.time)}</span></div>
+              <div class="card-title">${escapeHtml(s.subject)}</div>
             </div>
-            <button onclick="deleteSchedule(${s.id})" class="text-slate-400 hover:text-red-500 transition px-2 py-1"><i class="fa-solid fa-trash"></i></button>
+            <div class="card-actions">
+              ${s.reminder ? '<span class="status-pill reminder-pill"><i class="fa-solid fa-bell"></i></span>' : ''}
+              <button onclick="deleteSchedule(${s.id})" class="icon-button" aria-label="Hapus jadwal"><i class="fa-solid fa-trash"></i></button>
+            </div>
           </div>
         `).join('');
 
-      // 2. Render Catatan
       const notesList = document.getElementById('notesList');
-      notesList.innerHTML = db.notes.length === 0 ? '<p class="text-xs text-slate-400">Belum ada catatan.</p>' :
-        db.notes.map(n => `
-          <div class="p-2.5 bg-amber-50/60 rounded-xl border border-amber-200/60 text-xs flex justify-between items-start">
+      notesList.innerHTML = db.notes.length === 0 ? '<p class="empty-state">Belum ada catatan.</p>' :
+        db.notes.map((n) => `
+          <div class="data-card note-card">
             <div>
-              <h4 class="font-bold text-amber-900">${n.title}</h4>
-              <p class="text-slate-600 mt-0.5 whitespace-pre-line">${n.content}</p>
+              <h4>${escapeHtml(n.title)}</h4>
+              <p>${escapeHtml(n.content).replace(/\n/g, '<br>')}</p>
             </div>
-            <button onclick="deleteNote(${n.id})" class="text-slate-400 hover:text-red-500 transition ml-2"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="deleteNote(${n.id})" class="icon-button" aria-label="Hapus catatan"><i class="fa-solid fa-trash"></i></button>
           </div>
         `).join('');
 
-      // 3. Render PR Aktif
       const activeHomeworks = db.homeworks.filter(h => !h.completed);
       const hwList = document.getElementById('homeworkList');
-      hwList.innerHTML = activeHomeworks.length === 0 ? '<p class="text-xs text-slate-400">Tidak ada PR aktif.</p>' :
-        activeHomeworks.map(h => `
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60 text-xs flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <input type="checkbox" onchange="toggleHomework(${h.id})" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
+      hwList.innerHTML = activeHomeworks.length === 0 ? '<p class="empty-state">Tidak ada PR aktif.</p>' :
+        activeHomeworks.map((h) => `
+          <div class="data-card task-card">
+            <div class="task-main">
+              <input type="checkbox" onchange="toggleHomework(${h.id})" class="task-check" aria-label="Selesaikan PR ${escapeHtml(h.subject)}" />
               <div>
-                <span class="font-semibold text-slate-800">${h.subject}</span>
-                <div class="text-[11px] text-slate-500"><i class="fa-regular fa-calendar"></i> Tenggat: <b>${h.deadline}</b></div>
-                <div class="text-[10px] text-slate-400">Dibuat: ${h.createdAt || '-'}</div>
+                <div class="card-title">${escapeHtml(h.subject)}</div>
+                <div class="meta-text"><i class="fa-regular fa-calendar"></i> Tenggat: <strong>${escapeHtml(h.deadline)}</strong></div>
+                <div class="meta-text">Dibuat: ${escapeHtml(h.createdAt || '-')}</div>
               </div>
             </div>
-            <button onclick="deleteHomework(${h.id})" class="text-slate-400 hover:text-red-500 transition px-2"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="deleteHomework(${h.id})" class="icon-button" aria-label="Hapus PR"><i class="fa-solid fa-trash"></i></button>
           </div>
         `).join('');
 
-      // 4. Render To-Do Aktif
       const activeTodos = db.todos.filter(t => !t.completed);
       const todoList = document.getElementById('todoList');
-      todoList.innerHTML = activeTodos.length === 0 ? '<p class="text-xs text-slate-400">Belum ada tugas harian.</p>' :
-        activeTodos.map(t => `
-          <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/60 text-xs flex items-center justify-between">
-            <label class="flex items-center gap-2 cursor-pointer text-slate-700">
-              <input type="checkbox" onchange="toggleTodo(${t.id})" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
-              <span>${t.text}</span>
+      todoList.innerHTML = activeTodos.length === 0 ? '<p class="empty-state">Belum ada tugas harian.</p>' :
+        activeTodos.map((t) => `
+          <div class="data-card task-card small">
+            <label class="task-label">
+              <input type="checkbox" onchange="toggleTodo(${t.id})" class="task-check" aria-label="Selesaikan tugas ${escapeHtml(t.text)}" />
+              <span>${escapeHtml(t.text)}</span>
             </label>
-            <button onclick="deleteTodo(${t.id})" class="text-slate-400 hover:text-red-500 transition px-2"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="deleteTodo(${t.id})" class="icon-button" aria-label="Hapus tugas"><i class="fa-solid fa-trash"></i></button>
           </div>
         `).join('');
 
-      // 5. Render Riwayat Tugas Selesai
-      const completedHomeworks = db.homeworks.filter(h => h.completed).map(h => ({ ...h, type: 'PR' }));
+      const completedHomeworks = db.homeworks.filter(h => h.completed).map(h => ({ ...h, type: 'PR', subject: h.subject }));
       const completedTodos = db.todos.filter(t => t.completed).map(t => ({ ...t, type: 'To-Do', subject: t.text }));
       const historyItems = [...completedHomeworks, ...completedTodos];
 
       const historyList = document.getElementById('historyList');
-      historyList.innerHTML = historyItems.length === 0 ? '<p class="text-xs text-slate-400">Belum ada riwayat tugas selesai.</p>' :
-        historyItems.map(item => `
-          <div class="p-3 bg-emerald-50/50 rounded-xl border border-emerald-200/60 text-xs flex justify-between items-start">
-            <div>
-              <div class="flex items-center gap-1.5 mb-1">
-                <span class="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-1.5 py-0.5 rounded">${item.type}</span>
-                <span class="font-semibold text-slate-700 line-through">${item.subject}</span>
+      historyList.innerHTML = historyItems.length === 0 ? '<p class="empty-state">Belum ada riwayat tugas selesai.</p>' :
+        historyItems.map((item) => `
+          <div class="data-card history-card">
+            <div class="history-content">
+              <div class="history-row">
+                <span class="history-tag">${escapeHtml(item.type)}</span>
+                <span class="history-title">${escapeHtml(item.subject)}</span>
               </div>
-              <div class="text-[10px] text-slate-500 space-y-0.5">
-                <div><i class="fa-regular fa-clock text-slate-400"></i> Diberikan/Dibuat: <b>${item.createdAt || 'N/A'}</b></div>
-                <div><i class="fa-solid fa-check text-emerald-600"></i> Diselesaikan: <b>${item.completedAt || 'N/A'}</b></div>
-              </div>
+              <div class="meta-text"><i class="fa-regular fa-clock"></i> Dibuat: <strong>${escapeHtml(item.createdAt || 'N/A')}</strong></div>
+              <div class="meta-text"><i class="fa-solid fa-check"></i> Selesai: <strong>${escapeHtml(item.completedAt || 'N/A')}</strong></div>
             </div>
-            <button onclick="${item.type === 'PR' ? `toggleHomework(${item.id})` : `toggleTodo(${item.id})`}" class="text-[11px] text-amber-600 hover:text-amber-800 font-medium ml-2">
-              Batal
-            </button>
+            <button onclick="${item.type === 'PR' ? `toggleHomework(${item.id})` : `toggleTodo(${item.id})`}" class="text-button">Batal</button>
           </div>
         `).join('');
+
+      document.getElementById('statSchedule').innerText = db.schedules.length;
+      document.getElementById('statHomework').innerText = activeHomeworks.length;
+      document.getElementById('statTodo').innerText = activeTodos.length;
     }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => { swRegistration = reg; })
+          .catch((err) => console.log('Service Worker Failed:', err));
+      });
+    }
+
+    // Dark Mode Toggle
+    function initTheme() {
+      const savedTheme = localStorage.getItem('siswa_hub_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('themeToggle')?.querySelector('i');
+      if (icon) {
+        icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      }
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('siswa_hub_theme', newTheme);
+      updateThemeIcon(newTheme);
+    }
+
+    function updateNotificationStatus() {
+      const statusBtn = document.getElementById('notificationStatusBtn');
+      if (!statusBtn) return;
+
+      if (!('Notification' in window)) {
+        statusBtn.style.opacity = '0.5';
+        statusBtn.title = 'Notifikasi tidak didukung di browser ini';
+        return;
+      }
+
+      if (Notification.permission === 'granted') {
+        statusBtn.style.color = '#16a34a';
+        statusBtn.style.background = 'rgba(34, 197, 94, 0.1)';
+        statusBtn.title = 'Notifikasi aktif (klik untuk uji coba)';
+      } else if (Notification.permission === 'denied') {
+        statusBtn.style.color = '#dc2626';
+        statusBtn.style.background = 'rgba(220, 38, 38, 0.1)';
+        statusBtn.title = 'Notifikasi diblokir (ubah di pengaturan browser)';
+      } else {
+        statusBtn.style.color = '#f59e0b';
+        statusBtn.style.background = 'rgba(245, 158, 11, 0.1)';
+        statusBtn.title = 'Klik untuk mengaktifkan notifikasi';
+      }
+    }
+
+    function testNotification() {
+      if (!('Notification' in window)) {
+        alert('Notifikasi tidak didukung di browser ini');
+        return;
+      }
+
+      if (Notification.permission === 'granted') {
+        triggerNotification(
+          '✅ Uji Coba Notifikasi',
+          'Notifikasi pengingat Anda sedang berfungsi dengan baik!'
+        );
+      } else {
+        ensureNotificationPermission().then((granted) => {
+          if (granted) {
+            triggerNotification(
+              '✅ Notifikasi Diaktifkan',
+              'Pengingat jadwal dan PR akan segera aktif!'
+            );
+          } else {
+            alert('Notifikasi tidak dapat diaktifkan. Periksa pengaturan browser.');
+          }
+          updateNotificationStatus();
+        });
+      }
+    }
+
+    const installButton = document.createElement('button');
+    installButton.id = 'installButton';
+    installButton.className = 'install-button hidden';
+    installButton.innerHTML = '<i class="fa-solid fa-download"></i> Pasang Aplikasi';
+    document.body.appendChild(installButton);
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      deferredPrompt = event;
+      installButton.classList.remove('hidden');
+    });
+
+    installButton.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installButton.classList.add('hidden');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installButton.classList.add('hidden');
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      const themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleTheme();
+        });
+      }
+
+      // Setup notification status button
+      const notificationStatusBtn = document.getElementById('notificationStatusBtn');
+      if (notificationStatusBtn) {
+        notificationStatusBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          testNotification();
+        });
+      }
+
+      const savedUser = localStorage.getItem('siswa_hub_user');
+      if (savedUser) {
+        currentUser = savedUser;
+        loadUserData();
+        showDashboard();
+        
+        // Update notification status when dashboard loads
+        setTimeout(updateNotificationStatus, 100);
+      }
+
+      // Request notification permission on app load
+      if ('Notification' in window && Notification.permission === 'default') {
+        ensureNotificationPermission().then((granted) => {
+          updateNotificationStatus();
+          if (granted) {
+            console.log('Notifikasi berhasil diaktifkan');
+          }
+        });
+      }
+
+      // Start reminder checking every 30 seconds
+      setInterval(checkAndTriggerReminders, 30000);
+      
+      // Also check immediately when dashboard loads
+      if (savedUser) {
+        setTimeout(checkAndTriggerReminders, 1000);
+      }
+    });
   </script>
 </body>
 </html>
