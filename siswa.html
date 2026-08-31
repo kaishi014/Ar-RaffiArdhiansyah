@@ -42,9 +42,6 @@
           <span class="font-bold text-lg">Siswa Hub</span>
         </div>
         <div class="flex items-center space-x-3">
-          <button onclick="testNotification()" class="text-xs bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1.5 rounded-lg font-semibold transition flex items-center gap-1">
-            <i class="fa-solid fa-bell"></i> Tes Notif
-          </button>
           <span class="text-sm font-medium text-slate-600">Halo, <b id="displayUsername" class="text-indigo-600"></b>!</span>
           <button onclick="confirmLogout()" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg border border-red-200 font-semibold transition">Keluar</button>
         </div>
@@ -55,9 +52,9 @@
       <!-- KOLOM 1: Jadwal & Catatan -->
       <div class="space-y-6">
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-regular fa-calendar-check"></i> Jadwal Pelajaran</h2>
+          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-regular fa-calendar-check text-indigo-600"></i> Jadwal Pelajaran</h2>
           <form onsubmit="addSchedule(event)" class="space-y-2 mb-4">
-            <select id="scheduleDay" class="w-full text-xs p-2 border rounded-lg outline-none">
+            <select id="scheduleDay" class="w-full text-xs p-2 border rounded-lg outline-none bg-slate-50">
               <option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option><option value="Kamis">Kamis</option><option value="Jumat">Jumat</option><option value="Sabtu">Sabtu</option><option value="Minggu">Minggu</option>
             </select>
             <input type="text" id="scheduleSubject" placeholder="Mata Pelajaran" required class="w-full text-xs p-2 border rounded-lg outline-none">
@@ -68,57 +65,65 @@
                 <i class="fa-solid fa-bell text-indigo-500 mr-1"></i> Aktifkan Pengingat
               </label>
             </div>
-            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 mt-2">+ Tambah Jadwal</button>
+            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">+ Tambah Jadwal</button>
           </form>
-          <div id="scheduleList" class="space-y-2 max-h-64 overflow-y-auto text-sm"></div>
+          <div id="scheduleList" class="space-y-2 max-h-64 overflow-y-auto"></div>
         </div>
 
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-regular fa-sticky-note"></i> Catatan Cepat</h2>
+          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-regular fa-sticky-note text-indigo-600"></i> Catatan Cepat</h2>
           <form onsubmit="addNote(event)" class="space-y-2 mb-4">
             <input type="text" id="noteTitle" placeholder="Judul Pengingat" required class="w-full text-xs p-2 border rounded-lg outline-none">
             <textarea id="noteContent" placeholder="Isi catatan..." required class="w-full text-xs p-2 border rounded-lg outline-none h-16"></textarea>
-            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700">+ Simpan Catatan</button>
+            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">+ Simpan Catatan</button>
           </form>
           <div id="notesList" class="space-y-2 max-h-48 overflow-y-auto"></div>
         </div>
       </div>
 
-      <!-- KOLOM 2: PR & Tugas -->
+      <!-- KOLOM 2: PR & To-Do List Aktif -->
       <div class="space-y-6">
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-book-bookmark"></i> Daftar PR & Tugas</h2>
+          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-book-bookmark text-indigo-600"></i> Daftar PR & Tugas</h2>
           <form onsubmit="addHomework(event)" class="space-y-2 mb-4">
             <input type="text" id="hwSubject" placeholder="Mata Pelajaran / Nama PR" required class="w-full text-xs p-2 border rounded-lg outline-none">
-            <label class="block text-xs text-slate-500 font-medium">Tanggal Pengumpulan (Deadline):</label>
+            <label class="block text-xs text-slate-500 font-medium">Tanggal Tenggat (Deadline):</label>
             <input type="date" id="hwDeadline" required class="w-full text-xs p-2 border rounded-lg outline-none">
-            
-            <label class="block text-xs text-slate-500 font-medium">Lampiran File (Opsional):</label>
-            <input type="file" id="hwFile" accept="image/*,.pdf,.doc,.docx,.txt" class="w-full text-xs p-1 border rounded-lg outline-none bg-slate-50">
 
             <div class="flex items-center gap-2 pt-1 bg-indigo-50/50 p-2 rounded-lg border border-indigo-100">
               <input type="checkbox" id="hwReminder" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
               <label for="hwReminder" class="text-xs text-indigo-900 font-medium cursor-pointer select-none">
-                <i class="fa-solid fa-bell text-indigo-500 mr-1"></i> Pengingat Notifikasi (H-1 & Hari H)
+                <i class="fa-solid fa-bell text-indigo-500 mr-1"></i> Pengingat Notifikasi (Pengingat Hari H)
               </label>
             </div>
-            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 mt-2">+ Tambah PR</button>
+            <button type="submit" class="w-full text-xs bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">+ Tambah PR</button>
           </form>
-          <div id="homeworkList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+          <div id="homeworkList" class="space-y-2 max-h-64 overflow-y-auto"></div>
         </div>
-      </div>
 
-      <!-- KOLOM 3: To-Do List -->
-      <div class="space-y-6">
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check"></i> To-Do List Harian</h2>
+          <h2 class="font-bold text-indigo-900 mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check text-indigo-600"></i> To-Do List Harian</h2>
           <form onsubmit="addTodo(event)" class="space-y-2 mb-4">
             <div class="flex gap-2">
               <input type="text" id="todoInput" placeholder="Kegiatan hari ini..." required class="flex-grow text-xs p-2 border rounded-lg outline-none">
-              <button type="submit" class="text-xs bg-indigo-600 text-white px-3 py-2 rounded-lg font-semibold hover:bg-indigo-700">+</button>
+              <button type="submit" class="text-xs bg-indigo-600 text-white px-3 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">+</button>
             </div>
           </form>
-          <div id="todoList" class="space-y-2 max-h-96 overflow-y-auto"></div>
+          <div id="todoList" class="space-y-2 max-h-64 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <!-- KOLOM 3: Riwayat Tugas Selesai -->
+      <div class="space-y-6">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="font-bold text-emerald-800 flex items-center gap-2">
+              <i class="fa-solid fa-clock-rotate-left text-emerald-600"></i> Riwayat Tugas Selesai
+            </h2>
+            <button onclick="clearHistory()" class="text-[11px] text-red-500 hover:text-red-700 font-medium">Hapus Semua</button>
+          </div>
+          <p class="text-[11px] text-slate-400 mb-3">Tugas atau PR yang sudah dicentang selesai akan tersimpan di sini beserta tanggal pembuatan dan waktu selesainya.</p>
+          <div id="historyList" class="space-y-2 max-h-[36rem] overflow-y-auto"></div>
         </div>
       </div>
     </main>
@@ -136,7 +141,7 @@
       </div>
       <div class="flex gap-3 justify-center pt-2">
         <button onclick="closeConfirmModal()" class="w-full py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Batal</button>
-        <button id="confirmActionBtn" class="w-full py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl transition">Ya, Lanjutkan</button>
+        <button id="confirmActionBtn" class="w-full py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl transition">Ya, Hapus</button>
       </div>
     </div>
   </div>
@@ -145,18 +150,14 @@
     let currentUser = null;
     let db = { schedules: [], homeworks: [], todos: [], notes: [] };
     let confirmCallback = null;
-    let notifiedItems = new Set();
     let swRegistration = null;
+    const notifiedIds = new Set(); // Menyimpan ID pengingat yang sudah dikirim agar tidak berulang
 
-    // Registrasi Service Worker PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then((reg) => {
-            swRegistration = reg;
-            console.log('Service Worker Registered Successfully:', reg);
-          })
-          .catch((err) => console.error('Service Worker Registration Failed:', err));
+          .then((reg) => { swRegistration = reg; })
+          .catch((err) => console.log('Service Worker Failed:', err));
       });
     }
 
@@ -172,83 +173,9 @@
         loadUserData();
         showDashboard();
       }
+      // Memulai Pengecekan Notifikasi Otomatis Setiap 30 Detik
+      setInterval(checkAndTriggerReminders, 30000);
     };
-
-    async function ensureNotificationPermission() {
-      if (!("Notification" in window)) {
-        alert("Browser Anda tidak mendukung fitur Notifikasi Web.");
-        return false;
-      }
-      if (Notification.permission === "granted") return true;
-      if (Notification.permission === "denied") {
-        alert("Izin notifikasi diblokir di browser. Izinkan via pengaturan browser.");
-        return false;
-      }
-      const permission = await Notification.requestPermission();
-      return permission === "granted";
-    }
-
-    function sendNotification(title, body) {
-      if (swRegistration && swRegistration.active) {
-        swRegistration.active.postMessage({
-          type: 'SHOW_NOTIFICATION',
-          payload: { title, body }
-        });
-      } else if ("Notification" in window && Notification.permission === "granted") {
-        new Notification(title, { body: body, icon: 'https://cdn-icons-png.flaticon.com/512/2991/2991106.png' });
-      }
-    }
-
-    async function testNotification() {
-      const hasPermission = await ensureNotificationPermission();
-      if (hasPermission) {
-        sendNotification("🎉 Tes Notifikasi PWA", "Fitur notifikasi pengingat PR H-1 Service Worker berjalan dengan sukses!");
-      }
-    }
-
-    // Pengecekan otomatis tiap 30 detik
-    setInterval(() => {
-      if (!currentUser) return;
-      const now = new Date();
-      const todayStr = now.toISOString().split('T')[0];
-
-      const tomorrow = new Date(now);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const tomorrowStr = tomorrow.toISOString().split('T')[0];
-
-      const currentTimeStr = now.toTimeString().substring(0, 5);
-      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      const currentDay = days[now.getDay()];
-
-      db.homeworks.forEach(hw => {
-        if (hw.reminder && !hw.completed) {
-          if (hw.deadline === tomorrowStr) {
-            const key = `hw_h1_${hw.id}_${todayStr}`;
-            if (!notifiedItems.has(key)) {
-              sendNotification(`⏳ Pengingat H-1: ${hw.subject}`, `Besok adalah deadline pengumpulan PR ${hw.subject}!`);
-              notifiedItems.add(key);
-            }
-          }
-          if (hw.deadline === todayStr) {
-            const key = `hw_today_${hw.id}_${todayStr}`;
-            if (!notifiedItems.has(key)) {
-              sendNotification(`🚨 Deadline Hari Ini: ${hw.subject}`, `Hari ini PR ${hw.subject} harus dikumpulkan!`);
-              notifiedItems.add(key);
-            }
-          }
-        }
-      });
-
-      db.schedules.forEach(s => {
-        if (s.reminder && s.day === currentDay && s.time === currentTimeStr) {
-          const key = `sch_${s.id}_${todayStr}_${currentTimeStr}`;
-          if (!notifiedItems.has(key)) {
-            sendNotification(`📚 Kelas Now: ${s.subject}`, `Waktunya kelas ${s.subject} (${s.time})`);
-            notifiedItems.add(key);
-          }
-        }
-      });
-    }, 30000);
 
     function handleLogin(e) {
       e.preventDefault();
@@ -262,7 +189,7 @@
     }
 
     function confirmLogout() {
-      openConfirmModal('Konfirmasi Keluar', 'Apakah kamu yakin ingin keluar?', 'Keluar', 'fa-right-from-bracket', () => {
+      openConfirmModal('Konfirmasi Keluar', 'Apakah kamu yakin ingin keluar dari aplikasi?', 'Keluar', 'fa-right-from-bracket', () => {
         localStorage.removeItem('siswa_hub_user');
         currentUser = null;
         document.getElementById('authSection').classList.remove('hidden');
@@ -280,6 +207,10 @@
     function loadUserData() {
       const data = localStorage.getItem(`siswa_hub_data_${currentUser}`);
       db = data ? JSON.parse(data) : { schedules: [], homeworks: [], todos: [], notes: [] };
+      if(!db.schedules) db.schedules = [];
+      if(!db.homeworks) db.homeworks = [];
+      if(!db.todos) db.todos = [];
+      if(!db.notes) db.notes = [];
     }
 
     function saveData() {
@@ -306,10 +237,63 @@
       closeConfirmModal();
     };
 
+    async function ensureNotificationPermission() {
+      if (!("Notification" in window)) return false;
+      if (Notification.permission === "granted") return true;
+      const permission = await Notification.requestPermission();
+      return permission === "granted";
+    }
+
+    function triggerNotification(title, body) {
+      if (swRegistration && swRegistration.active) {
+        swRegistration.active.postMessage({
+          type: 'SHOW_NOTIFICATION',
+          payload: { title, body }
+        });
+      } else if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, { body: body, icon: 'https://cdn-icons-png.flaticon.com/512/2991/2991106.png' });
+      }
+    }
+
+    // FUNGSI PENGECEK PENGINGAT OTOMATIS
+    function checkAndTriggerReminders() {
+      if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+      const now = new Date();
+      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const currentDay = days[now.getDay()];
+      const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const currentDateStr = now.toISOString().split('T')[0];
+
+      // 1. Cek Jadwal Pelajaran
+      db.schedules.forEach(s => {
+        if (s.reminder && s.day === currentDay && s.time === currentTimeStr) {
+          const notifKey = `sched_${s.id}_${currentDateStr}_${s.time}`;
+          if (!notifiedIds.has(notifKey)) {
+            triggerNotification(`📚 Jadwal Sekarang: ${s.subject}`, `Waktunya kelas ${s.subject} (${s.time})`);
+            notifiedIds.add(notifKey);
+          }
+        }
+      });
+
+      // 2. Cek Pengingat PR (Pengingat Jam 08:00 Pagi pada Tanggal Deadline)
+      db.homeworks.forEach(h => {
+        if (h.reminder && !h.completed && h.deadline === currentDateStr && currentTimeStr === '08:00') {
+          const notifKey = `hw_${h.id}_${currentDateStr}`;
+          if (!notifiedIds.has(notifKey)) {
+            triggerNotification(`⏰ Tenggat PR Hari Ini: ${h.subject}`, `PR "${h.subject}" harus dikumpulkan hari ini!`);
+            notifiedIds.add(notifKey);
+          }
+        }
+      });
+    }
+
+    // FUNGSI TAMBAH DATA
     async function addSchedule(e) {
       e.preventDefault();
       const enableReminder = document.getElementById('scheduleReminder').checked;
       if (enableReminder) await ensureNotificationPermission();
+
       db.schedules.push({
         id: Date.now(),
         day: document.getElementById('scheduleDay').value,
@@ -318,6 +302,7 @@
         reminder: enableReminder,
         createdAt: getCurrentFormattedDateTime()
       });
+
       document.getElementById('scheduleSubject').value = '';
       document.getElementById('scheduleTime').value = '';
       document.getElementById('scheduleReminder').checked = false;
@@ -326,19 +311,19 @@
 
     async function addHomework(e) {
       e.preventDefault();
-      const subject = document.getElementById('hwSubject').value;
-      const deadline = document.getElementById('hwDeadline').value;
       const enableReminder = document.getElementById('hwReminder').checked;
       if (enableReminder) await ensureNotificationPermission();
-      
+
       db.homeworks.push({
         id: Date.now(),
-        subject: subject,
-        deadline: deadline,
+        subject: document.getElementById('hwSubject').value,
+        deadline: document.getElementById('hwDeadline').value,
         reminder: enableReminder,
         completed: false,
-        createdAt: getCurrentFormattedDateTime()
+        createdAt: getCurrentFormattedDateTime(),
+        completedAt: null
       });
+
       document.getElementById('hwSubject').value = '';
       document.getElementById('hwDeadline').value = '';
       document.getElementById('hwReminder').checked = false;
@@ -351,8 +336,10 @@
         id: Date.now(),
         text: document.getElementById('todoInput').value,
         completed: false,
-        createdAt: getCurrentFormattedDateTime()
+        createdAt: getCurrentFormattedDateTime(),
+        completedAt: null
       });
+
       document.getElementById('todoInput').value = '';
       saveData();
     }
@@ -365,19 +352,158 @@
         content: document.getElementById('noteContent').value,
         createdAt: getCurrentFormattedDateTime()
       });
+
       document.getElementById('noteTitle').value = '';
       document.getElementById('noteContent').value = '';
       saveData();
     }
 
+    // FUNGSI KONFIRMASI HAPUS DATA
+    function deleteSchedule(id) {
+      const schedule = db.schedules.find(item => item.id === id);
+      const name = schedule ? `${schedule.subject} (${schedule.day})` : 'jadwal ini';
+      openConfirmModal('Hapus Jadwal', `Apakah Anda yakin ingin menghapus jadwal "${name}"?`, 'Hapus', 'fa-trash', () => {
+        db.schedules = db.schedules.filter(item => item.id !== id);
+        saveData();
+      });
+    }
+
+    function deleteHomework(id) {
+      const hw = db.homeworks.find(item => item.id === id);
+      const name = hw ? hw.subject : 'PR ini';
+      openConfirmModal('Hapus PR', `Apakah Anda yakin ingin menghapus PR "${name}"?`, 'Hapus', 'fa-trash', () => {
+        db.homeworks = db.homeworks.filter(item => item.id !== id);
+        saveData();
+      });
+    }
+
+    function deleteTodo(id) {
+      const todo = db.todos.find(item => item.id === id);
+      const name = todo ? todo.text : 'tugas ini';
+      openConfirmModal('Hapus To-Do', `Apakah Anda yakin ingin menghapus tugas "${name}"?`, 'Hapus', 'fa-trash', () => {
+        db.todos = db.todos.filter(item => item.id !== id);
+        saveData();
+      });
+    }
+
+    function deleteNote(id) {
+      const note = db.notes.find(item => item.id === id);
+      const name = note ? note.title : 'catatan ini';
+      openConfirmModal('Hapus Catatan', `Apakah Anda yakin ingin menghapus catatan "${name}"?`, 'Hapus', 'fa-trash', () => {
+        db.notes = db.notes.filter(item => item.id !== id);
+        saveData();
+      });
+    }
+
+    // FUNGSI TOGGLE SELESAI
+    function toggleHomework(id) {
+      const hw = db.homeworks.find(item => item.id === id);
+      if (hw) {
+        hw.completed = !hw.completed;
+        hw.completedAt = hw.completed ? getCurrentFormattedDateTime() : null;
+      }
+      saveData();
+    }
+
+    function toggleTodo(id) {
+      const todo = db.todos.find(item => item.id === id);
+      if (todo) {
+        todo.completed = !todo.completed;
+        todo.completedAt = todo.completed ? getCurrentFormattedDateTime() : null;
+      }
+      saveData();
+    }
+
+    function clearHistory() {
+      openConfirmModal('Hapus Seluruh Riwayat', 'Apakah Anda yakin ingin menghapus seluruh riwayat tugas yang telah selesai? Data yang dihapus tidak dapat dikembalikan.', 'Hapus Semua', 'fa-trash-triangle', () => {
+        db.homeworks = db.homeworks.filter(h => !h.completed);
+        db.todos = db.todos.filter(t => !t.completed);
+        saveData();
+      });
+    }
+
+    // FUNGSI RENDER TAMPILAN
     function renderAll() {
+      // 1. Render Jadwal
+      const scheduleList = document.getElementById('scheduleList');
+      scheduleList.innerHTML = db.schedules.length === 0 ? '<p class="text-xs text-slate-400">Belum ada jadwal.</p>' :
+        db.schedules.map(s => `
+          <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/60 flex items-center justify-between text-xs">
+            <div>
+              <span class="font-bold text-indigo-700">${s.day}</span> - <span class="font-medium text-slate-700">${s.subject}</span>
+              <div class="text-[11px] text-slate-500"><i class="fa-regular fa-clock"></i> ${s.time} ${s.reminder ? '<span class="text-amber-500 ml-1"><i class="fa-solid fa-bell"></i></span>' : ''}</div>
+            </div>
+            <button onclick="deleteSchedule(${s.id})" class="text-slate-400 hover:text-red-500 transition px-2 py-1"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `).join('');
+
+      // 2. Render Catatan
+      const notesList = document.getElementById('notesList');
+      notesList.innerHTML = db.notes.length === 0 ? '<p class="text-xs text-slate-400">Belum ada catatan.</p>' :
+        db.notes.map(n => `
+          <div class="p-2.5 bg-amber-50/60 rounded-xl border border-amber-200/60 text-xs flex justify-between items-start">
+            <div>
+              <h4 class="font-bold text-amber-900">${n.title}</h4>
+              <p class="text-slate-600 mt-0.5 whitespace-pre-line">${n.content}</p>
+            </div>
+            <button onclick="deleteNote(${n.id})" class="text-slate-400 hover:text-red-500 transition ml-2"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `).join('');
+
+      // 3. Render PR Aktif
+      const activeHomeworks = db.homeworks.filter(h => !h.completed);
       const hwList = document.getElementById('homeworkList');
-      hwList.innerHTML = db.homeworks.length === 0 ? '<p class="text-xs text-slate-400">Tidak ada PR aktif.</p>' :
-        db.homeworks.map(h => `
-          <div class="p-3 bg-slate-50 rounded-xl border text-xs flex flex-col gap-1.5">
-            <span class="font-semibold text-slate-700">${h.subject}</span>
-            <span class="text-[11px] text-slate-500"><i class="fa-regular fa-calendar-check"></i> Tenggat: <b>${h.deadline}</b></span>
-            <span class="text-[10px] ${h.reminder ? 'text-amber-600' : 'text-slate-400'}"><i class="fa-solid fa-bell"></i> ${h.reminder ? 'Pengingat H-1 Aktif' : 'Notif Off'}</span>
+      hwList.innerHTML = activeHomeworks.length === 0 ? '<p class="text-xs text-slate-400">Tidak ada PR aktif.</p>' :
+        activeHomeworks.map(h => `
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/60 text-xs flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" onchange="toggleHomework(${h.id})" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
+              <div>
+                <span class="font-semibold text-slate-800">${h.subject}</span>
+                <div class="text-[11px] text-slate-500"><i class="fa-regular fa-calendar"></i> Tenggat: <b>${h.deadline}</b></div>
+                <div class="text-[10px] text-slate-400">Dibuat: ${h.createdAt || '-'}</div>
+              </div>
+            </div>
+            <button onclick="deleteHomework(${h.id})" class="text-slate-400 hover:text-red-500 transition px-2"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `).join('');
+
+      // 4. Render To-Do Aktif
+      const activeTodos = db.todos.filter(t => !t.completed);
+      const todoList = document.getElementById('todoList');
+      todoList.innerHTML = activeTodos.length === 0 ? '<p class="text-xs text-slate-400">Belum ada tugas harian.</p>' :
+        activeTodos.map(t => `
+          <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/60 text-xs flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer text-slate-700">
+              <input type="checkbox" onchange="toggleTodo(${t.id})" class="rounded text-indigo-600 cursor-pointer w-4 h-4">
+              <span>${t.text}</span>
+            </label>
+            <button onclick="deleteTodo(${t.id})" class="text-slate-400 hover:text-red-500 transition px-2"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `).join('');
+
+      // 5. Render Riwayat Tugas Selesai
+      const completedHomeworks = db.homeworks.filter(h => h.completed).map(h => ({ ...h, type: 'PR' }));
+      const completedTodos = db.todos.filter(t => t.completed).map(t => ({ ...t, type: 'To-Do', subject: t.text }));
+      const historyItems = [...completedHomeworks, ...completedTodos];
+
+      const historyList = document.getElementById('historyList');
+      historyList.innerHTML = historyItems.length === 0 ? '<p class="text-xs text-slate-400">Belum ada riwayat tugas selesai.</p>' :
+        historyItems.map(item => `
+          <div class="p-3 bg-emerald-50/50 rounded-xl border border-emerald-200/60 text-xs flex justify-between items-start">
+            <div>
+              <div class="flex items-center gap-1.5 mb-1">
+                <span class="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-1.5 py-0.5 rounded">${item.type}</span>
+                <span class="font-semibold text-slate-700 line-through">${item.subject}</span>
+              </div>
+              <div class="text-[10px] text-slate-500 space-y-0.5">
+                <div><i class="fa-regular fa-clock text-slate-400"></i> Diberikan/Dibuat: <b>${item.createdAt || 'N/A'}</b></div>
+                <div><i class="fa-solid fa-check text-emerald-600"></i> Diselesaikan: <b>${item.completedAt || 'N/A'}</b></div>
+              </div>
+            </div>
+            <button onclick="${item.type === 'PR' ? `toggleHomework(${item.id})` : `toggleTodo(${item.id})`}" class="text-[11px] text-amber-600 hover:text-amber-800 font-medium ml-2">
+              Batal
+            </button>
           </div>
         `).join('');
     }
