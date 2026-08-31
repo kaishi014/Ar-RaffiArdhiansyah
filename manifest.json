@@ -1,21 +1,21 @@
 {
-  "name": "Siswa Hub - Student Productivity",
+  "name": "Siswa Hub",
   "short_name": "Siswa Hub",
-  "description": "Manajemen Tugas, Jadwal, dan Pengingat PR H-1",
+  "description": "Aplikasi produktivitas siswa untuk jadwal, tugas, catatan, dan pengingat sekolah.",
   "start_url": "./siswa.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#f8fafc",
-  "theme_color": "#4f46e5",
+  "theme_color": "#312e81",
+  "lang": "id-ID",
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2991/2991106.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/2991/2991106.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
