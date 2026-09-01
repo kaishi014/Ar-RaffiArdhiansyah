@@ -56,7 +56,7 @@
             height: 260px;
             position: relative;
             margin-bottom: 20px;
-            display: none;
+            display: block; /* Ditampilkan dari awal */
         }
         /* Badan Peraga */
         .person-body {
@@ -120,27 +120,21 @@
     <button id="waBtn" onclick="bukaWhatsApp()">Mengulang via WhatsApp</button>
 
     <div id="status">Klik tombol untuk memulai</div>
-    <div id="warningNote" class="warning-note"> Pastikan volume media HP Anda aktif.</div>
+    <div id="warningNote" class="warning-note">Pastikan volume media HP Anda aktif.</div>
 
     <script>
-        // Isi pesan yang diset
         const PESAN_SEMAPHORE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
-        
-        // Durasi penahanan tiap huruf dalam milidetik (Tingkat Purwa: 2000 ms / 2 detik)
         const DURATION_PER_CHAR = 2000; 
 
-        // Ganti nomor WhatsApp Anda (Format internasional: 628xxxxxxx)
         const NOMOR_WA = "6283878085393"; 
         const TEKS_WA = encodeURIComponent("Halo kakk arraffi ganteng, saya ingin menanyakan/mengulang pesan Semaphore yang dikirim tadi.");
 
         let audioCtx = null;
 
-        /*
-           PEMETAAN SUDUT SEMAPHORE PRESISI (Sudut Tampilan Pengamat)
-           Posisi Jam/Arah:
-           0: Bawah (6)     1: Bawah Kiri (7:30)  2: Kiri (9)        3: Atas Kiri (10:30)
-           4: Atas (12)      5: Atas Kanan (1:30)  6: Kanan (3)       7: Bawah Kanan (4:30)
-        */
+        // Menyimpan sudut rotasi aktual (dalam derajat) agar animasi bergerak melalui jalur terpendek
+        let currentDegLeft = 90;  // Posisi 0 = 90 deg CSS
+        let currentDegRight = 90;
+
         const SEMAPHORE_MAP = {
             'A': [0, 1], 'B': [0, 2], 'C': [0, 3], 'D': [0, 4],
             'E': [0, 5], 'F': [0, 6], 'G': [0, 7], 'H': [1, 2],
@@ -150,6 +144,11 @@
             'U': [3, 5], 'V': [4, 7], 'W': [5, 6], 'X': [5, 7],
             'Y': [3, 6], 'Z': [6, 7], ' ': [0, 0]
         };
+
+        // Inisialisasi tampilan awal ke titik 0,0 saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            setArmAngles(0, 0);
+        });
 
         function playTone(duration) {
             return new Promise(resolve => {
@@ -175,16 +174,24 @@
             });
         }
 
+        // Fungsi untuk menghitung sudut rotasi terpendek (menghindari putaran tak perlu memutari kepala)
+        function getShortestAngle(currentDeg, targetIdx) {
+            let targetDeg = targetIdx * 45 + 90;
+            let diff = (targetDeg - currentDeg) % 360;
+            if (diff < -180) diff += 360;
+            if (diff > 180) diff -= 360;
+            return currentDeg + diff;
+        }
+
         function setArmAngles(angleLeftIdx, angleRightIdx) {
             const armLeft = document.getElementById("armLeft");
             const armRight = document.getElementById("armRight");
 
-            // Konversi indeks jam/posisi ke derajat CSS (Rotasi berdasar pusat peraga)
-            const degLeft = angleLeftIdx * 45 + 90;
-            const degRight = angleRightIdx * 45 + 90;
+            currentDegLeft = getShortestAngle(currentDegLeft, angleLeftIdx);
+            currentDegRight = getShortestAngle(currentDegRight, angleRightIdx);
 
-            armLeft.style.transform = `rotate(${degLeft}deg)`;
-            armRight.style.transform = `rotate(${degRight}deg)`;
+            armLeft.style.transform = `rotate(${currentDegLeft}deg)`;
+            armRight.style.transform = `rotate(${currentDegRight}deg)`;
         }
 
         function delay(ms) {
@@ -194,18 +201,14 @@
         async function mulaiProses() {
             const startBtn = document.getElementById("startBtn");
             const statusDiv = document.getElementById("status");
-            const stage = document.getElementById("semaphoreStage");
 
-            // Langsung hilangkan tombol "Mulai"
             startBtn.style.display = "none";
             document.getElementById("warningNote").style.display = "none";
-            stage.style.display = "block";
             
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
 
-            // Hitung Mundur 3 Detik
             let hitung = 3;
             statusDiv.innerText = `Sinyal Semaphore dimulai dalam ${hitung}...`;
 
@@ -225,7 +228,6 @@
             const waBtn = document.getElementById("waBtn");
             const pesan = PESAN_SEMAPHORE.toUpperCase();
 
-            // Set posisi awal (Istirahat / Bawah)
             setArmAngles(0, 0);
             await delay(500);
 
@@ -241,21 +243,17 @@
 
                 const angles = SEMAPHORE_MAP[char] || [0, 0];
 
-                statusDiv.innerText = `Mengirim Pesan`;
+                statusDiv.innerText = `Mengirim Pesan (${char})`;
                 
-                // Gerakkan bendera & bunyikan audio bip
                 setArmAngles(angles[0], angles[1]);
                 playTone(150);
                 
-                // Tahan gerakan sesuai durasi Purwa
                 await delay(DURATION_PER_CHAR);
 
-                // Kembali sebentar ke posisi netral untuk memisahkan huruf yang sama berturut-turut
                 setArmAngles(0, 0);
                 await delay(500);
             }
 
-            // Selesai -> Tampilkan tombol WhatsApp
             statusDiv.innerText = "Sinyal Semaphore selesai dikirim! Percobaan telah habis.";
             waBtn.style.display = "inline-block";
         }
