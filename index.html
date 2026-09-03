@@ -43,10 +43,18 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
     will-change: scroll-position;
+    touch-action: pan-x;
+    cursor: grab;
+    user-select: none;
 }
 
 .achievement-track::-webkit-scrollbar {
     display: none;
+}
+
+.achievement-track.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
 }
 
 .achievement-row .carousel-btn {
