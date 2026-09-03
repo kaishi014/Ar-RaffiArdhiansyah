@@ -7,23 +7,34 @@ function initAchievementCarousel(row) {
     const track = row.querySelector(".achievement-track");
     const previousButton = row.querySelector(".achievement-prev");
     const nextButton = row.querySelector(".achievement-next");
-    const originalCards = Array.from(track.children);
 
-    if (!track || originalCards.length === 0) return;
+    if (!track) return;
+
+    const originalCards = Array.from(track.children);
+    if (originalCards.length === 0) return;
 
     originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
 
     const direction = row.dataset.direction === "right" ? -1 : 1;
-    const speed = 0.7;
+    const speed = 42;
     let isPaused = false;
+    let isHovered = false;
+    let isDragging = false;
+    let isButtonScrolling = false;
+    let dragStartX = 0;
+    let dragStartScrollLeft = 0;
+    let previousTime = 0;
 
     if (direction < 0) {
         track.scrollLeft = track.scrollWidth / 2;
     }
 
-    function animate() {
+    function animate(timestamp) {
+        const elapsed = previousTime ? Math.min(timestamp - previousTime, 50) : 16;
+        previousTime = timestamp;
+
         if (!isPaused) {
-            track.scrollLeft += direction * speed;
+            track.scrollLeft += direction * speed * elapsed / 1000;
             const halfWidth = track.scrollWidth / 2;
 
             if (direction > 0 && track.scrollLeft >= halfWidth) {
@@ -36,17 +47,62 @@ function initAchievementCarousel(row) {
     }
 
     requestAnimationFrame(animate);
-    track.addEventListener("mouseenter", () => (isPaused = true));
-    track.addEventListener("mouseleave", () => (isPaused = false));
-    track.addEventListener("touchstart", () => (isPaused = true), { passive: true });
-    track.addEventListener("touchend", () => (isPaused = false), { passive: true });
+    track.addEventListener("mouseenter", () => {
+        isHovered = true;
+        updatePauseState();
+    });
+    track.addEventListener("mouseleave", () => {
+        isHovered = false;
+        updatePauseState();
+    });
+    track.addEventListener("pointerdown", event => {
+        if (event.pointerType === "mouse" && event.button !== 0) return;
+        isDragging = true;
+        updatePauseState();
+        dragStartX = event.clientX;
+        dragStartScrollLeft = track.scrollLeft;
+        track.classList.add("is-dragging");
+        track.setPointerCapture(event.pointerId);
+    });
+    track.addEventListener("pointermove", event => {
+        if (!isDragging) return;
+        track.scrollLeft = dragStartScrollLeft - (event.clientX - dragStartX);
+    });
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
+
+    function endDrag(event) {
+        if (!isDragging) return;
+        isDragging = false;
+        updatePauseState();
+        track.classList.remove("is-dragging");
+        if (track.hasPointerCapture(event.pointerId)) {
+            track.releasePointerCapture(event.pointerId);
+        }
+    }
 
     previousButton.addEventListener("click", () => {
+        isButtonScrolling = true;
+        updatePauseState();
         track.scrollBy({ left: -320, behavior: "smooth" });
+        window.setTimeout(() => {
+            isButtonScrolling = false;
+            updatePauseState();
+        }, 450);
     });
     nextButton.addEventListener("click", () => {
+        isButtonScrolling = true;
+        updatePauseState();
         track.scrollBy({ left: 320, behavior: "smooth" });
+        window.setTimeout(() => {
+            isButtonScrolling = false;
+            updatePauseState();
+        }, 450);
     });
+
+    function updatePauseState() {
+        isPaused = isHovered || isDragging || isButtonScrolling;
+    }
 }
 
 const projectData = {
