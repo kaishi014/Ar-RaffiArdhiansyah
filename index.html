@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portofolio Arraffi Ardhiansyah</title>
     <!-- Google Fonts & Font Awesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
@@ -399,7 +399,10 @@
 
     <!-- NAVBAR -->
     <nav>
-        <div class="logo">Arraffi.</div>
+        <a href="#top" class="logo" aria-label="Kembali ke beranda">Arraffi<span>.</span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Buka menu navigasi" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
         <ul class="nav-links">
             <li><a href="#about">Tentang</a></li>
             <li><a href="#organization">Organisasi</a></li>
@@ -410,12 +413,21 @@
     </nav>
 
     <!-- HERO SECTION -->
+    <main id="top">
     <section class="hero">
         <div class="hero-content reveal">
-            <h3>Halo semua, saya</h3>
-            <h1>Arraffi Ardhiansyah</h1>
-            <p>Pelajar aktif, eksplorer hal baru, serta antusias di bidang Kepemimpinan, Public Speaking, AI, dan Web Development.</p>
-            <a href="#projects" class="btn">Lihat Proyek & Presentasi</a>
+            <div class="hero-kicker"><span class="status-dot"></span> Pelajar kreatif · pembelajar seumur hidup</div>
+            <h1>Membangun ide menjadi <em>sesuatu yang berarti.</em></h1>
+            <p>Saya Arraffi Ardhiansyah, pelajar yang mengeksplorasi teknologi, kepemimpinan, dan komunikasi untuk membuat karya yang bermanfaat.</p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn"><i class="fa-solid fa-arrow-right"></i> Jelajahi karya</a>
+                <a href="#about" class="text-link">Kenali saya <i class="fa-solid fa-arrow-down"></i></a>
+            </div>
+            <div class="hero-meta">
+                <div><strong>10+</strong><span>proyek interaktif</span></div>
+                <div><strong>4</strong><span>bidang yang digeluti</span></div>
+                <div><strong>2026</strong><span>terus berkembang</span></div>
+            </div>
         </div>
     </section>
 
@@ -447,7 +459,7 @@
             <!-- Kartu Jasa 1 -->
             <div class="service-card">
                 <div class="service-img-wrapper">
-                    <img src="https://via.placeholder.com/400x250" alt="Pembuatan Website">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=700&q=80" alt="Pembuatan Website">
                     <span class="service-badge"><i class="fa-solid fa-code"></i> Web</span>
                 </div>
                 <div class="service-content">
@@ -459,7 +471,7 @@
             <!-- Kartu Jasa 2 -->
             <div class="service-card">
                 <div class="service-img-wrapper">
-                    <img src="https://via.placeholder.com/400x250" alt="Public Speaking">
+                    <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=700&q=80" alt="Public Speaking">
                     <span class="service-badge"><i class="fa-solid fa-microphone"></i> Event</span>
                 </div>
                 <div class="service-content">
@@ -471,7 +483,7 @@
             <!-- Kartu Jasa 3 -->
             <div class="service-card">
                 <div class="service-img-wrapper">
-                    <img src="https://via.placeholder.com/400x250" alt="Integrasi AI">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=700&q=80" alt="Integrasi AI">
                     <span class="service-badge"><i class="fa-solid fa-robot"></i> AI Tool</span>
                 </div>
                 <div class="service-content">
@@ -483,7 +495,7 @@
             <!-- Kartu Jasa 4 -->
             <div class="service-card">
                 <div class="service-img-wrapper">
-                    <img src="https://via.placeholder.com/400x250" alt="Kepemimpinan Organisasi">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=700&q=80" alt="Kepemimpinan Organisasi">
                     <span class="service-badge"><i class="fa-solid fa-users"></i> Leadership</span>
                 </div>
                 <div class="service-content">
@@ -679,7 +691,7 @@
         <div class="achievement-card">
             <div class="achievement-img-wrapper">
                 <span class="achievement-badge"><i class="fa-solid fa-award"></i> Juara Utama</span>
-                <img src="https://via.placeholder.com/400x250" alt="Lomba Public Speaking">
+                <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=700&q=80" alt="Lomba Public Speaking">
             </div>
             <div class="achievement-content">
                 <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Januari 2026</div>
@@ -692,7 +704,7 @@
         <div class="achievement-card">
             <div class="achievement-img-wrapper">
                 <span class="achievement-badge"><i class="fa-solid fa-medal"></i> Juara 3</span>
-                <img src="https://via.placeholder.com/400x250" alt="Kejuaraan Pencak Silat">
+                <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=700&q=80" alt="Kejuaraan Pencak Silat">
             </div>
             <div class="achievement-content">
                 <div class="achievement-date"><i class="fa-regular fa-calendar"></i> November 2025</div>
@@ -705,7 +717,7 @@
         <div class="achievement-card">
             <div class="achievement-img-wrapper">
                 <span class="achievement-badge"><i class="fa-solid fa-star"></i> Terfavorit</span>
-                <img src="https://via.placeholder.com/400x250" alt="Lomba Karya Tulis Ilmiah">
+                <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=700&q=80" alt="Lomba Karya Tulis Ilmiah">
             </div>
             <div class="achievement-content">
                 <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Agustus 2025</div>
@@ -718,7 +730,7 @@
         <div class="achievement-card">
             <div class="achievement-img-wrapper">
                 <span class="achievement-badge"><i class="fa-solid fa-trophy"></i> Juara 1</span>
-                <img src="https://via.placeholder.com/400x250" alt="Lomba Pramuka">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80" alt="Lomba Pramuka">
             </div>
             <div class="achievement-content">
                 <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Juni 2025</div>
@@ -731,7 +743,7 @@
         <div class="achievement-card">
             <div class="achievement-img-wrapper">
                 <span class="achievement-badge"><i class="fa-solid fa-medal"></i> Juara 2</span>
-                <img src="https://via.placeholder.com/400x250" alt="Marching Band">
+                <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=700&q=80" alt="Marching Band">
             </div>
             <div class="achievement-content">
                 <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Februari 2025</div>
@@ -757,16 +769,16 @@
             Ikuti perjalanan dan aktivitas harian saya di media sosial berikut:
         </p>
         <div class="social-container reveal">
-            <a href="https://www.instagram.com/kaishi014?igsh=MjM0cWFkNDhwYmhk" target="_blank" class="social-btn instagram">
+            <a href="https://www.instagram.com/kaishi014?igsh=MjM0cWFkNDhwYmhk" target="_blank" rel="noopener noreferrer" class="social-btn instagram">
                 <i class="fa-brands fa-instagram"></i> Instagram
             </a>
-            <a href="https://discord.gg/warnet" target="_blank" class="social-btn discord">
+            <a href="https://discord.gg/warnet" target="_blank" rel="noopener noreferrer" class="social-btn discord">
                 <i class="fa-brands fa-discord"></i> Discord
             </a>
-            <a href="https://whatsapp.com/channel/0029VbCzsgDHLHQQJesW7M3b" target="_blank" class="social-btn whatsapp">
+            <a href="https://whatsapp.com/channel/0029VbCzsgDHLHQQJesW7M3b" target="_blank" rel="noopener noreferrer" class="social-btn whatsapp">
                 <i class="fa-brands fa-whatsapp"></i> Saluran WA
             </a>
-            <a href="https://youtube.com/@hikari_144?si=wrt_HA384u0oAGaU" target="_blank" class="social-btn youtube">
+            <a href="https://youtube.com/@hikari_144?si=wrt_HA384u0oAGaU" target="_blank" rel="noopener noreferrer" class="social-btn youtube">
                 <i class="fa-brands fa-youtube"></i> YouTube
             </a>
         </div>
@@ -774,8 +786,10 @@
 
     <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 Arraffi Ardhiansyah. Dibuat dengan semangat eksplorasi.</p>
+        <div class="footer-brand">Arraffi<span>.</span></div>
+        <p>&copy; 2026 Arraffi Ardhiansyah · Dibuat dengan semangat eksplorasi.</p>
     </footer>
+    </main>
 
     <!-- POPUP MENGAMBANG (FLOATING ROBOT BUTTON) -->
     <a href="gemini.html" class="floating-robot-btn" title="Tanya AI Gemini">
@@ -807,7 +821,7 @@
                 </div>
 
                 <div class="modal-actions">
-                    <a id="modalActionBtn" href="jepang.html" target="_blank" class="btn" style="padding: 8px 20px; font-size: 0.9rem;">
+                    <a id="modalActionBtn" href="jepang.html" target="_blank" rel="noopener noreferrer" class="btn" style="padding: 8px 20px; font-size: 0.9rem;">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Link Proyek
                     </a>
                 </div>
