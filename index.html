@@ -14,6 +14,11 @@
     
     /* --- PRESTASI SECTION --- */
 .achievement-carousel {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    margin-left: -50vw;
+    overflow: hidden;
     margin-top: 30px;
 }
 
@@ -26,9 +31,6 @@
 
 .achievement-row {
     position: relative;
-    display: flex;
-    align-items: center;
-    gap: 16px;
     margin-bottom: 25px;
 }
 
@@ -36,8 +38,8 @@
     display: flex;
     gap: 25px;
     overflow-x: auto;
-    flex: 1;
-    padding: 15px 5px 25px;
+    width: 100%;
+    padding: 15px 22px 25px;
     scrollbar-width: none;
     -ms-overflow-style: none;
     will-change: scroll-position;
@@ -45,6 +47,18 @@
 
 .achievement-track::-webkit-scrollbar {
     display: none;
+}
+
+.achievement-row .carousel-btn {
+    top: 50%;
+}
+
+.achievement-row .achievement-prev {
+    left: 15px;
+}
+
+.achievement-row .achievement-next {
+    right: 15px;
 }
 
 .achievement-card {
@@ -534,29 +548,29 @@
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
             <div class="achievement-track">
-            <!-- Prestasi 3 -->
+            <!-- Isi baris bawah dibuat sama dengan baris atas -->
             <div class="achievement-card">
                 <div class="achievement-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?auto=format&fit=crop&w=700&q=80" alt="Dokumen prestasi">
-                    <span class="achievement-badge"><i class="fa-solid fa-trophy"></i> Penghargaan</span>
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80" alt="Sertifikat atau piagam prestasi">
+                    <span class="achievement-badge"><i class="fa-solid fa-award"></i> Sertifikat</span>
                 </div>
                 <div class="achievement-content">
                     <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Tahun</div>
                     <h3 class="achievement-title">Judul Prestasi</h3>
-                    <p class="achievement-desc">Tambahkan deskripsi pencapaian dan peran yang dilakukan.</p>
+                    <p class="achievement-desc">Tambahkan keterangan singkat tentang sertifikat atau piagam yang diraih.</p>
                 </div>
             </div>
 
-            <!-- Prestasi 4 -->
+            <!-- Prestasi 2 -->
             <div class="achievement-card">
                 <div class="achievement-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80" alt="Penghargaan kegiatan">
-                    <span class="achievement-badge"><i class="fa-solid fa-star"></i> Prestasi</span>
+                    <img src="https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=700&q=80" alt="Piagam penghargaan">
+                    <span class="achievement-badge"><i class="fa-solid fa-medal"></i> Piagam</span>
                 </div>
                 <div class="achievement-content">
                     <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Tahun</div>
                     <h3 class="achievement-title">Judul Prestasi</h3>
-                    <p class="achievement-desc">Tambahkan informasi penghargaan yang ingin ditampilkan.</p>
+                    <p class="achievement-desc">Tambahkan nama kegiatan, tingkat pencapaian, dan penyelenggara.</p>
                 </div>
             </div>
             </div>
