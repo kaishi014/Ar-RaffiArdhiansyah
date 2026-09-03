@@ -13,6 +13,10 @@
     <style>
     
     /* --- PRESTASI SECTION --- */
+.achievement-carousel {
+    margin-top: 30px;
+}
+
 .achievement-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -20,7 +24,31 @@
     margin-top: 30px;
 }
 
+.achievement-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.achievement-track {
+    display: flex;
+    gap: 25px;
+    overflow-x: auto;
+    flex: 1;
+    padding: 15px 5px 25px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    will-change: scroll-position;
+}
+
+.achievement-track::-webkit-scrollbar {
+    display: none;
+}
+
 .achievement-card {
+    flex: 0 0 320px;
     background: var(--card-bg, #ffffff);
     border-radius: 12px;
     overflow: hidden;
@@ -102,7 +130,8 @@
 }
 
 /* Kartu Tersembunyi */
-.achievement-card.hidden {
+.achievement-card.hidden,
+.project-card.hidden {
     display: none !important;
 }
 
@@ -254,6 +283,12 @@
 
 /* Responsif pada Layar HP */
 @media (max-width: 600px) {
+    .achievement-card {
+        flex-basis: 270px;
+    }
+    .achievement-row .carousel-btn {
+        display: none;
+    }
     .service-card {
         flex: 0 0 260px;
     }
@@ -407,6 +442,8 @@
             <li><a href="#about">Tentang</a></li>
             <li><a href="#organization">Organisasi</a></li>
             <li><a href="#skills">Keahlian</a></li>
+            <li><a href="#achievements">Prestasi</a></li>
+            <li><a href="#moments">Moments</a></li>
             <li><a href="#projects">Proyek & Presentasi</a></li>
             <li><a href="#socials">Kontak</a></li>
         </ul>
@@ -447,75 +484,86 @@
             </p>
         </div>
     </section>
-   <!-- JASA & LAYANAN (SERVICES) -->
-<section id="services">
-    <h2 class="section-title reveal">Jasa & Layanan</h2>
+    <!-- PRESTASI DAN SERTIFIKAT -->
+<section id="achievements">
+    <h2 class="section-title reveal">Prestasi-Prestasi Saya</h2>
     <p style="text-align: center; color: var(--text-secondary); margin-top: -30px; margin-bottom: 30px;" class="reveal">
-        Layanan profesional yang siap saya bantu untuk kebutuhan proyek, acara, atau pengembangan Anda.
+        Kumpulan sertifikat, piagam, dan pencapaian yang akan terus saya lengkapi.
     </p>
 
-    <!-- Navigation Arrows untuk Carousel Samping -->
-    <div class="carousel-wrapper reveal">
-        <button class="carousel-btn prev-btn" id="servicePrevBtn" aria-label="Geser Kiri">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        
-        <!-- Track Kartu Geser Samping -->
-        <div class="services-container" id="servicesContainer">
-            
-            <!-- Kartu Jasa 1 -->
-            <div class="service-card">
-                <div class="service-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=700&q=80" alt="Pembuatan Website">
-                    <span class="service-badge"><i class="fa-solid fa-code"></i> Web</span>
+    <div class="achievement-carousel reveal">
+        <div class="achievement-row" data-direction="left">
+            <button class="carousel-btn achievement-prev" aria-label="Geser prestasi baris atas ke kiri">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="achievement-track">
+            <!-- Prestasi 1: ganti gambar dan keterangan dengan sertifikat/piagam -->
+            <div class="achievement-card">
+                <div class="achievement-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80" alt="Sertifikat atau piagam prestasi">
+                    <span class="achievement-badge"><i class="fa-solid fa-award"></i> Sertifikat</span>
                 </div>
-                <div class="service-content">
-                    <h3 class="service-title">Pengembangan Web Front-End</h3>
-                    <p class="service-desc">Pembuatan website portofolio, landing page, atau web sekolah yang modern, responsif, dan menarik.</p>
+                <div class="achievement-content">
+                    <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Tahun</div>
+                    <h3 class="achievement-title">Judul Prestasi</h3>
+                    <p class="achievement-desc">Tambahkan keterangan singkat tentang sertifikat atau piagam yang diraih.</p>
                 </div>
             </div>
 
-            <!-- Kartu Jasa 2 -->
-            <div class="service-card">
-                <div class="service-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=700&q=80" alt="Public Speaking">
-                    <span class="service-badge"><i class="fa-solid fa-microphone"></i> Event</span>
+            <!-- Prestasi 2 -->
+            <div class="achievement-card">
+                <div class="achievement-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&w=700&q=80" alt="Piagam penghargaan">
+                    <span class="achievement-badge"><i class="fa-solid fa-medal"></i> Piagam</span>
                 </div>
-                <div class="service-content">
-                    <h3 class="service-title">MC & Public Speaking</h3>
-                    <p class="service-desc">Pemandu acara formal maupun non-formal, moderasi diskusi, dan penyampaian presentasi secara profesional.</p>
-                </div>
-            </div>
-
-            <!-- Kartu Jasa 3 -->
-            <div class="service-card">
-                <div class="service-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=700&q=80" alt="Integrasi AI">
-                    <span class="service-badge"><i class="fa-solid fa-robot"></i> AI Tool</span>
-                </div>
-                <div class="service-content">
-                    <h3 class="service-title">Konsultasi & Prompting AI</h3>
-                    <p class="service-desc">Membantu optimasi penggunaan AI (Gemini/ChatGPT) untuk produktivitas belajar, otomatisasi, dan penulisan.</p>
+                <div class="achievement-content">
+                    <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Tahun</div>
+                    <h3 class="achievement-title">Judul Prestasi</h3>
+                    <p class="achievement-desc">Tambahkan nama kegiatan, tingkat pencapaian, dan penyelenggara.</p>
                 </div>
             </div>
 
-            <!-- Kartu Jasa 4 -->
-            <div class="service-card">
-                <div class="service-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=700&q=80" alt="Kepemimpinan Organisasi">
-                    <span class="service-badge"><i class="fa-solid fa-users"></i> Leadership</span>
-                </div>
-                <div class="service-content">
-                    <h3 class="service-title">Manajemen Acara / Event</h3>
-                    <p class="service-desc">Pendampingan dan penyusunan konsep acara siswa, kepengurusan organisasi, serta kepemimpinan tim.</p>
-                </div>
             </div>
-
+            <button class="carousel-btn achievement-next" aria-label="Geser prestasi baris atas ke kanan">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
 
-        <button class="carousel-btn next-btn" id="serviceNextBtn" aria-label="Geser Kanan">
-            <i class="fa-solid fa-chevron-right"></i>
-        </button>
+        <div class="achievement-row" data-direction="right">
+            <button class="carousel-btn achievement-prev" aria-label="Geser prestasi baris bawah ke kiri">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="achievement-track">
+            <!-- Prestasi 3 -->
+            <div class="achievement-card">
+                <div class="achievement-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?auto=format&fit=crop&w=700&q=80" alt="Dokumen prestasi">
+                    <span class="achievement-badge"><i class="fa-solid fa-trophy"></i> Penghargaan</span>
+                </div>
+                <div class="achievement-content">
+                    <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Tahun</div>
+                    <h3 class="achievement-title">Judul Prestasi</h3>
+                    <p class="achievement-desc">Tambahkan deskripsi pencapaian dan peran yang dilakukan.</p>
+                </div>
+            </div>
+
+            <!-- Prestasi 4 -->
+            <div class="achievement-card">
+                <div class="achievement-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80" alt="Penghargaan kegiatan">
+                    <span class="achievement-badge"><i class="fa-solid fa-star"></i> Prestasi</span>
+                </div>
+                <div class="achievement-content">
+                    <div class="achievement-date"><i class="fa-regular fa-calendar"></i> Tahun</div>
+                    <h3 class="achievement-title">Judul Prestasi</h3>
+                    <p class="achievement-desc">Tambahkan informasi penghargaan yang ingin ditampilkan.</p>
+                </div>
+            </div>
+            </div>
+            <button class="carousel-btn achievement-next" aria-label="Geser prestasi baris bawah ke kanan">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
     </div>
 </section>
     <!-- ORGANISASI & PENGALAMAN -->
@@ -579,21 +627,21 @@
 
         <div class="grid-container">
             <!-- PROYEK 1 --> 
-            <div class="card clickable-card reveal" onclick="openModal('jepang')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('jepang')">
                 <span class="card-badge">Web App</span>
                 <i class="fa-solid fa-language main-icon"></i>
                 <h3>Web Belajar Bahasa Jepang</h3>
                 <p>Website interaktif untuk membantu pelajar memahami tata bahasa & kosakata dasar Jepang.</p>
                 <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
             </div> 
-            <div class="card clickable-card reveal" onclick="openModal('siswa-hub')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('siswa-hub')">
                 <span class="card-badge">Web App / Productivity</span>
                 <i class="fa-solid fa-graduation-cap main-icon"></i>
                 <h3>Student Productivity Hub</h3>
                 <p>Aplikasi web interaktif untuk mengelola jadwal pelajaran, tugas & PR berbasis foto, catatan, dan pengingat notifikasi otomatis.</p>
                 <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
             </div>
-            <div class="card clickable-card reveal" onclick="openModal('sudoku')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('sudoku')">
                 <span class="card-badge">Web Game</span>
                 <i class="fa-solid fa-puzzle-piece main-icon"></i>
                 <h3>Game Sudoku Puzzle</h3>
@@ -602,7 +650,7 @@
             </div>
 
             <!-- PROYEK 2 -->
-            <div class="card clickable-card reveal" onclick="openModal('python-calc')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('python-calc')">
                 <span class="card-badge">Python</span>
                 <i class="fa-solid fa-calculator main-icon"></i>
                 <h3>Kalkulator Sederhana</h3>
@@ -611,7 +659,7 @@
             </div>
 
             <!-- PROYEK 3 -->
-            <div class="card clickable-card reveal" onclick="openModal('snake-game')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('snake-game')">
                 <span class="card-badge">Game Dev</span>
                 <i class="fa-solid fa-gamepad main-icon"></i>
                 <h3>Game Ular (Snake Game)</h3>
@@ -620,7 +668,7 @@
             </div>
 
             <!-- PROYEK 4 -->
-            <div class="card clickable-card reveal" onclick="openModal('presentation-osis')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('presentation-osis')">
                 <span class="card-badge">Presentasi</span>
                 <i class="fa-solid fa-person-chalkboard main-icon"></i>
                 <h3>Presentasi Leadership & OSIS</h3>
@@ -629,28 +677,28 @@
             </div>
 
             <!-- PROYEK 5 -->
-            <div class="card clickable-card reveal" onclick="openModal('morse')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('morse')">
                 <span class="card-badge">Web Tool</span>
                 <i class="fa-solid fa-lightbulb main-icon"></i>
                 <h3>Senter Sinyal Morse</h3>
                 <p>Aplikasi web interaktif untuk mengirim pesan atau sinyal darurat dalam kode Morse via senter HP.</p>
                 <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
             </div>
-            <div class="card clickable-card reveal" onclick="openModal('registration-pramuka')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('registration-pramuka')">
                 <span class="card-badge">Pendaftaran</span>
                 <i class="fa-solid fa-campground main-icon"></i>
                 <h3>Pendaftaran Eskul Pramuka</h3>
                 <p>Formulir pendaftaran anggota baru Ekstrakurikuler Pramuka. Kirim data langsung via WhatsApp.</p>
                 <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk mendaftar</div>
             </div>
-            <div class="card clickable-card reveal" onclick="openModal('morse-semaphore')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('morse-semaphore')">
                 <span class="card-badge">Web App</span>
                 <i class="fa-solid fa-flag main-icon"></i>
                 <h3>Latihan Morse & Semaphore</h3>
                 <p>Aplikasi interaktif untuk belajar, mengkonversi, dan menguji hafalan sandi Morse serta isyarat Semaphore.</p>
                 <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
             </div>
-            <div class="card clickable-card reveal" onclick="openModal('bg-remover')">
+            <div class="card clickable-card project-card reveal" onclick="openModal('bg-remover')">
                 <span class="card-badge">Web App</span>
                 <i class="fa-solid fa-image main-icon"></i>
                 <h3>Penghapus Background Foto</h3>
@@ -658,13 +706,19 @@
                 <div class="click-hint"><i class="fa-solid fa-arrow-right-long"></i> Klik untuk detail</div>
             </div>
         </div>
+        <div class="load-more-container reveal">
+            <button id="projectLoadMoreBtn" class="btn-load-more" onclick="toggleProjects()">
+                <span id="projectLoadMoreText">Lihat Lebih Banyak</span>
+                <i id="projectLoadMoreIcon" class="fa-solid fa-chevron-down"></i>
+            </button>
+        </div>
     </section>
     
-    <!-- SECTION PRESTASI -->
-<section id="achievements">
-    <h2 class="section-title reveal">Rekapitulasi Prestasi</h2>
+    <!-- MOMENTS KEGIATAN -->
+<section id="moments">
+    <h2 class="section-title reveal">Moments</h2>
     <p style="text-align: center; color: var(--text-secondary); margin-top: -30px; margin-bottom: 30px;" class="reveal">
-        Pencapaian dan kejuaraan yang berhasil diraih dalam perjalanan akademis maupun non-akademis.
+        Dokumentasi kegiatan, pengalaman, dan momen berkesan yang akan saya isi dengan foto-foto pilihan.
     </p>
     
     <div class="achievement-grid reveal">
@@ -760,13 +814,6 @@
         </div>
     </div>
     
-    <!-- Tombol Lihat Lebih Banyak -->
-    <div class="load-more-container reveal">
-        <button id="loadMoreBtn" class="btn-load-more" onclick="toggleAchievements()">
-            <span id="loadMoreText">Lihat Lebih Banyak</span>
-            <i id="loadMoreIcon" class="fa-solid fa-chevron-down"></i>
-        </button>
-    </div>
 </section>
 
     <!-- SOSIAL MEDIA -->
