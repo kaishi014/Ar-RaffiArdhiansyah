@@ -1,61 +1,53 @@
 // DATA LENGKAP PROYEK & PRESENTASI
 document.addEventListener("DOMContentLoaded", function () {
-    const container = document.getElementById("servicesContainer");
-    const prevBtn = document.getElementById("servicePrevBtn");
-    const nextBtn = document.getElementById("serviceNextBtn");
+    document.querySelectorAll(".achievement-row").forEach(initAchievementCarousel);
+});
 
-    if (!container) return;
+function initAchievementCarousel(row) {
+    const track = row.querySelector(".achievement-track");
+    const previousButton = row.querySelector(".achievement-prev");
+    const nextButton = row.querySelector(".achievement-next");
+    const originalCards = Array.from(track.children);
 
-    // 1. Duplikasi seluruh elemen kartu di dalam container agar terjadi seamless infinite loop (1, 2, 3, 1, 2, 3)
-    const originalCards = Array.from(container.children);
-    originalCards.forEach((card) => {
-        const clone = card.cloneNode(true);
-        container.appendChild(clone);
-    });
+    if (!track || originalCards.length === 0) return;
 
+    originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
+
+    const direction = row.dataset.direction === "right" ? -1 : 1;
+    const speed = 0.7;
     let isPaused = false;
-    const speed = 1; // Kecepatan scroll (px per frame). Bebas diubah (misal: 0.8 atau 1.5)
 
-    // 2. Fungsi Animasi Continuous Scroll Mulus
-    function smoothStep() {
+    if (direction < 0) {
+        track.scrollLeft = track.scrollWidth / 2;
+    }
+
+    function animate() {
         if (!isPaused) {
-            container.scrollLeft += speed;
+            track.scrollLeft += direction * speed;
+            const halfWidth = track.scrollWidth / 2;
 
-            // Hitung pertengahan total lebar scroll (panjang deretan kartu asli)
-            const halfScrollWidth = container.scrollWidth / 2;
-
-            // Saat posisi scroll mencapai batas deretan kartu asli, kembalikan ke awal secara instan (tanpa jeda visual)
-            if (container.scrollLeft >= halfScrollWidth) {
-                container.scrollLeft -= halfScrollWidth;
+            if (direction > 0 && track.scrollLeft >= halfWidth) {
+                track.scrollLeft -= halfWidth;
+            } else if (direction < 0 && track.scrollLeft <= 0) {
+                track.scrollLeft += halfWidth;
             }
         }
-        requestAnimationFrame(smoothStep);
+        requestAnimationFrame(animate);
     }
 
-    // Jalankan animasi pergerakan terus-menerus
-    requestAnimationFrame(smoothStep);
+    requestAnimationFrame(animate);
+    track.addEventListener("mouseenter", () => (isPaused = true));
+    track.addEventListener("mouseleave", () => (isPaused = false));
+    track.addEventListener("touchstart", () => (isPaused = true), { passive: true });
+    track.addEventListener("touchend", () => (isPaused = false), { passive: true });
 
-    // 3. Pause pergerakan saat kursor berada di atas container atau saat disentuh di HP
-    container.addEventListener("mouseenter", () => (isPaused = true));
-    container.addEventListener("mouseleave", () => (isPaused = false));
-    container.addEventListener("touchstart", () => (isPaused = true), { passive: true });
-    container.addEventListener("touchend", () => (isPaused = false), { passive: true });
-
-    // 4. Tombol Navigasi Manual (Kiri & Kanan)
-    const manualScrollAmount = 320;
-
-    if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-            container.scrollBy({ left: manualScrollAmount, behavior: "smooth" });
-        });
-    }
-
-    if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-            container.scrollBy({ left: -manualScrollAmount, behavior: "smooth" });
-        });
-    }
-});
+    previousButton.addEventListener("click", () => {
+        track.scrollBy({ left: -320, behavior: "smooth" });
+    });
+    nextButton.addEventListener("click", () => {
+        track.scrollBy({ left: 320, behavior: "smooth" });
+    });
+}
 
 const projectData = {
     'jepang': {
@@ -242,14 +234,52 @@ function closeModal() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    initAchievements();
+    initProjects();
 });
 
-function initAchievements() {
-    const cards = document.querySelectorAll(".achievement-card");
-    const maxVisible = 5;
+function initProjects() {
+    const cards = document.querySelectorAll(".project-card");
+    const maxVisible = 4;
     
-    // Sembunyikan kartu dari indeks ke-5 dan seterusnya
+    cards.forEach((card, index) => {
+        if (index >= maxVisible) {
+            card.classList.add("hidden");
+        }
+    });
+
+    const btnContainer = document.getElementById("projectLoadMoreBtn");
+    if (cards.length <= maxVisible && btnContainer) {
+        btnContainer.parentElement.style.display = "none";
+    }
+}
+
+function toggleProjects() {
+    const hiddenCards = document.querySelectorAll(".project-card.hidden");
+    const allCards = document.querySelectorAll(".project-card");
+    const btnText = document.getElementById("projectLoadMoreText");
+    const btnIcon = document.getElementById("projectLoadMoreIcon");
+    const maxVisible = 4;
+
+    if (hiddenCards.length > 0) {
+        allCards.forEach(card => card.classList.remove("hidden"));
+        btnText.innerText = "Sembunyikan";
+        btnIcon.className = "fa-solid fa-chevron-up";
+    } else {
+        allCards.forEach((card, index) => {
+            if (index >= maxVisible) {
+                card.classList.add("hidden");
+            }
+        });
+        btnText.innerText = "Lihat Lebih Banyak";
+        btnIcon.className = "fa-solid fa-chevron-down";
+        document.getElementById("projects").scrollIntoView({ behavior: "smooth" });
+    }
+}
+
+function initAchievements() {
+    const cards = document.querySelectorAll("#moments .achievement-card");
+    const maxVisible = 5;
+
     cards.forEach((card, index) => {
         if (index >= maxVisible) {
             card.classList.add("hidden");
@@ -257,15 +287,15 @@ function initAchievements() {
     });
     
     // Sembunyikan tombol jika total kartu <= 5
-    const btnContainer = document.querySelector(".load-more-container");
+    const btnContainer = document.querySelector("#moments .load-more-container");
     if (cards.length <= maxVisible && btnContainer) {
         btnContainer.style.display = "none";
     }
 }
 
 function toggleAchievements() {
-    const hiddenCards = document.querySelectorAll(".achievement-card.hidden");
-    const allCards = document.querySelectorAll(".achievement-card");
+    const hiddenCards = document.querySelectorAll("#moments .achievement-card.hidden");
+    const allCards = document.querySelectorAll("#moments .achievement-card");
     const btnText = document.getElementById("loadMoreText");
     const btnIcon = document.getElementById("loadMoreIcon");
     const maxVisible = 5;
@@ -286,7 +316,7 @@ function toggleAchievements() {
         btnIcon.className = "fa-solid fa-chevron-down";
         
         // Scroll halus kembali ke judul section prestasi
-        document.getElementById("achievements").scrollIntoView({ behavior: "smooth" });
+        document.getElementById("moments").scrollIntoView({ behavior: "smooth" });
     }
 }
 
@@ -320,7 +350,7 @@ function openLightbox(imgElement) {
     const lightboxCaption = document.getElementById("lightboxCaption");
     
     lightboxImg.src = imgElement.src;
-    lightboxCaption.innerText = imgElement.alt || "Prestasi Arraffi";
+    lightboxCaption.innerText = imgElement.alt || "Moments Arraffi";
     
     lightbox.classList.add("active");
     document.body.style.overflow = "hidden"; // Mencegah scroll halaman di belakang
