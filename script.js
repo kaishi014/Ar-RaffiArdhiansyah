@@ -346,3 +346,51 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.querySelector(".nav-links");
+    const projectCards = document.querySelectorAll(".clickable-card");
+
+    projectCards.forEach(card => {
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.addEventListener("keydown", function(event) {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            event.preventDefault();
+            card.click();
+        });
+    });
+
+    if (navToggle && navLinks) {
+        navToggle.addEventListener("click", function() {
+            const isOpen = navLinks.classList.toggle("open");
+            navToggle.setAttribute("aria-expanded", String(isOpen));
+            navToggle.setAttribute("aria-label", isOpen ? "Tutup menu navigasi" : "Buka menu navigasi");
+            navToggle.innerHTML = isOpen
+                ? '<i class="fa-solid fa-xmark"></i>'
+                : '<i class="fa-solid fa-bars"></i>';
+        });
+
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", function() {
+                navLinks.classList.remove("open");
+                navToggle.setAttribute("aria-expanded", "false");
+                navToggle.setAttribute("aria-label", "Buka menu navigasi");
+                navToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+            });
+        });
+    }
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key !== "Escape") return;
+
+    const modalOverlay = document.getElementById("modalOverlay");
+    const lightbox = document.getElementById("imageLightbox");
+    if (modalOverlay && modalOverlay.classList.contains("active")) closeModal();
+    if (lightbox && lightbox.classList.contains("active")) {
+        lightbox.classList.remove("active");
+        document.body.style.overflow = "auto";
+    }
+});
