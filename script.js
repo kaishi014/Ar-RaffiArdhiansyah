@@ -427,8 +427,31 @@ function closeLightbox(event) {
 document.addEventListener("DOMContentLoaded", function() {
     const achievementImages = document.querySelectorAll(".achievement-img-wrapper img");
     achievementImages.forEach(img => {
-        img.addEventListener("click", function() {
+        img.addEventListener("click", function(event) {
+            event.stopPropagation();
             openLightbox(this);
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const achievementCards = document.querySelectorAll("#achievements .achievement-card");
+
+    achievementCards.forEach(card => {
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+
+        const toggleCard = () => {
+            const shouldOpen = !card.classList.contains("is-open");
+            achievementCards.forEach(otherCard => otherCard.classList.remove("is-open"));
+            if (shouldOpen) card.classList.add("is-open");
+        };
+
+        card.addEventListener("click", toggleCard);
+        card.addEventListener("keydown", event => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            event.preventDefault();
+            toggleCard();
         });
     });
 });
