@@ -1,10 +1,10 @@
-# 🌐 Portofolio Web - Ar Raffi Ardhiansya
+#  Portofolio Web - Ar Raffi Ardhiansya
 
 Selamat datang di repository website portofolio pribadi saya! Website ini dibuat untuk menampilkan profil, keahlian, serta berbagai proyek yang telah saya kerjakan secara interaktif.
 
 ---
 
-## ✨ Fitur Utama
+##  Fitur Utama
 
 - **Galeri Proyek Interaktif:** Menampilkan berbagai proyek yang telah saya buat dan dapat diakses langsung melalui link yang tersedia.
 - **Manajemen Data Berbasis JSON:** Data proyek dan profil disimpan serta dipanggil secara dinamis menggunakan file JSON.
@@ -13,7 +13,7 @@ Selamat datang di repository website portofolio pribadi saya! Website ini dibuat
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+##  Teknologi yang Digunakan
 
 - **HTML5:** Untuk struktur dan semantik halaman web.
 - **CSS3:** Untuk tata letak, gaya visual, dan animasi.
@@ -22,7 +22,7 @@ Selamat datang di repository website portofolio pribadi saya! Website ini dibuat
 
 ---
 
-## 📂 Struktur Proyek
+##  Struktur Proyek
 
 ```text
 .
