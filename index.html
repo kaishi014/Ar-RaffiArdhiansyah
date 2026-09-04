@@ -120,6 +120,42 @@
     flex-grow: 1;
 }
 
+/* Keterangan sertifikat dibuka hanya saat kartunya dipilih */
+#achievements .achievement-card {
+    cursor: pointer;
+}
+
+#achievements .achievement-content {
+    padding: 16px 20px 18px;
+}
+
+#achievements .achievement-date,
+#achievements .achievement-desc {
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, margin 0.35s ease, opacity 0.25s ease;
+}
+
+#achievements .achievement-card.is-open .achievement-date {
+    max-height: 30px;
+    margin-bottom: 6px;
+    opacity: 1;
+}
+
+#achievements .achievement-card.is-open .achievement-desc {
+    max-height: 180px;
+    margin-top: 8px;
+    opacity: 1;
+}
+
+#achievements .achievement-card:focus-visible {
+    outline: 3px solid var(--accent-color, #4f46e5);
+    outline-offset: 3px;
+}
+
 .achievement-date {
     font-size: 0.8rem;
     color: #6b7280;
