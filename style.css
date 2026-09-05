@@ -900,7 +900,7 @@ footer {
     .nav-links { background: rgba(9, 12, 18, .98); border-bottom: 1px solid rgba(240, 45, 58, .3); }
     .nav-links li { border-bottom-color: rgba(120, 151, 181, .14); }
     .hero { min-height: 92vh; padding-top: 120px; }
-    .hero-portrait { opacity: .22; animation-duration: 9s; }
+    .hero-portrait { opacity: .42; animation-duration: 9s; }
     .hero-meta { gap: 16px; }
     .hero-meta strong { font-size: 1.25rem; }
     .card:hover, .service-card:hover, .achievement-card:hover { transform: translateY(-5px); }
@@ -1314,5 +1314,23 @@ footer {
     .spider-core { left: 27px; }
     .spider-eye-left { left: 27px; }
     .spider-eye-right { right: 27px; }
+}
+
+/* Reduced motion should disable movement, not hide the interactive spider. */
+@media (prefers-reduced-motion: reduce) {
+    .intro-loader {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .intro-web,
+    .intro-spiderman {
+        animation: none;
+        opacity: 1;
+    }
+
+    .intro-spiderman {
+        transform: translate(-50%, -50%) rotate(180deg) scale(1);
+    }
 }
 
