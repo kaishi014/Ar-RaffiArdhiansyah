@@ -1192,6 +1192,19 @@ footer {
 .intro-rope-side-left { transform: translateX(-.8px); }
 .intro-rope-side-right { transform: translateX(.8px); }
 
+.intro-rope-side-left,
+.intro-rope-side-right {
+    stroke: rgba(210, 237, 255, .76);
+    stroke-width: .11;
+    stroke-dasharray: .006 .006;
+}
+
+.intro-rope-path {
+    stroke: rgba(247, 252, 255, .98);
+    stroke-width: .2;
+    stroke-dasharray: .008 .005;
+}
+
 .intro-spiderman {
     z-index: 2;
     top: 40vh;
@@ -1215,93 +1228,103 @@ footer {
     animation: none;
 }
 
-.spider-core,
-.spider-eye,
+.spider-abdomen,
+.spider-cephalothorax,
 .spider-leg {
     position: absolute;
     display: block;
 }
 
-.spider-core {
-    top: 25px;
-    left: 32px;
+.spider-abdomen {
+    top: 30px;
+    left: 35px;
     z-index: 2;
-    width: 29px;
-    height: 35px;
-    border: 2px solid #bfe6ff;
-    border-radius: 48% 48% 42% 42%;
+    width: 24px;
+    height: 34px;
+    border: 1px solid #68717c;
+    border-radius: 52% 48% 50% 50%;
     background:
-        repeating-radial-gradient(ellipse at 50% 12%, transparent 0 8px, rgba(199, 226, 246, .26) 8.5px 9.5px, transparent 10px 16px),
-        linear-gradient(90deg, #161b23 0 46%, #05070a 47% 100%);
-    box-shadow: inset 0 -12px 0 rgba(0, 0, 0, .38), 0 0 12px rgba(22, 135, 217, .35);
+        radial-gradient(ellipse at 35% 22%, rgba(255, 255, 255, .16), transparent 18%),
+        radial-gradient(ellipse at 50% 35%, #303944, #080a0d 72%);
+    box-shadow: inset -4px -7px 8px rgba(0, 0, 0, .65), 0 3px 8px rgba(0, 0, 0, .5);
 }
 
-.spider-core::before,
-.spider-core::after {
+.spider-abdomen::after {
     content: '';
     position: absolute;
     left: 50%;
-    background: #e9f8ff;
-    box-shadow: 0 0 5px rgba(255, 255, 255, .8);
-}
-
-.spider-core::before {
-    top: 3px;
-    width: 3px;
-    height: 21px;
+    bottom: 5px;
+    width: 9px;
+    height: 4px;
+    border-radius: 50%;
+    background: #050607;
     transform: translateX(-50%);
 }
 
-.spider-core::after {
-    top: 13px;
-    width: 17px;
-    height: 3px;
-    transform: translateX(-50%);
-}
-
-.spider-eye {
-    top: 18px;
+.spider-cephalothorax {
+    top: 25px;
+    left: 40px;
     z-index: 3;
-    width: 13px;
-    height: 9px;
-    background: #fff;
-    border: 2px solid #123b68;
-    clip-path: polygon(0 52%, 100% 0, 79% 100%);
-    box-shadow: 0 0 7px rgba(255, 255, 255, .7);
+    width: 18px;
+    height: 16px;
+    border: 1px solid #707a86;
+    border-radius: 48% 48% 42% 42%;
+    background: radial-gradient(circle at 35% 28%, #4b5662, #11151a 68%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .6);
 }
 
-.spider-eye-left { left: 32px; transform: rotate(-19deg); }
-.spider-eye-right { right: 32px; transform: rotate(19deg) scaleX(-1); }
+.spider-cephalothorax::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    bottom: -3px;
+    height: 5px;
+    border-radius: 50%;
+    background: #080a0d;
+}
 
 .spider-leg {
     z-index: 1;
-    width: 42px;
-    height: 6px;
-    border: 2px solid #6e8ca7;
+    width: 39px;
+    height: 5px;
+    border: 1px solid #626d79;
     border-radius: 99px;
-    background: linear-gradient(90deg, #242b35, #05070a);
+    background: linear-gradient(90deg, #3a434e, #090b0e 75%);
     transform-origin: 100% 50%;
-    box-shadow: 0 0 5px rgba(22, 135, 217, .3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .65);
 }
 
-.spider-leg-1 { top: 23px; left: 4px; transform: rotate(-28deg); }
-.spider-leg-2 { top: 32px; left: 0; transform: rotate(-12deg); }
-.spider-leg-3 { top: 43px; left: 0; transform: rotate(12deg); }
-.spider-leg-4 { top: 52px; left: 4px; transform: rotate(28deg); }
-.spider-leg-5 { top: 23px; right: 4px; transform: scaleX(-1) rotate(-28deg); }
-.spider-leg-6 { top: 32px; right: 0; transform: scaleX(-1) rotate(-12deg); }
-.spider-leg-7 { top: 43px; right: 0; transform: scaleX(-1) rotate(12deg); }
-.spider-leg-8 { top: 52px; right: 4px; transform: scaleX(-1) rotate(28deg); }
+.spider-leg::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -2px;
+    width: 7px;
+    height: 4px;
+    border-bottom: 1px solid #8894a0;
+    border-radius: 50%;
+    transform: rotate(-20deg);
+}
+
+.spider-leg-1 { top: 29px; left: 7px; transform: rotate(-36deg); }
+.spider-leg-2 { top: 35px; left: 1px; transform: rotate(-18deg); }
+.spider-leg-3 { top: 43px; left: 1px; transform: rotate(13deg); }
+.spider-leg-4 { top: 50px; left: 7px; transform: rotate(31deg); }
+.spider-leg-5 { top: 29px; right: 7px; transform: scaleX(-1) rotate(-36deg); }
+.spider-leg-6 { top: 35px; right: 1px; transform: scaleX(-1) rotate(-18deg); }
+.spider-leg-7 { top: 43px; right: 1px; transform: scaleX(-1) rotate(13deg); }
+.spider-leg-8 { top: 50px; right: 7px; transform: scaleX(-1) rotate(31deg); }
 
 .spider-grip {
     z-index: 3;
-    width: 49px;
-    height: 7px;
-    border-color: #b8ddf4;
+    width: 43px;
+    height: 5px;
+    border-color: #8795a2;
 }
 
-.spider-grip-left { top: 23px; left: -1px; transform: rotate(-52deg); }
-.spider-grip-right { top: 23px; right: -1px; transform: scaleX(-1) rotate(-52deg); }
+.spider-grip-left { top: 25px; left: 1px; transform: rotate(-61deg); }
+.spider-grip-right { top: 25px; right: 1px; transform: scaleX(-1) rotate(-61deg); }
 
 @keyframes spider-popup-in {
     0% { opacity: 0; transform: translate(-50%, -50%) rotate(180deg) scale(.1); }
@@ -1311,9 +1334,8 @@ footer {
 
 @media (max-width: 600px) {
     .intro-spiderman { width: 78px; height: 70px; }
-    .spider-core { left: 27px; }
-    .spider-eye-left { left: 27px; }
-    .spider-eye-right { right: 27px; }
+    .spider-abdomen { left: 30px; }
+    .spider-cephalothorax { left: 34px; }
 }
 
 /* Reduced motion should disable movement, not hide the interactive spider. */
