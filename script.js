@@ -3,6 +3,177 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".achievement-row").forEach(initAchievementCarousel);
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const introLoader = document.querySelector(".intro-loader");
+    const spider = document.querySelector(".intro-spiderman");
+    const thread = document.querySelector(".intro-thread");
+    const web = document.querySelector(".intro-web");
+    const ropePath = document.querySelector(".intro-rope-path");
+    const ropeGlow = document.querySelector(".intro-rope-glow");
+    const ropeSideLeft = document.querySelector(".intro-rope-side-left");
+    const ropeSideRight = document.querySelector(".intro-rope-side-right");
+
+    if (!introLoader || !spider || !thread || !web || !ropePath || !ropeGlow || !ropeSideLeft || !ropeSideRight) return;
+
+    let isDragging = false;
+    let grabOffsetX = 0;
+    let grabOffsetY = 0;
+    let previousPointerX = 0;
+    let previousPointerY = 0;
+    let lastFrame = 0;
+    const anchor = { x: window.innerWidth * .44, y: 55 };
+    const homeAnchor = { x: anchor.x, y: anchor.y };
+    const anchorTarget = { x: anchor.x, y: anchor.y };
+    const anchorVelocity = { x: 0, y: 0 };
+    const position = { x: 0, y: window.innerHeight * .4 };
+    const target = { x: 0, y: position.y };
+    const velocity = { x: 0, y: 0 };
+
+    function getBounds() {
+        const spiderWidth = spider.offsetWidth || 128;
+        const spiderHeight = spider.offsetHeight || 112;
+        return {
+            minX: -Math.max(0, anchor.x - spiderWidth * .55),
+            maxX: Math.max(0, window.innerWidth - anchor.x - spiderWidth * .45),
+            minY: 130 - anchor.y,
+            maxY: Math.max(130 - anchor.y, window.innerHeight - spiderHeight * .55 - anchor.y)
+        };
+    }
+
+    function clampPosition(nextX, nextY) {
+        const bounds = getBounds();
+        return {
+            x: Math.max(bounds.minX, Math.min(bounds.maxX, nextX)),
+            y: Math.max(bounds.minY, Math.min(bounds.maxY, nextY))
+        };
+    }
+
+    function updateRope() {
+        const spiderCenterX = anchor.x + position.x;
+        const spiderTopY = anchor.y + position.y - (spider.offsetHeight || 112) * .45;
+        const anchorX = anchor.x / window.innerWidth * 100;
+        const endX = spiderCenterX / window.innerWidth * 100;
+        const endY = Math.max(2, spiderTopY / window.innerHeight * 100);
+        const curve = Math.max(-24, Math.min(24, position.x / window.innerWidth * 70));
+        const controlX = anchorX + curve;
+        const controlY = Math.max(10, endY * .58);
+        const rope = `M ${anchorX} 0 Q ${controlX} ${controlY} ${endX} ${endY}`;
+        const leftRope = `M ${anchorX - .65} 0 Q ${controlX - .65} ${controlY} ${endX - .65} ${endY}`;
+        const rightRope = `M ${anchorX + .65} 0 Q ${controlX + .65} ${controlY} ${endX + .65} ${endY}`;
+        ropePath.setAttribute("d", rope);
+        ropeGlow.setAttribute("d", rope);
+        ropeSideLeft.setAttribute("d", leftRope);
+        ropeSideRight.setAttribute("d", rightRope);
+    }
+
+    function render() {
+        const elapsed = lastFrame ? Math.min((performance.now() - lastFrame) / 16.67, 2) : 1;
+        lastFrame = performance.now();
+
+        const anchorForceX = (anchorTarget.x - anchor.x) * .08;
+        const anchorForceY = (anchorTarget.y - anchor.y) * .08;
+        anchorVelocity.x = (anchorVelocity.x + anchorForceX * elapsed) * Math.pow(.78, elapsed);
+        anchorVelocity.y = (anchorVelocity.y + anchorForceY * elapsed) * Math.pow(.78, elapsed);
+        anchor.x += anchorVelocity.x * elapsed;
+        anchor.y += anchorVelocity.y * elapsed;
+
+        if (!isDragging) {
+            const forceX = (target.x - position.x) * .055;
+            const forceY = (target.y - position.y) * .055;
+            velocity.x = (velocity.x + forceX * elapsed) * Math.pow(.82, elapsed);
+            velocity.y = (velocity.y + forceY * elapsed) * Math.pow(.82, elapsed);
+            position.x += velocity.x * elapsed;
+            position.y += velocity.y * elapsed;
+
+            const bounds = getBounds();
+            if (position.x < bounds.minX || position.x > bounds.maxX) {
+                position.x = Math.max(bounds.minX, Math.min(bounds.maxX, position.x));
+                velocity.x *= -.62;
+            }
+            if (position.y < bounds.minY || position.y > bounds.maxY) {
+                position.y = Math.max(bounds.minY, Math.min(bounds.maxY, position.y));
+                velocity.y *= -.62;
+            }
+        } else {
+            position.x = target.x;
+            position.y = target.y;
+        }
+
+        const ropeLean = Math.max(-14, Math.min(14, position.x * .025 + velocity.x * .35));
+        const rotation = 180 + ropeLean;
+        spider.style.left = `${anchor.x + position.x}px`;
+        spider.style.top = `${anchor.y + position.y}px`;
+        spider.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+        web.style.transform = `translateX(calc(-50% + ${position.x * .12}px)) scale(1.02) rotate(${position.x * -.012}deg)`;
+        updateRope();
+        requestAnimationFrame(render);
+    }
+
+    function updateTarget(clientX, clientY) {
+        const nextPosition = clampPosition(
+            clientX - anchor.x - grabOffsetX,
+            clientY - anchor.y - grabOffsetY
+        );
+        const pointerDeltaY = clientY - previousPointerY;
+        if (Math.abs(pointerDeltaY) > 0.5) {
+            window.scrollBy(0, Math.max(-24, Math.min(24, pointerDeltaY * .8)));
+        }
+        target.x = nextPosition.x;
+        target.y = nextPosition.y;
+        anchorTarget.x = homeAnchor.x + target.x * .1;
+        anchorTarget.y = homeAnchor.y + Math.max(-8, Math.min(18, target.y * .035));
+        previousPointerX = clientX;
+        previousPointerY = clientY;
+    }
+
+    function releaseElasticPosition() {
+        if (!isDragging) return;
+        isDragging = false;
+        velocity.x = (previousPointerX - (anchor.x + position.x)) * .3;
+        velocity.y = (previousPointerY - (anchor.y + position.y)) * .3;
+        target.x = 0;
+        target.y = Math.max(130 - anchor.y, Math.min(window.innerHeight - 160 - anchor.y, window.innerHeight * .4));
+        anchorTarget.x = homeAnchor.x;
+        anchorTarget.y = homeAnchor.y;
+        spider.classList.remove("is-interactive");
+        spider.classList.add("is-releasing");
+        window.setTimeout(() => spider.classList.remove("is-releasing"), 950);
+    }
+
+    spider.addEventListener("pointerdown", event => {
+        if (event.pointerType === "mouse" && event.button !== 0) return;
+        isDragging = true;
+        grabOffsetX = event.clientX - (anchor.x + position.x);
+        grabOffsetY = event.clientY - (anchor.y + position.y);
+        previousPointerX = event.clientX;
+        previousPointerY = event.clientY;
+        spider.classList.remove("is-releasing");
+        spider.classList.add("is-interactive");
+        spider.setPointerCapture(event.pointerId);
+        event.preventDefault();
+    });
+
+    spider.addEventListener("pointermove", event => {
+        if (!isDragging) return;
+        updateTarget(event.clientX, event.clientY);
+        event.preventDefault();
+    });
+
+    spider.addEventListener("pointerup", releaseElasticPosition);
+    spider.addEventListener("pointercancel", releaseElasticPosition);
+    window.addEventListener("resize", () => {
+        homeAnchor.x = window.innerWidth * .44;
+        anchorTarget.x = homeAnchor.x;
+        const safePosition = clampPosition(position.x, position.y);
+        position.x = safePosition.x;
+        position.y = safePosition.y;
+        target.x = safePosition.x;
+        target.y = safePosition.y;
+    });
+
+    render();
+});
+
 function initAchievementCarousel(row) {
     const track = row.querySelector(".achievement-track");
     const previousButton = row.querySelector(".achievement-prev");
