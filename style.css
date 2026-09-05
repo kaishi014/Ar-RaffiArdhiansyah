@@ -1356,3 +1356,218 @@ footer {
     }
 }
 
+/* --- NATURAL SPIDER LEG CONNECTIONS --- */
+.intro-spiderman {
+    width: 92px;
+    height: 82px;
+}
+
+.spider-leg {
+    width: 39px;
+    height: 5px;
+    z-index: 1;
+    border: 1px solid #626d79;
+    border-radius: 100%;
+    transform-origin: 100% 50%;
+}
+
+/* Left legs grow from the left edge of the cephalothorax. */
+.spider-leg-1 { top: 27px; left: 2px; transform: rotate(-34deg); }
+.spider-leg-2 { top: 34px; left: 0; transform: rotate(-17deg); }
+.spider-leg-3 { top: 42px; left: 0; transform: rotate(17deg); }
+.spider-leg-4 { top: 49px; left: 2px; transform: rotate(34deg); }
+
+/* Right legs use the opposite origin so their bases stay on the body. */
+.spider-leg-5,
+.spider-leg-6,
+.spider-leg-7,
+.spider-leg-8 {
+    right: 0;
+    left: auto;
+    transform-origin: 0 50%;
+}
+
+.spider-leg-5 { top: 27px; transform: rotate(34deg); }
+.spider-leg-6 { top: 34px; transform: rotate(17deg); }
+.spider-leg-7 { top: 42px; transform: rotate(-17deg); }
+.spider-leg-8 { top: 49px; transform: rotate(-34deg); }
+
+.spider-leg::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #11161b;
+    border: 1px solid #778592;
+    transform: translateY(-50%);
+}
+
+.spider-leg-1::before,
+.spider-leg-2::before,
+.spider-leg-3::before,
+.spider-leg-4::before {
+    right: -3px;
+}
+
+.spider-leg-5::before,
+.spider-leg-6::before,
+.spider-leg-7::before,
+.spider-leg-8::before {
+    left: -3px;
+}
+
+.spider-grip-left {
+    top: 25px;
+    left: 2px;
+    width: 41px;
+    transform: rotate(-57deg);
+}
+
+.spider-grip-right {
+    top: 25px;
+    right: 0;
+    width: 41px;
+    transform: rotate(57deg);
+}
+
+@media (max-width: 600px) {
+    .intro-spiderman {
+        width: 92px;
+        height: 82px;
+    }
+}
+
+/* --- BENT, BONED SPIDER LEGS --- */
+.spider-leg {
+    width: 48px;
+    height: 16px;
+    border: 0;
+    border-radius: 0;
+    background: radial-gradient(circle at 50% 50%, #7c8b99 0 2px, transparent 2.5px);
+    box-shadow: none;
+    transform-origin: 6px 8px;
+}
+
+.spider-leg::before,
+.spider-leg::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    height: 6px;
+    border: 1px solid #65727e;
+    border-radius: 100% 70% 70% 100%;
+    background: linear-gradient(180deg, #4c5863, #0b0e12);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .7);
+    transform-origin: 5px 50%;
+}
+
+.spider-leg::before {
+    left: 3px;
+    width: 23px;
+    transform: rotate(0deg);
+}
+
+.spider-leg::after {
+    left: 24px;
+    width: 22px;
+    transform: rotate(38deg);
+}
+
+.spider-leg-1,
+.spider-leg-2,
+.spider-leg-3,
+.spider-leg-4 {
+    transform-origin: 6px 8px;
+}
+
+.spider-leg-5,
+.spider-leg-6,
+.spider-leg-7,
+.spider-leg-8 {
+    transform-origin: 42px 8px;
+}
+
+.spider-leg-5::before,
+.spider-leg-6::before,
+.spider-leg-7::before,
+.spider-leg-8::before {
+    left: 22px;
+    transform: scaleX(-1);
+}
+
+.spider-leg-5::after,
+.spider-leg-6::after,
+.spider-leg-7::after,
+.spider-leg-8::after {
+    left: 2px;
+    transform: scaleX(-1) rotate(38deg);
+}
+
+.spider-leg-1 { top: 25px; left: 0; transform: rotate(-42deg); }
+.spider-leg-2 { top: 33px; left: -2px; transform: rotate(-21deg); }
+.spider-leg-3 { top: 41px; left: -2px; transform: rotate(21deg); }
+.spider-leg-4 { top: 49px; left: 0; transform: rotate(42deg); }
+.spider-leg-5 { top: 25px; right: 0; transform: rotate(42deg); }
+.spider-leg-6 { top: 33px; right: -2px; transform: rotate(21deg); }
+.spider-leg-7 { top: 41px; right: -2px; transform: rotate(-21deg); }
+.spider-leg-8 { top: 49px; right: 0; transform: rotate(-42deg); }
+
+.spider-grip-left,
+.spider-grip-right {
+    z-index: 3;
+    width: 48px;
+    height: 16px;
+    top: 23px;
+}
+
+.spider-grip-left { left: -1px; transform: rotate(-62deg); }
+.spider-grip-right { right: -1px; transform: rotate(62deg); }
+
+/* --- TOUCH-SAFE PROFILE PHOTO MOTION --- */
+.hero-portrait {
+    will-change: transform;
+    animation: profile-float 7s ease-in-out infinite;
+}
+
+.hero-portrait img {
+    will-change: transform;
+    animation: profile-breathe 7s ease-in-out infinite;
+}
+
+@keyframes profile-float {
+    0%, 100% { transform: translate3d(0, -50%, 0) rotate(1deg); }
+    50% { transform: translate3d(0, calc(-50% - 9px), 0) rotate(-2deg); }
+}
+
+@keyframes profile-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.018); }
+}
+
+@media (max-width: 768px) {
+    .hero-portrait {
+        animation-duration: 8s;
+        opacity: .48;
+    }
+
+    .hero-portrait img {
+        animation-duration: 8s;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .hero-portrait,
+    .hero-portrait img {
+        animation-play-state: running;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-portrait,
+    .hero-portrait img {
+        animation: none;
+    }
+}
+
