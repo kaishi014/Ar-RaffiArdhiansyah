@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const position = { x: 0, y: window.innerHeight * .4 };
     const target = { x: 0, y: position.y };
     const velocity = { x: 0, y: 0 };
-    const spiderVisualOffsetX = -8;
+    const spiderVisualOffsetX = 0;
 
     function getBounds() {
         const spiderWidth = spider.offsetWidth || 128;
