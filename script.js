@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let previousPointerX = 0;
     let previousPointerY = 0;
     let lastFrame = 0;
-    const anchor = { x: window.innerWidth * .44, y: 55 };
+    const anchor = { x: window.innerWidth * .42, y: 55 };
     const homeAnchor = { x: anchor.x, y: anchor.y };
     const anchorTarget = { x: anchor.x, y: anchor.y };
     const anchorVelocity = { x: 0, y: 0 };
@@ -50,9 +50,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateRope() {
         const spiderCenterX = anchor.x + position.x;
-        const spiderTopY = anchor.y + position.y - (spider.offsetHeight || 112) * .45;
+        const ropeAttachOffset = 8;
+        const ropeGripDepth = 8;
+        const spiderTopY = anchor.y + position.y - (spider.offsetHeight || 112) * .5 + ropeGripDepth;
         const anchorX = anchor.x / window.innerWidth * 100;
-        const endX = spiderCenterX / window.innerWidth * 100;
+        const endX = (spiderCenterX + ropeAttachOffset) / window.innerWidth * 100;
         const endY = Math.max(2, spiderTopY / window.innerHeight * 100);
         const curve = Math.max(-24, Math.min(24, position.x / window.innerWidth * 70));
         const controlX = anchorX + curve;
@@ -162,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
     spider.addEventListener("pointerup", releaseElasticPosition);
     spider.addEventListener("pointercancel", releaseElasticPosition);
     window.addEventListener("resize", () => {
-        homeAnchor.x = window.innerWidth * .44;
+        homeAnchor.x = window.innerWidth * .42;
         anchorTarget.x = homeAnchor.x;
         const safePosition = clampPosition(position.x, position.y);
         position.x = safePosition.x;
