@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const position = { x: 0, y: window.innerHeight * .4 };
     const target = { x: 0, y: position.y };
     const velocity = { x: 0, y: 0 };
+    const spiderVisualOffsetX = -8;
 
     function getBounds() {
         const spiderWidth = spider.offsetWidth || 128;
@@ -103,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const ropeLean = Math.max(-14, Math.min(14, position.x * .025 + velocity.x * .35));
         const rotation = 180 + ropeLean;
-        spider.style.left = `${anchor.x + position.x}px`;
+        spider.style.left = `${anchor.x + position.x + spiderVisualOffsetX}px`;
         spider.style.top = `${anchor.y + position.y}px`;
         spider.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
         web.style.transform = `translateX(calc(-50% + ${position.x * .12}px)) scale(1.02) rotate(${position.x * -.012}deg)`;
@@ -113,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateTarget(clientX, clientY) {
         const nextPosition = clampPosition(
-            clientX - anchor.x - grabOffsetX,
+            clientX - anchor.x - grabOffsetX - spiderVisualOffsetX,
             clientY - anchor.y - grabOffsetY
         );
         const pointerDeltaY = clientY - previousPointerY;
@@ -131,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function releaseElasticPosition() {
         if (!isDragging) return;
         isDragging = false;
-        velocity.x = (previousPointerX - (anchor.x + position.x)) * .3;
+        velocity.x = (previousPointerX - (anchor.x + position.x + spiderVisualOffsetX)) * .3;
         velocity.y = (previousPointerY - (anchor.y + position.y)) * .3;
         target.x = 0;
         target.y = Math.max(130 - anchor.y, Math.min(window.innerHeight - 160 - anchor.y, window.innerHeight * .4));
@@ -145,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
     spider.addEventListener("pointerdown", event => {
         if (event.pointerType === "mouse" && event.button !== 0) return;
         isDragging = true;
-        grabOffsetX = event.clientX - (anchor.x + position.x);
+        grabOffsetX = event.clientX - (anchor.x + position.x + spiderVisualOffsetX);
         grabOffsetY = event.clientY - (anchor.y + position.y);
         previousPointerX = event.clientX;
         previousPointerY = event.clientY;
