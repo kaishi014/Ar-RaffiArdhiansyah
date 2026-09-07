@@ -148,13 +148,13 @@
       font-size: 1.3rem;
       line-height: 1.6;
       letter-spacing: 1px;
-      min-height: 110px;
-      max-height: 180px;
+      height: 120px;
       overflow-y: auto;
       margin-bottom: 20px;
       word-break: break-all;
       position: relative;
       cursor: pointer;
+      scroll-behavior: smooth;
     }
 
     .char {
@@ -402,7 +402,7 @@
 
   <script>
     // State Aplikasi
-    let targetText = "With great power comes great responsibility! Peter Parker (Spider-Man) protects NYC in 2026 @ 100% speed.";
+    let targetText = "With great power comes great responsibility! Peter Parker (Spider-Man) protects NYC in 2026 @ 100% speed. Keep typing to test the auto-scroll functionality seamlessly as you move down the text lines!";
     let currentIndex = 0;
     let errors = 0;
     let startTime = null;
@@ -410,7 +410,7 @@
     let lastKeyTime = null;
     let previousWPM = 0;
 
-    // Web Audio API untuk Suara Ketikan Keyboard Normal (Soft Thock/Laptop Style)
+    // Web Audio API untuk Suara Ketikan Keyboard Normal
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     function playNormalKeyboardSound() {
@@ -421,7 +421,7 @@
       const now = audioCtx.currentTime;
 
       // 1. Noise halus (Soft Membrane Contact Noise)
-      const bufferSize = audioCtx.sampleRate * 0.015; // 15ms singkat
+      const bufferSize = audioCtx.sampleRate * 0.015;
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
@@ -431,7 +431,6 @@
       const whiteNoise = audioCtx.createBufferSource();
       whiteNoise.buffer = noiseBuffer;
 
-      // Low-pass Filter agar suara empuk dan tidak terlalu cempreng
       const filter = audioCtx.createBiquadFilter();
       filter.type = 'lowpass';
       filter.frequency.setValueAtTime(800 + Math.random() * 200, now);
@@ -489,6 +488,7 @@
         charSpan.innerText = char;
         typingBox.appendChild(charSpan);
       });
+      typingBox.scrollTop = 0;
     }
 
     function focusInput() {
@@ -510,6 +510,19 @@
       }
     });
 
+    // Fungsi otomatis scroll ke huruf aktif
+    function scrollToActiveChar(charEl) {
+      if (!charEl) return;
+      const boxRect = typingBox.getBoundingClientRect();
+      const charRect = charEl.getBoundingClientRect();
+
+      // Hitung jarak offset agar huruf selalu tampak di tengah/bawah box
+      const offsetTop = charRect.top - boxRect.top + typingBox.scrollTop;
+      const targetScroll = offsetTop - (typingBox.clientHeight / 2) + (charRect.height / 2);
+
+      typingBox.scrollTop = Math.max(0, targetScroll);
+    }
+
     hiddenInput.addEventListener('input', (e) => {
       const typedChar = e.data;
       if (!typedChar && e.inputType !== 'deleteContentBackward') return;
@@ -530,6 +543,7 @@
           if (charSpans[currentIndex + 1]) {
             charSpans[currentIndex + 1].className = 'char';
           }
+          scrollToActiveChar(charSpans[currentIndex]);
         }
         return;
       }
@@ -561,10 +575,7 @@
 
       if (currentIndex < targetText.length) {
         charSpans[currentIndex].classList.add('current');
-        const currentEl = charSpans[currentIndex];
-        if (currentEl) {
-          currentEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        }
+        scrollToActiveChar(charSpans[currentIndex]);
       }
 
       updateStats();
