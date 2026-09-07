@@ -278,6 +278,7 @@
   </header>
 
   <div class="container">
+    <!-- Input Teks Sendiri -->
     <div class="custom-text-section">
       <label for="custom-input" style="font-size: 0.9rem; margin-bottom: 5px; display: block; font-weight: 600;">Ganti Teks Latihan:</label>
       <textarea id="custom-input" placeholder="Masukkan teks kustom di sini (termasuk angka & tanda baca)..."></textarea>
@@ -287,6 +288,7 @@
       </div>
     </div>
 
+    <!-- Panel Statistik -->
     <div class="stats-panel">
       <div class="stat-card">
         <div class="stat-title">WPM</div>
@@ -310,10 +312,13 @@
       </div>
     </div>
 
+    <!-- Box Teks Latihan -->
     <div class="typing-box" id="typing-box" onclick="focusInput()"></div>
     <input type="text" id="hidden-input" autocomplete="off" spellcheck="false">
 
+    <!-- Keyboard Visual Lengkap -->
     <div class="keyboard" id="keyboard">
+      <!-- Row 1: Numbers & Symbols -->
       <div class="row">
         <div class="key" data-code="Backquote"><span class="top-symbol">~</span><span class="bottom-symbol">`</span></div>
         <div class="key" data-code="Digit1"><span class="top-symbol">!</span><span class="bottom-symbol">1</span></div>
@@ -331,6 +336,7 @@
         <div class="key special k-backspace" data-code="Backspace">Backspace</div>
       </div>
 
+      <!-- Row 2: QWERTY -->
       <div class="row">
         <div class="key special k-tab" data-code="Tab">Tab</div>
         <div class="key" data-code="KeyQ">Q</div>
@@ -348,6 +354,7 @@
         <div class="key" data-code="Backslash"><span class="top-symbol">|</span><span class="bottom-symbol">\</span></div>
       </div>
 
+      <!-- Row 3: ASDF -->
       <div class="row">
         <div class="key special k-caps" data-code="CapsLock">Caps Lock</div>
         <div class="key" data-code="KeyA">A</div>
@@ -364,6 +371,7 @@
         <div class="key special k-enter" data-code="Enter">Enter</div>
       </div>
 
+      <!-- Row 4: ZXCV -->
       <div class="row">
         <div class="key special k-shift" data-code="ShiftLeft">Shift</div>
         <div class="key" data-code="KeyZ">Z</div>
@@ -379,6 +387,7 @@
         <div class="key special k-shift" data-code="ShiftRight">Shift</div>
       </div>
 
+      <!-- Row 5: Space & Bottom Row -->
       <div class="row">
         <div class="key special k-ctrl" data-code="ControlLeft">Ctrl</div>
         <div class="key special k-win" data-code="MetaLeft">Win</div>
@@ -401,35 +410,18 @@
     let lastKeyTime = null;
     let previousWPM = 0;
 
-    // Web Audio API untuk Suara Ketikan Mechanical Keyboard yang Nyaring (Crisp & Snappy Click)
+    // Web Audio API untuk Suara Ketikan Keyboard Normal (Soft Thock/Laptop Style)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function playLoudClickSound() {
+    function playNormalKeyboardSound() {
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
 
       const now = audioCtx.currentTime;
 
-      // 1. High-frequency crisp click (Loud Transient Attack)
-      const osc = audioCtx.createOscillator();
-      const oscGain = audioCtx.createGain();
-      
-      osc.type = 'square';
-      osc.frequency.setValueAtTime(3200 + Math.random() * 800, now);
-      osc.frequency.exponentialRampToValueAtTime(400, now + 0.025);
-
-      oscGain.gain.setValueAtTime(0.35, now);
-      oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
-
-      osc.connect(oscGain);
-      oscGain.connect(audioCtx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.025);
-
-      // 2. Body Impact Noise (Solid Mechanical Clack)
-      const bufferSize = audioCtx.sampleRate * 0.03; // 30ms noise
+      // 1. Noise halus (Soft Membrane Contact Noise)
+      const bufferSize = audioCtx.sampleRate * 0.015; // 15ms singkat
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
@@ -439,22 +431,38 @@
       const whiteNoise = audioCtx.createBufferSource();
       whiteNoise.buffer = noiseBuffer;
 
-      // Filter noise to sound like a mechanical switch
+      // Low-pass Filter agar suara empuk dan tidak terlalu cempreng
       const filter = audioCtx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(2200, now);
-      filter.Q.setValueAtTime(1.8, now);
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(800 + Math.random() * 200, now);
 
       const noiseGain = audioCtx.createGain();
-      noiseGain.gain.setValueAtTime(0.4, now);
-      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+      noiseGain.gain.setValueAtTime(0.18, now);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.015);
 
       whiteNoise.connect(filter);
       filter.connect(noiseGain);
       noiseGain.connect(audioCtx.destination);
 
       whiteNoise.start(now);
-      whiteNoise.stop(now + 0.03);
+      whiteNoise.stop(now + 0.015);
+
+      // 2. Body Thock (Frekuensi Rendah Halus)
+      const osc = audioCtx.createOscillator();
+      const oscGain = audioCtx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(180 + Math.random() * 40, now);
+      osc.frequency.exponentialRampToValueAtTime(60, now + 0.02);
+
+      oscGain.gain.setValueAtTime(0.12, now);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.02);
+
+      osc.connect(oscGain);
+      oscGain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.02);
     }
 
     // DOM Elements
@@ -488,17 +496,15 @@
     }
 
     document.addEventListener('click', (e) => {
-      // Don't shift focus if clicking inside textarea
       if (e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'BUTTON') {
         focusInput();
       }
     });
 
-    // Listen to physical keyboard events for accurate key animation
+    // Listen to physical keyboard events
     window.addEventListener('keydown', (e) => {
       highlightKeyByCode(e.code);
 
-      // Focus back to hidden input if user presses normal typing keys
       if (document.activeElement !== customInput && document.activeElement !== hiddenInput) {
         hiddenInput.focus();
       }
@@ -517,7 +523,7 @@
       const charSpans = typingBox.querySelectorAll('.char');
       
       if (e.inputType === 'deleteContentBackward') {
-        playLoudClickSound();
+        playNormalKeyboardSound();
         if (currentIndex > 0) {
           currentIndex--;
           charSpans[currentIndex].className = 'char current';
@@ -528,7 +534,7 @@
         return;
       }
 
-      playLoudClickSound();
+      playNormalKeyboardSound();
 
       // Hitung durasi pemencetan karakter ini
       if (lastKeyTime) {
@@ -555,7 +561,6 @@
 
       if (currentIndex < targetText.length) {
         charSpans[currentIndex].classList.add('current');
-        // Auto scroll typing box if needed
         const currentEl = charSpans[currentIndex];
         if (currentEl) {
           currentEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -575,7 +580,7 @@
 
     function updateStats() {
       // 1. Hitung WPM & Elefasi Tren (Naik/Turun)
-      const timeElapsed = (Date.now() - startTime) / 60000; // dalam menit
+      const timeElapsed = (Date.now() - startTime) / 60000;
       const wordsTyped = currentIndex / 5;
       const currentWPM = Math.round(wordsTyped / timeElapsed) || 0;
 
