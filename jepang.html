@@ -6,40 +6,42 @@
     <title>Kaishi Nihongo - Belajar Bahasa Jepang Interaktif</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #eff6ff;
-            --accent: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            --card-bg: #ffffff;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --nav-bg: #f8fafc;
-            --canvas-bg: #ffffff;
-            --canvas-grid: #cbd5e1;
-            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --primary: #286a5b;
+            --primary-dark: #1f5146;
+            --primary-light: #e6f0eb;
+            --accent: #b66a3c;
+            --warning: #b7791f;
+            --danger: #b94a48;
+            --bg-gradient: linear-gradient(135deg, #e8eee9 0%, #f6f1e8 48%, #dfe9e1 100%);
+            --card-bg: #fffdf8;
+            --text-dark: #24332f;
+            --text-muted: #66736d;
+            --border-color: #d8e1da;
+            --nav-bg: #f2f5ef;
+            --canvas-bg: #fffdf8;
+            --canvas-grid: #c8d6cc;
+            --shadow-md: 0 18px 40px rgba(45, 67, 57, 0.14);
+            --font-display: Georgia, 'Times New Roman', serif;
+            --font-body: 'Trebuchet MS', 'Segoe UI', sans-serif;
         }
 
         body.dark-theme {
-            --bg-gradient: linear-gradient(135deg, #030712 0%, #0f172a 50%, #020617 100%);
-            --card-bg: #1e293b;
-            --text-dark: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary-light: #1e3a8a;
-            --border-color: #334155;
-            --nav-bg: #0f172a;
-            --canvas-bg: #0f172a;
-            --canvas-grid: #334155;
+            --bg-gradient: linear-gradient(135deg, #1f302b 0%, #263d35 48%, #17251f 100%);
+            --card-bg: #263a33;
+            --text-dark: #edf3ed;
+            --text-muted: #aabbb1;
+            --primary-light: #31564b;
+            --border-color: #3d594e;
+            --nav-bg: #20352e;
+            --canvas-bg: #f7f3e9;
+            --canvas-grid: #9cb4a5;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-body);
         }
 
         body {
@@ -50,7 +52,40 @@
             align-items: center;
             color: var(--text-dark);
             padding: 16px;
-            transition: background 0.3s ease;
+            transition: background 0.4s ease, color 0.3s ease;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.2;
+            background-image: radial-gradient(rgba(40, 106, 91, 0.16) 0.7px, transparent 0.7px);
+            background-size: 18px 18px;
+        }
+
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes softPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(40, 106, 91, 0); }
+            50% { box-shadow: 0 0 0 5px rgba(40, 106, 91, 0.1); }
+        }
+
+        @keyframes shake {
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
         }
 
         /* Top Brand Bar & Widget Bar */
@@ -77,6 +112,7 @@
             font-size: 1.25rem;
             letter-spacing: -0.02em;
             color: #ffffff;
+            font-family: var(--font-display);
         }
 
         .brand-badge {
@@ -110,11 +146,12 @@
         .theme-toggle-btn {
             background: rgba(255, 255, 255, 0.2);
             border: none;
-            border-radius: 50%;
-            width: 36px;
+            border-radius: 10px;
+            min-width: 58px;
             height: 36px;
             cursor: pointer;
             font-size: 1.1rem;
+            padding: 0 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -139,6 +176,7 @@
             position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
             border: 1px solid var(--border-color);
+            animation: revealUp 0.55s ease both;
         }
 
         /* Primary Navigation Grid */
@@ -178,7 +216,8 @@
         .p-nav-btn.active {
             background: var(--primary);
             color: white;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+            box-shadow: 0 5px 14px rgba(40, 106, 91, 0.24);
+            animation: softPulse 2.8s ease-in-out infinite;
         }
 
         /* Secondary Toolbar Bar */
@@ -1245,25 +1284,25 @@
     <!-- Top Navigation Bar -->
     <div class="top-navbar">
         <div class="brand-logo">
-            🌊 Kaishi <span class="brand-badge">開始 v2.1</span>
+            Kaishi <span class="brand-badge">開始 v2.1</span>
         </div>
         <div class="top-widgets">
-            <div class="widget-pill" title="Streak Belajar Harian">🔥 <span id="streak-counter">1</span> Hari</div>
-            <div class="widget-pill" title="Total Poin Pengalaman">⚡ <span id="xp-counter">0</span> XP</div>
-            <div class="widget-pill" id="user-header-pill" onclick="openProfileModal()" style="cursor: pointer;" title="Profil Saya">👤 <span id="nav-user-name">Siswa Kaishi</span></div>
-            <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Ganti Mode Gelap/Terang">🌙</button>
+            <div class="widget-pill" title="Streak Belajar Harian">Streak <span id="streak-counter">1</span> hari</div>
+            <div class="widget-pill" title="Total Poin Pengalaman">XP <span id="xp-counter">0</span></div>
+            <div class="widget-pill" id="user-header-pill" onclick="openProfileModal()" style="cursor: pointer;" title="Profil Saya"><span id="nav-user-name">Siswa Kaishi</span></div>
+            <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Ganti Mode Gelap/Terang">Tema</button>
         </div>
     </div>
 
     <div class="app-container">
         <!-- Navigation Buttons -->
         <div class="primary-nav">
-            <button class="p-nav-btn active" id="pnav-kana" onclick="switchPrimaryMode('kana')">🔤 Kana</button>
-            <button class="p-nav-btn" id="pnav-kotoba" onclick="switchPrimaryMode('kotoba')">📚 Kotoba</button>
-            <button class="p-nav-btn" id="pnav-write" onclick="switchPrimaryMode('write')">✍️ Menulis</button>
-            <button class="p-nav-btn" id="pnav-flashcard" onclick="switchPrimaryMode('flashcard')">🎴 Hafalan</button>
-            <button class="p-nav-btn" id="pnav-rank" onclick="switchPrimaryMode('rank')">🏆 Rank Global</button>
-            <button class="p-nav-btn" id="pnav-stats" onclick="switchPrimaryMode('stats')">📊 Statistik</button>
+            <button class="p-nav-btn active" id="pnav-kana" onclick="switchPrimaryMode('kana')">Kana</button>
+            <button class="p-nav-btn" id="pnav-kotoba" onclick="switchPrimaryMode('kotoba')">Kosakata</button>
+            <button class="p-nav-btn" id="pnav-write" onclick="switchPrimaryMode('write')">Menulis</button>
+            <button class="p-nav-btn" id="pnav-flashcard" onclick="switchPrimaryMode('flashcard')">Hafalan</button>
+            <button class="p-nav-btn" id="pnav-rank" onclick="switchPrimaryMode('rank')">Peringkat</button>
+            <button class="p-nav-btn" id="pnav-stats" onclick="switchPrimaryMode('stats')">Statistik</button>
         </div>
 
         <!-- Secondary Toolbar Controls -->
@@ -1276,14 +1315,14 @@
             <div class="toolbar-row" id="kana-cat-selector">
                 <span class="toolbar-label">Kategori:</span>
                 <div class="direction-toggle" id="quiz-direction-box">
-                    <button class="dir-btn active" id="dir-jp-ro" onclick="setQuizDirection('jp-ro')" title="Soal Huruf -> Romaji">🇯🇵 Huruf➔Ro</button>
-                    <button class="dir-btn" id="dir-ro-jp" onclick="setQuizDirection('ro-jp')" title="Soal Romaji -> Huruf">🔤 Ro➔Huruf</button>
+                    <button class="dir-btn active" id="dir-jp-ro" onclick="setQuizDirection('jp-ro')" title="Soal Huruf -> Romaji">Huruf ke Romaji</button>
+                    <button class="dir-btn" id="dir-ro-jp" onclick="setQuizDirection('ro-jp')" title="Soal Romaji -> Huruf">Romaji ke Huruf</button>
                 </div>
                 <div class="cat-pills">
-                    <button class="cat-btn active" id="cat-all" onclick="setKanaCategory('all')">🌐 Semua</button>
-                    <button class="cat-btn" id="cat-seion" onclick="setKanaCategory('seion')">📌 Dasar</button>
-                    <button class="cat-btn" id="cat-dakuon" onclick="setKanaCategory('dakuon')">🔔 Dakuon</button>
-                    <button class="cat-btn" id="cat-yoon" onclick="setKanaCategory('yoon')">🧩 Yoon</button>
+                    <button class="cat-btn active" id="cat-all" onclick="setKanaCategory('all')">Semua</button>
+                    <button class="cat-btn" id="cat-seion" onclick="setKanaCategory('seion')">Dasar</button>
+                    <button class="cat-btn" id="cat-dakuon" onclick="setKanaCategory('dakuon')">Dakuon</button>
+                    <button class="cat-btn" id="cat-yoon" onclick="setKanaCategory('yoon')">Yoon</button>
                 </div>
             </div>
         </div>
@@ -1296,7 +1335,7 @@
             </div>
 
             <div class="card-display">
-                <button class="audio-btn" onclick="playAudio()" title="Dengarkan Suara">🔊</button>
+                <button class="audio-btn" onclick="playAudio()" title="Dengarkan Suara" aria-label="Dengarkan soal">Dengar</button>
                 <div class="jp-text" id="jp-display">あ</div>
                 <div class="sub-text" id="sub-display">Pilih cara baca (Romaji) yang tepat</div>
             </div>
@@ -1321,7 +1360,7 @@
                 <div class="flashcard" id="flashcard-card">
                     <div class="flashcard-front">
                         <div class="fc-jp" id="fc-jp-text">ありがとう</div>
-                        <div class="fc-hint">💡 Klik kartu untuk balikkan</div>
+                        <div class="fc-hint">Klik kartu untuk membalik</div>
                     </div>
                     <div class="flashcard-back">
                         <div class="fc-romaji" id="fc-romaji-text">Arigatou</div>
@@ -1331,9 +1370,9 @@
             </div>
 
             <div class="flashcard-controls">
-                <button class="ctrl-btn" onclick="prevFlashcard()">⬅ Prev</button>
-                <button class="ctrl-btn" onclick="playFlashcardAudio()">🔊 Suara</button>
-                <button class="ctrl-btn" onclick="nextFlashcard()">Next ➔</button>
+                <button class="ctrl-btn" onclick="prevFlashcard()">Sebelumnya</button>
+                <button class="ctrl-btn" onclick="playFlashcardAudio()">Dengar</button>
+                <button class="ctrl-btn" onclick="nextFlashcard()">Berikutnya</button>
             </div>
         </div>
 
@@ -1341,8 +1380,8 @@
         <div id="writing-interface" style="display: none;">
             <!-- Writing Sub Navigation Mode Switcher -->
             <div class="writing-subnav">
-                <button class="subtab-btn active" id="subtab-tut" onclick="switchWritingSubMode('tutorial')">📖 Tutorial Langkah</button>
-                <button class="subtab-btn" id="subtab-practice" onclick="switchWritingSubMode('practice')">✍️ Latihan Tulis Canvas</button>
+                <button class="subtab-btn active" id="subtab-tut" onclick="switchWritingSubMode('tutorial')">Tutorial Langkah</button>
+                <button class="subtab-btn" id="subtab-practice" onclick="switchWritingSubMode('practice')">Latihan Canvas</button>
             </div>
 
             <div class="stats-bar">
@@ -1364,7 +1403,7 @@
                 <div class="tutorial-panel-box" id="tutorial-step-panel">
                     <div class="tutorial-header">
                         <div class="tutorial-title">
-                            <span>🧭 Panduan Coretan Langkah Demi Langkah</span>
+                            <span>Panduan Urutan Coretan</span>
                         </div>
                         <div class="step-dots" id="step-dots-container"></div>
                     </div>
@@ -1372,9 +1411,9 @@
                         Memuat instruksi langkah menulis...
                     </div>
                     <div class="tutorial-controls">
-                        <button class="tut-btn" onclick="prevStrokeStep()">⬅ Step Lalu</button>
-                        <button class="tut-btn" onclick="playStrokeAnimation()">▶️ Putar Urutan</button>
-                        <button class="tut-btn" onclick="nextStrokeStep()">Step Lanjut ➔</button>
+                        <button class="tut-btn" onclick="prevStrokeStep()">Langkah Sebelumnya</button>
+                        <button class="tut-btn" onclick="playStrokeAnimation()">Putar Urutan</button>
+                        <button class="tut-btn" onclick="nextStrokeStep()">Langkah Berikutnya</button>
                     </div>
                 </div>
 
@@ -1391,11 +1430,11 @@
 
                 <!-- Toolbar Actions -->
                 <div class="writing-tools">
-                    <button class="tool-btn" onclick="clearCanvas()">🗑️ Hapus</button>
-                    <button class="tool-btn" onclick="toggleCanvasGuide()">👁️ Panduan</button>
-                    <button class="tool-btn" onclick="playWritingAudio()">🔊 Suara</button>
-                    <button class="tool-btn primary" id="eval-action-btn" onclick="evaluateUserWriting()">✨ Evaluasi Tulis</button>
-                    <button class="tool-btn" onclick="nextWritingChar()">Berikutnya ➔</button>
+                    <button class="tool-btn" onclick="clearCanvas()">Hapus</button>
+                    <button class="tool-btn" onclick="toggleCanvasGuide()">Panduan</button>
+                    <button class="tool-btn" onclick="playWritingAudio()">Dengar</button>
+                    <button class="tool-btn primary" id="eval-action-btn" onclick="evaluateUserWriting()">Evaluasi Tulis</button>
+                    <button class="tool-btn" onclick="nextWritingChar()">Berikutnya</button>
                 </div>
             </div>
         </div>
@@ -1405,28 +1444,28 @@
             <div class="stats-dashboard">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon">🔥</div>
+                        <div class="stat-icon">S</div>
                         <div class="stat-info">
                             <h4 id="st-streak">1</h4>
                             <p>Hari Streak</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">🎯</div>
+                        <div class="stat-icon">A</div>
                         <div class="stat-info">
                             <h4 id="st-accuracy">0%</h4>
                             <p>Tingkat Akurasi</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">📝</div>
+                        <div class="stat-icon">K</div>
                         <div class="stat-info">
                             <h4 id="st-total-quizzes">0</h4>
                             <p>Kuis Diikuti</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">⚡</div>
+                        <div class="stat-icon">X</div>
                         <div class="stat-info">
                             <h4 id="st-xp">0</h4>
                             <p>Total Poin XP</p>
@@ -1435,7 +1474,7 @@
                 </div>
 
                 <div class="section-box">
-                    <div class="section-box-title">📊 Progres Penguasaan Kategori</div>
+                    <div class="section-box-title">Progres Penguasaan Kategori</div>
                     <div class="progress-bar-group">
                         <div class="progress-item">
                             <div class="progress-item-label">
@@ -1462,16 +1501,16 @@
                 </div>
 
                 <div class="section-box">
-                    <div class="section-box-title">🏅 Pencapaian & Lencana</div>
+                    <div class="section-box-title">Pencapaian & Lencana</div>
                     <div class="badges-grid" id="badges-container"></div>
                 </div>
 
                 <div class="section-box">
-                    <div class="section-box-title">📜 Riwayat Kuis Terakhir</div>
+                    <div class="section-box-title">Riwayat Kuis Terakhir</div>
                     <div class="history-list" id="history-container"></div>
                 </div>
 
-                <button class="ctrl-btn" style="color:var(--danger); border-color:var(--danger); margin-top:10px;" onclick="promptResetStats()">🗑️ Reset Seluruh Statistik</button>
+                <button class="ctrl-btn" style="color:var(--danger); border-color:var(--danger); margin-top:10px;" onclick="promptResetStats()">Reset Seluruh Statistik</button>
             </div>
         </div>
 
@@ -1479,17 +1518,17 @@
         <div id="leaderboard-interface" style="display: none;">
             <div class="user-profile-banner">
                 <div class="user-avatar-box">
-                    <div class="avatar-circle" id="my-avatar-char">👤</div>
+                    <div class="avatar-circle" id="my-avatar-char">S</div>
                     <div class="user-details">
                         <h3 id="my-profile-name">Siswa Kaishi</h3>
                         <p>Peringkat Anda: <span id="my-global-rank" style="color:var(--primary); font-weight:800;">#-</span></p>
                     </div>
                 </div>
-                <button class="edit-profile-btn" onclick="openProfileModal()">✏️ Edit Profil</button>
+                <button class="edit-profile-btn" onclick="openProfileModal()">Edit Profil</button>
             </div>
 
             <div class="section-box">
-                <div class="section-box-title">🏆 Papan Peringkat Global</div>
+                <div class="section-box-title">Papan Peringkat Global</div>
                 <div class="leaderboard-list" id="leaderboard-container">
                     <div style="font-size:0.85rem; color:var(--text-muted); text-align:center; padding:20px;">Memuat data peringkat...</div>
                 </div>
@@ -1498,7 +1537,7 @@
 
         <!-- Quiz Result Screen View -->
         <div class="result-box" id="result-interface">
-            <h2>Kuis Selesai! 🎉</h2>
+            <h2>Kuis Selesai</h2>
             <p style="color: var(--text-muted); margin-top: 5px;">Hasil tes Anda telah dicatat ke statistik:</p>
             <div class="result-score" id="final-score">0</div>
             <p id="result-message">Kerja bagus! Tingkatkan terus latihannya.</p>
@@ -1767,9 +1806,9 @@
         // Badges Definitions
         const badgesData = [
             { id: 'b_first', icon: '🌱', name: 'Awal Mulai', desc: 'Selesaikan kuis pertama' },
-            { id: 'b_perfect', icon: '💯', name: 'Nilai Sempurna', desc: 'Dapatkan skor 100 di kuis' },
-            { id: 'b_streak3', icon: '🔥', name: 'Setia Belajar', desc: 'Capai streak 3 hari berturut-turut' },
-            { id: 'b_writer', icon: '✍️', name: 'Jago Menulis', desc: 'Coba fitur latihan menulis' },
+            { id: 'b_perfect', icon: '100', name: 'Nilai Sempurna', desc: 'Dapatkan skor 100 di kuis' },
+            { id: 'b_streak3', icon: '3D', name: 'Setia Belajar', desc: 'Capai streak 3 hari berturut-turut' },
+            { id: 'b_writer', icon: 'A', name: 'Jago Menulis', desc: 'Coba fitur latihan menulis' },
             { id: 'b_master', icon: '👑', name: 'Siswa Rajin', desc: 'Kumpulkan total 500 XP' }
         ];
 
@@ -1878,17 +1917,27 @@
         let canvas, ctx;
         let showGuide = true;
         let currentKanaList = [...kanaSeion];
+        let writingRewardedFor = '';
+
+        function shuffle(items) {
+            const result = [...items];
+            for (let index = result.length - 1; index > 0; index--) {
+                const randomIndex = Math.floor(Math.random() * (index + 1));
+                [result[index], result[randomIndex]] = [result[randomIndex], result[index]];
+            }
+            return result;
+        }
 
         function toggleTheme() {
             document.body.classList.toggle('dark-theme');
             const isDark = document.body.classList.contains('dark-theme');
-            document.getElementById('theme-btn').innerText = isDark ? '☀️' : '🌙';
+            document.getElementById('theme-btn').innerText = isDark ? 'Terang' : 'Gelap';
             localStorage.setItem('kaishi_theme', isDark ? 'dark' : 'light');
         }
 
         if (localStorage.getItem('kaishi_theme') === 'dark') {
             document.body.classList.add('dark-theme');
-            document.getElementById('theme-btn').innerText = '☀️';
+            document.getElementById('theme-btn').innerText = 'Terang';
         }
 
         // Primary Navigation Handler
@@ -1996,7 +2045,7 @@
                 pool = [...kotobaData];
             }
 
-            activeQuizSet = pool.sort(() => Math.random() - 0.5).slice(0, totalQuestions);
+            activeQuizSet = shuffle(pool).slice(0, totalQuestions);
             renderQuestion();
         }
 
@@ -2038,12 +2087,13 @@
                 poolDistractors = kotobaData.map(item => item.mean).filter(m => m !== correctAnswerVal);
             }
 
-            const distractors = poolDistractors.sort(() => Math.random() - 0.5).slice(0, 3);
-            const options = [correctAnswerVal, ...distractors].sort(() => Math.random() - 0.5);
+            const distractors = shuffle(poolDistractors).slice(0, 3);
+            const options = shuffle([correctAnswerVal, ...distractors]);
 
-            options.forEach(optionText => {
+            options.forEach((optionText, optionIndex) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-option';
+                btn.style.animationDelay = `${optionIndex * 45}ms`;
                 btn.innerText = optionText;
                 btn.onclick = () => checkAnswer(optionText, btn, correctAnswerVal);
                 optionsContainer.appendChild(btn);
@@ -2077,7 +2127,7 @@
 
                 if (currentPrimaryMode === 'kana') {
                     if (kanaCategory === 'seion') userStats.seionCorrect += 1;
-                    else userStats.dakuonCorrect += 1;
+                    else if (kanaCategory === 'dakuon') userStats.dakuonCorrect += 1;
                 } else {
                     userStats.kotobaCorrect += 1;
                 }
@@ -2112,10 +2162,10 @@
 
             let msg = 'Kerja bagus! Tingkatkan terus latihannya.';
             if (finalScore === 100) {
-                msg = 'Sempurna! Pengetahuan Anda sangat luar biasa! 💯';
+                msg = 'Sempurna! Pengetahuan Anda sangat luar biasa.';
                 unlockBadge('b_perfect');
             } else if (finalScore >= 80) {
-                msg = 'Sangat Bagus! Teruskan semangat belajar Anda! ✨';
+                msg = 'Sangat bagus. Teruskan semangat belajar Anda.';
             }
 
             document.getElementById('result-message').innerText = msg;
@@ -2431,14 +2481,17 @@
             const accuracy = Math.min(100, Math.round((matchCount / (refPixelCount * 0.45)) * 100));
             document.getElementById('eval-score-val').innerText = `${accuracy}%`;
 
-            let feedback = 'Bagus! Tetap latih ketelitian alur coretan Anda.';
+            let feedback = 'Bagus. Tetap latih ketelitian alur coretan Anda.';
+            const rewardKey = `${kanaType}:${jpChar}`;
             if (accuracy >= 80) {
-                feedback = 'Luar Biasa! Tuisan Anda sangat presisi dan rapi! 🌟 (+15 XP)';
-                addXP(15);
+                feedback = 'Tulisan Anda sangat presisi dan rapi. (+15 XP)';
+                if (writingRewardedFor !== rewardKey) addXP(15);
             } else if (accuracy >= 50) {
-                feedback = 'Kerja bagus! Tuisan sudah cukup mirip, tingkatkan kerapian. (+10 XP)';
-                addXP(10);
+                feedback = 'Tulisan sudah cukup mirip. Tingkatkan kerapian. (+10 XP)';
+                if (writingRewardedFor !== rewardKey) addXP(10);
             }
+
+            writingRewardedFor = rewardKey;
 
             document.getElementById('eval-msg-text').innerText = feedback;
         }
@@ -2524,9 +2577,9 @@
 
                 let badgeClass = 'rank-badge';
                 let rankIcon = rankNum;
-                if (rankNum === 1) { badgeClass += ' rank-1'; rankIcon = '🥇'; }
-                else if (rankNum === 2) { badgeClass += ' rank-2'; rankIcon = '🥈'; }
-                else if (rankNum === 3) { badgeClass += ' rank-3'; rankIcon = '🥉'; }
+                if (rankNum === 1) { badgeClass += ' rank-1'; rankIcon = '1'; }
+                else if (rankNum === 2) { badgeClass += ' rank-2'; rankIcon = '2'; }
+                else if (rankNum === 3) { badgeClass += ' rank-3'; rankIcon = '3'; }
 
                 const item = document.createElement('div');
                 item.className = `leaderboard-item ${isMe ? 'is-me' : ''}`;
@@ -2535,10 +2588,10 @@
                     <div class="leader-info">
                         <div>
                             <div class="leader-name">${escapeHtml(user.displayName || 'Pengguna Kaishi')} ${isMe ? ' (Anda)' : ''}</div>
-                            <div class="leader-stats">🔥 ${user.streak || 1} Hari Streak</div>
+                            <div class="leader-stats">Streak ${user.streak || 1} hari</div>
                         </div>
                     </div>
-                    <div class="leader-score">⚡ ${user.xp || 0} XP</div>
+                    <div class="leader-score">${user.xp || 0} XP</div>
                 `;
                 container.appendChild(item);
             });
