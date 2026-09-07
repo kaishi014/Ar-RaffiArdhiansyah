@@ -9,9 +9,11 @@
       --spidey-red: #e62429;
       --spidey-blue: #0055a5;
       --spidey-dark-blue: #002244;
-      --spidey-black: #111111;
+      --spidey-black: #0d0f17;
       --spidey-gold: #ffb703;
       --spidey-white: #ffffff;
+      --key-bg: #1a2238;
+      --key-border: #2a385c;
     }
 
     * {
@@ -46,17 +48,17 @@
       color: var(--spidey-red);
       text-transform: uppercase;
       letter-spacing: 2px;
-      text-shadow: 2px 2px 0 var(--spidey-blue), 0 0 10px rgba(230, 36, 41, 0.8);
+      text-shadow: 2px 2px 0 var(--spidey-blue), 0 0 12px rgba(230, 36, 41, 0.8);
     }
 
     .container {
       width: 100%;
-      max-width: 900px;
-      background: rgba(0, 34, 68, 0.85);
+      max-width: 950px;
+      background: rgba(0, 34, 68, 0.88);
       border: 3px solid var(--spidey-red);
       border-radius: 12px;
       padding: 25px;
-      box-shadow: 0 0 20px rgba(230, 36, 41, 0.4);
+      box-shadow: 0 0 25px rgba(230, 36, 41, 0.4);
     }
 
     /* Input Custom Text */
@@ -66,73 +68,93 @@
 
     .custom-text-section textarea {
       width: 100%;
-      height: 70px;
-      background: #1a1a2e;
+      height: 75px;
+      background: #101424;
       border: 2px solid var(--spidey-blue);
       border-radius: 6px;
       color: #fff;
       padding: 10px;
+      font-size: 0.95rem;
       resize: vertical;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
     }
 
     .btn {
       background: var(--spidey-red);
       color: var(--spidey-white);
       border: none;
-      padding: 8px 16px;
+      padding: 8px 18px;
       font-weight: bold;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 5px;
-      transition: background 0.2s;
+      transition: all 0.2s;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .btn:hover {
       background: #b31217;
+      box-shadow: 0 0 8px rgba(230, 36, 41, 0.6);
+    }
+
+    .btn-blue {
+      background: var(--spidey-blue);
+    }
+
+    .btn-blue:hover {
+      background: #003e7a;
     }
 
     /* Stats Panel */
     .stats-panel {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
       margin-bottom: 20px;
     }
 
     .stat-card {
-      background: #101820;
+      background: #090d1a;
       border: 1px solid var(--spidey-gold);
       border-radius: 8px;
-      padding: 12px;
+      padding: 12px 10px;
       text-align: center;
     }
 
     .stat-title {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #aaa;
       text-transform: uppercase;
+      margin-bottom: 4px;
     }
 
     .stat-value {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: var(--spidey-gold);
     }
 
     /* Display Typing Area */
     .typing-box {
-      background: #0d1117;
+      background: #080b14;
       border: 2px solid var(--spidey-blue);
       border-radius: 8px;
       padding: 20px;
       font-size: 1.3rem;
       line-height: 1.6;
       letter-spacing: 1px;
-      min-height: 100px;
+      min-height: 110px;
+      max-height: 180px;
+      overflow-y: auto;
       margin-bottom: 20px;
       word-break: break-all;
       position: relative;
+      cursor: pointer;
     }
 
     .char {
@@ -144,8 +166,8 @@
     }
 
     .char.incorrect {
-      color: var(--spidey-red);
-      background-color: rgba(230, 36, 41, 0.3);
+      color: #ff4d4d;
+      background-color: rgba(230, 36, 41, 0.35);
       text-decoration: underline;
     }
 
@@ -158,46 +180,77 @@
       50% { border-color: transparent; }
     }
 
-    /* On-Screen Visual Keyboard */
+    /* On-Screen Full Keyboard */
     .keyboard {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      background: #090a0f;
+      gap: 5px;
+      background: #060810;
       padding: 15px;
       border-radius: 10px;
       border: 1px solid var(--spidey-blue);
+      user-select: none;
     }
 
     .row {
       display: flex;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
+      width: 100%;
     }
 
     .key {
-      background: #1a2238;
-      border: 1px solid #2a385c;
+      background: var(--key-bg);
+      border: 1px solid var(--key-border);
       color: #fff;
-      border-radius: 4px;
-      min-width: 40px;
-      height: 40px;
+      border-radius: 5px;
+      height: 42px;
+      flex: 1;
+      max-width: 50px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 0.9rem;
-      transition: all 0.1s ease;
+      font-size: 0.85rem;
+      transition: all 0.08s ease;
+      box-shadow: 0 2px 0 #0f1424;
+      position: relative;
     }
 
-    .key.space {
-      width: 250px;
+    .key .top-symbol {
+      font-size: 0.7rem;
+      color: #8a9bbd;
+      line-height: 1;
     }
+    
+    .key .bottom-symbol {
+      font-size: 0.85rem;
+      line-height: 1;
+    }
+
+    .key.special {
+      font-size: 0.75rem;
+      background: #141b2d;
+    }
+
+    .key.k-backspace { flex: 2; max-width: 90px; }
+    .key.k-tab { flex: 1.5; max-width: 70px; }
+    .key.k-caps { flex: 1.8; max-width: 80px; }
+    .key.k-enter { flex: 2.2; max-width: 100px; background: #1c2742; }
+    .key.k-shift { flex: 2.5; max-width: 110px; }
+    .key.k-space { flex: 6; max-width: 320px; }
+    .key.k-ctrl, .key.k-alt, .key.k-win { flex: 1.2; max-width: 60px; }
 
     .key.active {
-      background: var(--spidey-red);
-      box-shadow: 0 0 10px var(--spidey-red);
+      background: var(--spidey-red) !important;
+      color: #fff !important;
+      box-shadow: 0 0 12px var(--spidey-red);
       transform: translateY(2px);
+    }
+
+    .key.active .top-symbol {
+      color: #ffd1d1;
     }
 
     /* Hidden input field for typing capture */
@@ -205,6 +258,15 @@
       position: absolute;
       opacity: 0;
       pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .key {
+        height: 36px;
+        font-size: 0.75rem;
+      }
+      .key .top-symbol { font-size: 0.6rem; }
+      .key .bottom-symbol { font-size: 0.75rem; }
     }
   </style>
 </head>
@@ -217,10 +279,12 @@
 
   <div class="container">
     <div class="custom-text-section">
-      <label for="custom-input" style="font-size: 0.9rem; margin-bottom: 5px; display: block;">Ganti Teks Latihan:</label>
-      <textarea id="custom-input" placeholder="Masukkan teks kustom di sini..."></textarea>
-      <button class="btn" onclick="updateCustomText()">Gunakan Teks Ini</button>
-      <button class="btn" style="background: var(--spidey-blue);" onclick="resetTest()">Ulangi Latihan</button>
+      <label for="custom-input" style="font-size: 0.9rem; margin-bottom: 5px; display: block; font-weight: 600;">Ganti Teks Latihan:</label>
+      <textarea id="custom-input" placeholder="Masukkan teks kustom di sini (termasuk angka & tanda baca)..."></textarea>
+      <div class="btn-group">
+        <button class="btn" onclick="updateCustomText()">Gunakan Teks Ini</button>
+        <button class="btn btn-blue" onclick="resetTest()">Ulangi Latihan</button>
+      </div>
     </div>
 
     <div class="stats-panel">
@@ -229,7 +293,7 @@
         <div class="stat-value" id="stat-wpm">0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-title">Tren WPM</div>
+        <div class="stat-title">Elefasi WPM</div>
         <div class="stat-value" id="stat-trend" style="font-size: 1.1rem;">-</div>
       </div>
       <div class="stat-card">
@@ -247,34 +311,89 @@
     </div>
 
     <div class="typing-box" id="typing-box" onclick="focusInput()"></div>
-    <input type="text" id="hidden-input" autocomplete="off">
+    <input type="text" id="hidden-input" autocomplete="off" spellcheck="false">
 
     <div class="keyboard" id="keyboard">
       <div class="row">
-        <div class="key" id="key-q">Q</div><div class="key" id="key-w">W</div><div class="key" id="key-e">E</div>
-        <div class="key" id="key-r">R</div><div class="key" id="key-t">T</div><div class="key" id="key-y">Y</div>
-        <div class="key" id="key-u">U</div><div class="key" id="key-i">I</div><div class="key" id="key-o">O</div>
-        <div class="key" id="key-p">P</div>
+        <div class="key" data-code="Backquote"><span class="top-symbol">~</span><span class="bottom-symbol">`</span></div>
+        <div class="key" data-code="Digit1"><span class="top-symbol">!</span><span class="bottom-symbol">1</span></div>
+        <div class="key" data-code="Digit2"><span class="top-symbol">@</span><span class="bottom-symbol">2</span></div>
+        <div class="key" data-code="Digit3"><span class="top-symbol">#</span><span class="bottom-symbol">3</span></div>
+        <div class="key" data-code="Digit4"><span class="top-symbol">$</span><span class="bottom-symbol">4</span></div>
+        <div class="key" data-code="Digit5"><span class="top-symbol">%</span><span class="bottom-symbol">5</span></div>
+        <div class="key" data-code="Digit6"><span class="top-symbol">^</span><span class="bottom-symbol">6</span></div>
+        <div class="key" data-code="Digit7"><span class="top-symbol">&amp;</span><span class="bottom-symbol">7</span></div>
+        <div class="key" data-code="Digit8"><span class="top-symbol">*</span><span class="bottom-symbol">8</span></div>
+        <div class="key" data-code="Digit9"><span class="top-symbol">(</span><span class="bottom-symbol">9</span></div>
+        <div class="key" data-code="Digit0"><span class="top-symbol">)</span><span class="bottom-symbol">0</span></div>
+        <div class="key" data-code="Minus"><span class="top-symbol">_</span><span class="bottom-symbol">-</span></div>
+        <div class="key" data-code="Equal"><span class="top-symbol">+</span><span class="bottom-symbol">=</span></div>
+        <div class="key special k-backspace" data-code="Backspace">Backspace</div>
       </div>
+
       <div class="row">
-        <div class="key" id="key-a">A</div><div class="key" id="key-s">S</div><div class="key" id="key-d">D</div>
-        <div class="key" id="key-f">F</div><div class="key" id="key-g">G</div><div class="key" id="key-h">H</div>
-        <div class="key" id="key-j">J</div><div class="key" id="key-k">K</div><div class="key" id="key-l">L</div>
+        <div class="key special k-tab" data-code="Tab">Tab</div>
+        <div class="key" data-code="KeyQ">Q</div>
+        <div class="key" data-code="KeyW">W</div>
+        <div class="key" data-code="KeyE">E</div>
+        <div class="key" data-code="KeyR">R</div>
+        <div class="key" data-code="KeyT">T</div>
+        <div class="key" data-code="KeyY">Y</div>
+        <div class="key" data-code="KeyU">U</div>
+        <div class="key" data-code="KeyI">I</div>
+        <div class="key" data-code="KeyO">O</div>
+        <div class="key" data-code="KeyP">P</div>
+        <div class="key" data-code="BracketLeft"><span class="top-symbol">{</span><span class="bottom-symbol">[</span></div>
+        <div class="key" data-code="BracketRight"><span class="top-symbol">}</span><span class="bottom-symbol">]</span></div>
+        <div class="key" data-code="Backslash"><span class="top-symbol">|</span><span class="bottom-symbol">\</span></div>
       </div>
+
       <div class="row">
-        <div class="key" id="key-z">Z</div><div class="key" id="key-x">X</div><div class="key" id="key-c">C</div>
-        <div class="key" id="key-v">V</div><div class="key" id="key-b">B</div><div class="key" id="key-n">N</div>
-        <div class="key" id="key-m">M</div>
+        <div class="key special k-caps" data-code="CapsLock">Caps Lock</div>
+        <div class="key" data-code="KeyA">A</div>
+        <div class="key" data-code="KeyS">S</div>
+        <div class="key" data-code="KeyD">D</div>
+        <div class="key" data-code="KeyF">F</div>
+        <div class="key" data-code="KeyG">G</div>
+        <div class="key" data-code="KeyH">H</div>
+        <div class="key" data-code="KeyJ">J</div>
+        <div class="key" data-code="KeyK">K</div>
+        <div class="key" data-code="KeyL">L</div>
+        <div class="key" data-code="Semicolon"><span class="top-symbol">:</span><span class="bottom-symbol">;</span></div>
+        <div class="key" data-code="Quote"><span class="top-symbol">"</span><span class="bottom-symbol">'</span></div>
+        <div class="key special k-enter" data-code="Enter">Enter</div>
       </div>
+
       <div class="row">
-        <div class="key space" id="key-space">SPACE</div>
+        <div class="key special k-shift" data-code="ShiftLeft">Shift</div>
+        <div class="key" data-code="KeyZ">Z</div>
+        <div class="key" data-code="KeyX">X</div>
+        <div class="key" data-code="KeyC">C</div>
+        <div class="key" data-code="KeyV">V</div>
+        <div class="key" data-code="KeyB">B</div>
+        <div class="key" data-code="KeyN">N</div>
+        <div class="key" data-code="KeyM">M</div>
+        <div class="key" data-code="Comma"><span class="top-symbol">&lt;</span><span class="bottom-symbol">,</span></div>
+        <div class="key" data-code="Period"><span class="top-symbol">&gt;</span><span class="bottom-symbol">.</span></div>
+        <div class="key" data-code="Slash"><span class="top-symbol">?</span><span class="bottom-symbol">/</span></div>
+        <div class="key special k-shift" data-code="ShiftRight">Shift</div>
+      </div>
+
+      <div class="row">
+        <div class="key special k-ctrl" data-code="ControlLeft">Ctrl</div>
+        <div class="key special k-win" data-code="MetaLeft">Win</div>
+        <div class="key special k-alt" data-code="AltLeft">Alt</div>
+        <div class="key special k-space" data-code="Space">Space</div>
+        <div class="key special k-alt" data-code="AltRight">Alt</div>
+        <div class="key special k-win" data-code="MetaRight">Win</div>
+        <div class="key special k-ctrl" data-code="ControlRight">Ctrl</div>
       </div>
     </div>
   </div>
 
   <script>
     // State Aplikasi
-    let targetText = "With great power comes great responsibility. Peter Parker is Spider-Man fighting crime in New York City.";
+    let targetText = "With great power comes great responsibility! Peter Parker (Spider-Man) protects NYC in 2026 @ 100% speed.";
     let currentIndex = 0;
     let errors = 0;
     let startTime = null;
@@ -282,23 +401,60 @@
     let lastKeyTime = null;
     let previousWPM = 0;
 
-    // Web Audio API untuk Sound Effect Mengetik
+    // Web Audio API untuk Suara Ketikan Mechanical Keyboard yang Nyaring (Crisp & Snappy Click)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    
-    function playTypeSound() {
+
+    function playLoudClickSound() {
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
+
+      const now = audioCtx.currentTime;
+
+      // 1. High-frequency crisp click (Loud Transient Attack)
       const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(400 + Math.random() * 200, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.05);
+      const oscGain = audioCtx.createGain();
+      
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(3200 + Math.random() * 800, now);
+      osc.frequency.exponentialRampToValueAtTime(400, now + 0.025);
+
+      oscGain.gain.setValueAtTime(0.35, now);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
+
+      osc.connect(oscGain);
+      oscGain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.025);
+
+      // 2. Body Impact Noise (Solid Mechanical Clack)
+      const bufferSize = audioCtx.sampleRate * 0.03; // 30ms noise
+      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+
+      const whiteNoise = audioCtx.createBufferSource();
+      whiteNoise.buffer = noiseBuffer;
+
+      // Filter noise to sound like a mechanical switch
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(2200, now);
+      filter.Q.setValueAtTime(1.8, now);
+
+      const noiseGain = audioCtx.createGain();
+      noiseGain.gain.setValueAtTime(0.4, now);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+
+      whiteNoise.connect(filter);
+      filter.connect(noiseGain);
+      noiseGain.connect(audioCtx.destination);
+
+      whiteNoise.start(now);
+      whiteNoise.stop(now + 0.03);
     }
 
     // DOM Elements
@@ -307,7 +463,7 @@
     const customInput = document.getElementById('custom-input');
     const statWpm = document.getElementById('stat-wpm');
     const statTrend = document.getElementById('stat-trend');
-    textAccuracy = document.getElementById('stat-accuracy');
+    const textAccuracy = document.getElementById('stat-accuracy');
     const statErrors = document.getElementById('stat-errors');
     const statSlowest = document.getElementById('stat-slowest');
 
@@ -331,7 +487,22 @@
       hiddenInput.focus();
     }
 
-    document.addEventListener('click', focusInput);
+    document.addEventListener('click', (e) => {
+      // Don't shift focus if clicking inside textarea
+      if (e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'BUTTON') {
+        focusInput();
+      }
+    });
+
+    // Listen to physical keyboard events for accurate key animation
+    window.addEventListener('keydown', (e) => {
+      highlightKeyByCode(e.code);
+
+      // Focus back to hidden input if user presses normal typing keys
+      if (document.activeElement !== customInput && document.activeElement !== hiddenInput) {
+        hiddenInput.focus();
+      }
+    });
 
     hiddenInput.addEventListener('input', (e) => {
       const typedChar = e.data;
@@ -346,6 +517,7 @@
       const charSpans = typingBox.querySelectorAll('.char');
       
       if (e.inputType === 'deleteContentBackward') {
+        playLoudClickSound();
         if (currentIndex > 0) {
           currentIndex--;
           charSpans[currentIndex].className = 'char current';
@@ -356,19 +528,19 @@
         return;
       }
 
-      playTypeSound();
+      playLoudClickSound();
 
-      // Hitung waktu jeda pengetikan karakter ini
+      // Hitung durasi pemencetan karakter ini
       if (lastKeyTime) {
         const duration = currentTime - lastKeyTime;
-        const expectedChar = targetText[currentIndex].toLowerCase();
-        if (!keyTimes[expectedChar]) keyTimes[expectedChar] = [];
-        keyTimes[expectedChar].push(duration);
+        const expectedChar = targetText[currentIndex];
+        if (expectedChar) {
+          const charKey = expectedChar === ' ' ? 'SPACE' : expectedChar;
+          if (!keyTimes[charKey]) keyTimes[charKey] = [];
+          keyTimes[charKey].push(duration);
+        }
       }
       lastKeyTime = currentTime;
-
-      // Picu visual tombol keyboard
-      highlightKey(typedChar);
 
       // Verifikasi Karakter
       const expectedChar = targetText[currentIndex];
@@ -383,17 +555,21 @@
 
       if (currentIndex < targetText.length) {
         charSpans[currentIndex].classList.add('current');
+        // Auto scroll typing box if needed
+        const currentEl = charSpans[currentIndex];
+        if (currentEl) {
+          currentEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
       }
 
       updateStats();
     });
 
-    function highlightKey(char) {
-      let keyId = 'key-' + (char === ' ' ? 'space' : char.toLowerCase());
-      let keyEl = document.getElementById(keyId);
+    function highlightKeyByCode(code) {
+      let keyEl = document.querySelector(`.key[data-code="${code}"]`);
       if (keyEl) {
         keyEl.classList.add('active');
-        setTimeout(() => keyEl.classList.remove('active'), 150);
+        setTimeout(() => keyEl.classList.remove('active'), 140);
       }
     }
 
@@ -428,7 +604,7 @@
         const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
         if (avgTime > maxAvgTime) {
           maxAvgTime = avgTime;
-          slowestChar = char === ' ' ? 'SPACE' : char.toUpperCase();
+          slowestChar = char;
         }
       }
 
