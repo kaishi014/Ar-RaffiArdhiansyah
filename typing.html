@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpideyType - Latihan Mengetik Spider-Man</title>
+  <style>
+    :root {
+      --spidey-red: #e62429;
+      --spidey-blue: #0055a5;
+      --spidey-dark-blue: #002244;
+      --spidey-black: #111111;
+      --spidey-gold: #ffb703;
+      --spidey-white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--spidey-black);
+      background-image: 
+        radial-gradient(circle, rgba(230, 36, 41, 0.15) 1px, transparent 1px),
+        radial-gradient(circle, rgba(0, 85, 165, 0.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      color: var(--spidey-white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--spidey-red);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0 var(--spidey-blue), 0 0 10px rgba(230, 36, 41, 0.8);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(0, 34, 68, 0.85);
+      border: 3px solid var(--spidey-red);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 0 20px rgba(230, 36, 41, 0.4);
+    }
+
+    /* Input Custom Text */
+    .custom-text-section {
+      margin-bottom: 20px;
+    }
+
+    .custom-text-section textarea {
+      width: 100%;
+      height: 70px;
+      background: #1a1a2e;
+      border: 2px solid var(--spidey-blue);
+      border-radius: 6px;
+      color: #fff;
+      padding: 10px;
+      resize: vertical;
+    }
+
+    .btn {
+      background: var(--spidey-red);
+      color: var(--spidey-white);
+      border: none;
+      padding: 8px 16px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: background 0.2s;
+      text-transform: uppercase;
+    }
+
+    .btn:hover {
+      background: #b31217;
+    }
+
+    /* Stats Panel */
+    .stats-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: #101820;
+      border: 1px solid var(--spidey-gold);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-title {
+      font-size: 0.8rem;
+      color: #aaa;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--spidey-gold);
+    }
+
+    /* Display Typing Area */
+    .typing-box {
+      background: #0d1117;
+      border: 2px solid var(--spidey-blue);
+      border-radius: 8px;
+      padding: 20px;
+      font-size: 1.3rem;
+      line-height: 1.6;
+      letter-spacing: 1px;
+      min-height: 100px;
+      margin-bottom: 20px;
+      word-break: break-all;
+      position: relative;
+    }
+
+    .char {
+      position: relative;
+    }
+
+    .char.correct {
+      color: #4ef037;
+    }
+
+    .char.incorrect {
+      color: var(--spidey-red);
+      background-color: rgba(230, 36, 41, 0.3);
+      text-decoration: underline;
+    }
+
+    .char.current {
+      border-bottom: 3px solid var(--spidey-gold);
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    /* On-Screen Visual Keyboard */
+    .keyboard {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: #090a0f;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid var(--spidey-blue);
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .key {
+      background: #1a2238;
+      border: 1px solid #2a385c;
+      color: #fff;
+      border-radius: 4px;
+      min-width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+      transition: all 0.1s ease;
+    }
+
+    .key.space {
+      width: 250px;
+    }
+
+    .key.active {
+      background: var(--spidey-red);
+      box-shadow: 0 0 10px var(--spidey-red);
+      transform: translateY(2px);
+    }
+
+    /* Hidden input field for typing capture */
+    #hidden-input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🕷️ SpideyType 🕸️</h1>
+    <p>Asah kecepatan mengetikmu setajam Spidey-Sense!</p>
+  </header>
+
+  <div class="container">
+    <div class="custom-text-section">
+      <label for="custom-input" style="font-size: 0.9rem; margin-bottom: 5px; display: block;">Ganti Teks Latihan:</label>
+      <textarea id="custom-input" placeholder="Masukkan teks kustom di sini..."></textarea>
+      <button class="btn" onclick="updateCustomText()">Gunakan Teks Ini</button>
+      <button class="btn" style="background: var(--spidey-blue);" onclick="resetTest()">Ulangi Latihan</button>
+    </div>
+
+    <div class="stats-panel">
+      <div class="stat-card">
+        <div class="stat-title">WPM</div>
+        <div class="stat-value" id="stat-wpm">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Tren WPM</div>
+        <div class="stat-value" id="stat-trend" style="font-size: 1.1rem;">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Akurasi</div>
+        <div class="stat-value" id="stat-accuracy">100%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Kesalahan</div>
+        <div class="stat-value" id="stat-errors" style="color: var(--spidey-red);">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Karakter Terlama</div>
+        <div class="stat-value" id="stat-slowest" style="font-size: 1.1rem;">-</div>
+      </div>
+    </div>
+
+    <div class="typing-box" id="typing-box" onclick="focusInput()"></div>
+    <input type="text" id="hidden-input" autocomplete="off">
+
+    <div class="keyboard" id="keyboard">
+      <div class="row">
+        <div class="key" id="key-q">Q</div><div class="key" id="key-w">W</div><div class="key" id="key-e">E</div>
+        <div class="key" id="key-r">R</div><div class="key" id="key-t">T</div><div class="key" id="key-y">Y</div>
+        <div class="key" id="key-u">U</div><div class="key" id="key-i">I</div><div class="key" id="key-o">O</div>
+        <div class="key" id="key-p">P</div>
+      </div>
+      <div class="row">
+        <div class="key" id="key-a">A</div><div class="key" id="key-s">S</div><div class="key" id="key-d">D</div>
+        <div class="key" id="key-f">F</div><div class="key" id="key-g">G</div><div class="key" id="key-h">H</div>
+        <div class="key" id="key-j">J</div><div class="key" id="key-k">K</div><div class="key" id="key-l">L</div>
+      </div>
+      <div class="row">
+        <div class="key" id="key-z">Z</div><div class="key" id="key-x">X</div><div class="key" id="key-c">C</div>
+        <div class="key" id="key-v">V</div><div class="key" id="key-b">B</div><div class="key" id="key-n">N</div>
+        <div class="key" id="key-m">M</div>
+      </div>
+      <div class="row">
+        <div class="key space" id="key-space">SPACE</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State Aplikasi
+    let targetText = "With great power comes great responsibility. Peter Parker is Spider-Man fighting crime in New York City.";
+    let currentIndex = 0;
+    let errors = 0;
+    let startTime = null;
+    let keyTimes = {}; 
+    let lastKeyTime = null;
+    let previousWPM = 0;
+
+    // Web Audio API untuk Sound Effect Mengetik
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playTypeSound() {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(400 + Math.random() * 200, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.05);
+    }
+
+    // DOM Elements
+    const typingBox = document.getElementById('typing-box');
+    const hiddenInput = document.getElementById('hidden-input');
+    const customInput = document.getElementById('custom-input');
+    const statWpm = document.getElementById('stat-wpm');
+    const statTrend = document.getElementById('stat-trend');
+    textAccuracy = document.getElementById('stat-accuracy');
+    const statErrors = document.getElementById('stat-errors');
+    const statSlowest = document.getElementById('stat-slowest');
+
+    function init() {
+      renderText();
+      focusInput();
+    }
+
+    function renderText() {
+      typingBox.innerHTML = '';
+      targetText.split('').forEach((char, index) => {
+        const charSpan = document.createElement('span');
+        charSpan.classList.add('char');
+        if (index === 0) charSpan.classList.add('current');
+        charSpan.innerText = char;
+        typingBox.appendChild(charSpan);
+      });
+    }
+
+    function focusInput() {
+      hiddenInput.focus();
+    }
+
+    document.addEventListener('click', focusInput);
+
+    hiddenInput.addEventListener('input', (e) => {
+      const typedChar = e.data;
+      if (!typedChar && e.inputType !== 'deleteContentBackward') return;
+      
+      const currentTime = Date.now();
+
+      if (!startTime) {
+        startTime = currentTime;
+      }
+
+      const charSpans = typingBox.querySelectorAll('.char');
+      
+      if (e.inputType === 'deleteContentBackward') {
+        if (currentIndex > 0) {
+          currentIndex--;
+          charSpans[currentIndex].className = 'char current';
+          if (charSpans[currentIndex + 1]) {
+            charSpans[currentIndex + 1].className = 'char';
+          }
+        }
+        return;
+      }
+
+      playTypeSound();
+
+      // Hitung waktu jeda pengetikan karakter ini
+      if (lastKeyTime) {
+        const duration = currentTime - lastKeyTime;
+        const expectedChar = targetText[currentIndex].toLowerCase();
+        if (!keyTimes[expectedChar]) keyTimes[expectedChar] = [];
+        keyTimes[expectedChar].push(duration);
+      }
+      lastKeyTime = currentTime;
+
+      // Picu visual tombol keyboard
+      highlightKey(typedChar);
+
+      // Verifikasi Karakter
+      const expectedChar = targetText[currentIndex];
+      if (typedChar === expectedChar) {
+        charSpans[currentIndex].className = 'char correct';
+      } else {
+        charSpans[currentIndex].className = 'char incorrect';
+        errors++;
+      }
+
+      currentIndex++;
+
+      if (currentIndex < targetText.length) {
+        charSpans[currentIndex].classList.add('current');
+      }
+
+      updateStats();
+    });
+
+    function highlightKey(char) {
+      let keyId = 'key-' + (char === ' ' ? 'space' : char.toLowerCase());
+      let keyEl = document.getElementById(keyId);
+      if (keyEl) {
+        keyEl.classList.add('active');
+        setTimeout(() => keyEl.classList.remove('active'), 150);
+      }
+    }
+
+    function updateStats() {
+      // 1. Hitung WPM & Elefasi Tren (Naik/Turun)
+      const timeElapsed = (Date.now() - startTime) / 60000; // dalam menit
+      const wordsTyped = currentIndex / 5;
+      const currentWPM = Math.round(wordsTyped / timeElapsed) || 0;
+
+      statWpm.innerText = currentWPM;
+
+      if (currentWPM > previousWPM) {
+        statTrend.innerText = "▲ Naik";
+        statTrend.style.color = "#4ef037";
+      } else if (currentWPM < previousWPM) {
+        statTrend.innerText = "▼ Turun";
+        statTrend.style.color = "var(--spidey-red)";
+      }
+      previousWPM = currentWPM;
+
+      // 2. Akurasi & Kesalahan
+      statErrors.innerText = errors;
+      const accuracy = currentIndex === 0 ? 100 : Math.max(0, Math.round(((currentIndex - errors) / currentIndex) * 100));
+      textAccuracy.innerText = accuracy + '%';
+
+      // 3. Karakter dengan Pemencetan Terlama
+      let slowestChar = '-';
+      let maxAvgTime = 0;
+
+      for (let char in keyTimes) {
+        const times = keyTimes[char];
+        const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
+        if (avgTime > maxAvgTime) {
+          maxAvgTime = avgTime;
+          slowestChar = char === ' ' ? 'SPACE' : char.toUpperCase();
+        }
+      }
+
+      if (slowestChar !== '-') {
+        statSlowest.innerText = `${slowestChar} (${Math.round(maxAvgTime)}ms)`;
+      }
+    }
+
+    function updateCustomText() {
+      const text = customInput.value.trim();
+      if (text.length > 0) {
+        targetText = text;
+        resetTest();
+      }
+    }
+
+    function resetTest() {
+      currentIndex = 0;
+      errors = 0;
+      startTime = null;
+      keyTimes = {};
+      lastKeyTime = null;
+      previousWPM = 0;
+      hiddenInput.value = '';
+
+      statWpm.innerText = '0';
+      statTrend.innerText = '-';
+      statTrend.style.color = 'var(--spidey-white)';
+      textAccuracy.innerText = '100%';
+      statErrors.innerText = '0';
+      statSlowest.innerText = '-';
+
+      renderText();
+      focusInput();
+    }
+
+    // Jalankan aplikasi pertama kali
+    init();
+  </script>
+</body>
+</html>
