@@ -1,11 +1,9 @@
-const CACHE_NAME = 'siswahub-v3';
+const CACHE_NAME = 'siswahub-v4';
 const ASSETS_TO_CACHE = [
   './',
   './siswa.html',
   './manifest.json',
-  './icon.svg',
-  'https://cdn.tailwindcss.com',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+  './icon.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -27,6 +25,7 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  if (new URL(event.request.url).origin !== self.location.origin) return;
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
@@ -34,6 +33,7 @@ self.addEventListener('fetch', (event) => {
 
       return fetch(event.request)
         .then((response) => {
+          if (!response || response.status !== 200 || response.type === 'opaque') return response;
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
           return response;
@@ -80,13 +80,13 @@ self.addEventListener('notificationclick', (event) => {
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
       // Check if there's already a window/tab open with the app
       for (let client of clientList) {
-        if (client.url === './' || client.url.includes('siswa.html')) {
+        if (client.url.includes('siswa.html')) {
           return client.focus();
         }
       }
       // If not, open the app
       if (clients.openWindow) {
-        return clients.openWindow('./');
+        return clients.openWindow('./siswa.html');
       }
     })
   );
