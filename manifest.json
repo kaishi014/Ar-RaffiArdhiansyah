@@ -6,8 +6,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f8fafc",
-  "theme_color": "#312e81",
+  "background_color": "#edf1e8",
+  "theme_color": "#3f6b5b",
   "lang": "id-ID",
   "prefer_related_applications": false,
   "icons": [
