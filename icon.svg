@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Siswa Hub">
+  <rect width="128" height="128" rx="28" fill="#3f6b5b"/>
+  <path d="M25 42 64 24l39 18-39 18-39-18Z" fill="#f4ead8"/>
+  <path d="M38 55v24c10 10 42 10 52 0V55L64 67 38 55Z" fill="#d9e6d6"/>
+  <path d="M103 43v26" stroke="#f4ead8" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="103" cy="76" r="5" fill="#d9a15d"/>
+</svg>

@@ -5,37 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Siswa Hub | Student Productivity</title>
   <meta name="description" content="Dashboard produktivitas siswa untuk jadwal, tugas, catatan, dan pengingat sekolah." />
-  <meta name="theme-color" content="#312e81" />
+  <meta name="theme-color" content="#3f6b5b" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --bg: #f4f7ff;
-      --bg-secondary: #eef2ff;
-      --panel: rgba(255,255,255,0.9);
-      --panel-strong: #ffffff;
-      --border: rgba(148, 163, 184, 0.18);
-      --indigo-700: #4338ca;
-      --indigo-900: #312e81;
-      --slate-700: #334155;
-      --slate-500: #64748b;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
-      --shadow-lg: 0 25px 50px rgba(15, 23, 42, 0.15);
+      --bg: #edf1e8;
+      --bg-secondary: #e4ebe0;
+      --panel: rgba(255, 253, 247, 0.92);
+      --panel-strong: #fffdf7;
+      --border: rgba(82, 108, 92, 0.18);
+      --indigo-700: #3f6b5b;
+      --indigo-900: #29483d;
+      --slate-700: #34463d;
+      --slate-500: #718078;
+      --success: #4e876c;
+      --warning: #b4773e;
+      --danger: #b6534b;
+      --shadow-soft: 0 18px 45px rgba(55, 76, 62, 0.1);
+      --shadow-lg: 0 25px 50px rgba(55, 76, 62, 0.18);
     }
 
     html[data-theme="dark"] {
-      --bg: #0f172a;
-      --bg-secondary: #1e293b;
-      --panel: rgba(30, 41, 59, 0.72);
-      --panel-strong: #1e293b;
-      --border: rgba(71, 85, 105, 0.2);
-      --slate-700: #cbd5e1;
-      --slate-500: #94a3b8;
+      --bg: #1d2d27;
+      --bg-secondary: #263d34;
+      --panel: rgba(38, 58, 49, 0.86);
+      --panel-strong: #2c4539;
+      --border: rgba(170, 198, 177, 0.2);
+      --slate-700: #dce8de;
+      --slate-500: #a8b9ac;
     }
 
     * { box-sizing: border-box; }
@@ -43,13 +44,14 @@
     html, body {
       margin: 0;
       min-height: 100%;
-      font-family: Inter, "Segoe UI", sans-serif;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(99, 102, 241, 0.12), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.12), transparent 32%),
+        radial-gradient(circle at top left, rgba(78, 135, 108, 0.14), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(182, 106, 60, 0.12), transparent 32%),
         var(--bg);
       color: var(--slate-700);
       transition: background-color 0.4s ease, color 0.3s ease;
+      background-attachment: fixed;
     }
 
     body { min-height: 100vh; }
@@ -118,8 +120,8 @@
       font-size: 28px;
       margin: 0 auto 14px;
       color: white;
-      background: linear-gradient(135deg, var(--indigo-700), #8b5cf6);
-      box-shadow: 0 18px 30px rgba(99, 102, 241, 0.35);
+      background: linear-gradient(135deg, var(--indigo-700), #8f9f6d);
+      box-shadow: 0 18px 30px rgba(63, 107, 91, 0.28);
       animation: scaleIn 0.6s ease 0.1s both;
     }
 
@@ -183,11 +185,11 @@
       width: 100%;
       border-radius: 16px;
       padding: 13px 16px;
-      background: linear-gradient(135deg, #4338ca, #7c3aed);
+      background: linear-gradient(135deg, #3f6b5b, #799369);
       color: white;
       font-weight: 700;
       letter-spacing: 0.01em;
-      box-shadow: 0 18px 30px rgba(79, 70, 229, 0.28);
+      box-shadow: 0 18px 30px rgba(63, 107, 91, 0.24);
       position: relative;
       overflow: hidden;
     }
@@ -652,6 +654,57 @@
 
     .task-card { align-items: flex-start; }
 
+    .homework-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .attachment-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border: 1px dashed rgba(63, 107, 91, 0.35);
+      border-radius: 12px;
+      color: var(--indigo-700);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .attachment-label:hover {
+      background: rgba(63, 107, 91, 0.08);
+      border-color: var(--indigo-700);
+    }
+
+    .attachment-label input { display: none; }
+
+    .attachment-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      color: var(--indigo-700);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .file-link:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .homework-options { grid-template-columns: 1fr; }
+    }
+
     .task-main {
       display: flex;
       align-items: flex-start;
@@ -808,7 +861,7 @@
       padding: 12px 18px;
       border-radius: 999px;
       font-weight: 800;
-      background: linear-gradient(135deg, #0f172a, #312e81);
+      background: linear-gradient(135deg, #29483d, #3f6b5b);
       color: white;
       box-shadow: 0 24px 35px rgba(15, 23, 42, 0.28);
       transition: all 0.3s ease;
@@ -913,10 +966,25 @@
         <form onsubmit="addHomework(event)" class="stacked-form">
           <input type="text" id="hwSubject" placeholder="Mata pelajaran / nama PR" required class="glass-input" />
           <label class="text-xs font-semibold text-slate-500">Tanggal tenggat</label>
-          <input type="date" id="hwDeadline" required class="glass-input" />
-          <label class="toggle-row">
-            <input type="checkbox" id="hwReminder" />
-            <span><i class="fa-solid fa-bell mr-1"></i> Pengingat hari H</span>
+          <input type="datetime-local" id="hwDeadline" required class="glass-input" />
+          <div class="homework-options">
+            <label class="toggle-row">
+              <input type="checkbox" id="hwReminder" checked />
+              <span><i class="fa-solid fa-bell mr-1"></i> Aktifkan pengingat</span>
+            </label>
+            <select id="hwReminderLead" class="glass-select" aria-label="Waktu pengingat sebelum tenggat">
+              <option value="5">5 menit sebelumnya</option>
+              <option value="15">15 menit sebelumnya</option>
+              <option value="30" selected>30 menit sebelumnya</option>
+              <option value="60">1 jam sebelumnya</option>
+              <option value="1440">1 hari sebelumnya</option>
+              <option value="10080">1 minggu sebelumnya</option>
+            </select>
+          </div>
+          <label class="attachment-label" for="hwAttachment">
+            <i class="fa-solid fa-paperclip"></i>
+            <span id="hwAttachmentName" class="attachment-name">Tambahkan file tugas</span>
+            <input type="file" id="hwAttachment" accept="*/*" />
           </label>
           <button type="submit" class="premium-btn">+ Tambah PR</button>
         </form>
@@ -996,11 +1064,24 @@
   </div>
 
   <script>
+    // Isi dua nilai ini dari Supabase Project Settings > API.
+    const SUPABASE_CONFIG = {
+      url: window.SISWA_HUB_SUPABASE_URL || '',
+      anonKey: window.SISWA_HUB_SUPABASE_ANON_KEY || ''
+    };
+
     let currentUser = null;
     let db = { schedules: [], homeworks: [], todos: [], notes: [] };
     let confirmCallback = null;
     let swRegistration = null;
+    let supabaseClient = null;
+    let cloudStorageEnabled = false;
     const notifiedIds = new Set();
+
+    if (SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey && window.supabase) {
+      supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+      cloudStorageEnabled = true;
+    }
 
     function getCurrentFormattedDateTime() {
       const now = new Date();
@@ -1016,17 +1097,97 @@
         .replace(/'/g, '&#039;');
     }
 
-    function loadUserData() {
+    function getHomeworkDeadlineDate(homework) {
+      if (!homework.deadline) return null;
+      const value = homework.deadline.includes('T') ? homework.deadline : `${homework.deadline}T23:59`;
+      const deadline = new Date(value);
+      return Number.isNaN(deadline.getTime()) ? null : deadline;
+    }
+
+    function formatReminderLead(minutes) {
+      const value = Number(minutes) || 0;
+      if (value >= 10080) return '1 minggu sebelum';
+      if (value >= 1440) return '1 hari sebelum';
+      if (value >= 60) return `${Math.round(value / 60)} jam sebelum`;
+      return `${value} menit sebelum`;
+    }
+
+    function formatHomeworkDeadline(value) {
+      const deadline = getHomeworkDeadlineDate({ deadline: value });
+      return deadline ? deadline.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : value;
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function uploadHomeworkAttachment(file, homeworkId) {
+      if (!file) return null;
+      if (file.size > 10 * 1024 * 1024) {
+        throw new Error('Ukuran file maksimal 10 MB.');
+      }
+
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
+      if (cloudStorageEnabled) {
+        const safeUser = currentUser.replace(/[^a-zA-Z0-9._-]/g, '-');
+        const path = `${safeUser}/${homeworkId}-${safeName}`;
+        const { error } = await supabaseClient.storage.from('task-files').upload(path, file, {
+          cacheControl: '3600',
+          upsert: true,
+          contentType: file.type || 'application/octet-stream'
+        });
+        if (error) throw new Error(`File gagal diunggah: ${error.message}`);
+
+        const { data } = supabaseClient.storage.from('task-files').getPublicUrl(path);
+        return { name: file.name, type: file.type, size: file.size, url: data.publicUrl };
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        throw new Error('Tanpa Supabase, ukuran file lokal maksimal 2 MB.');
+      }
+      return { name: file.name, type: file.type, size: file.size, dataUrl: await readFileAsDataUrl(file) };
+    }
+
+    async function loadUserData() {
       const data = localStorage.getItem(`siswa_hub_data_${currentUser}`);
       db = data ? JSON.parse(data) : { schedules: [], homeworks: [], todos: [], notes: [] };
+
+      if (cloudStorageEnabled) {
+        const { data: cloudData, error } = await supabaseClient
+          .from('student_data')
+          .select('data')
+          .eq('username', currentUser)
+          .maybeSingle();
+
+        if (!error && cloudData?.data) {
+          db = cloudData.data;
+          localStorage.setItem(`siswa_hub_data_${currentUser}`, JSON.stringify(db));
+        } else if (error) {
+          console.warn('Supabase gagal memuat data, memakai salinan lokal:', error.message);
+        }
+      }
+
       if (!db.schedules) db.schedules = [];
       if (!db.homeworks) db.homeworks = [];
       if (!db.todos) db.todos = [];
       if (!db.notes) db.notes = [];
     }
 
-    function saveData() {
+    async function saveData() {
       localStorage.setItem(`siswa_hub_data_${currentUser}`, JSON.stringify(db));
+      if (cloudStorageEnabled) {
+        const { error } = await supabaseClient.from('student_data').upsert({
+          username: currentUser,
+          data: db,
+          updated_at: new Date().toISOString()
+        });
+        if (error) console.warn('Supabase gagal menyimpan data:', error.message);
+      }
       renderAll();
     }
 
@@ -1057,14 +1218,14 @@
       closeConfirmModal();
     };
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
       e.preventDefault();
       const username = document.getElementById('usernameInput').value.trim();
       if (!username) return;
 
       currentUser = username;
       localStorage.setItem('siswa_hub_user', username);
-      loadUserData();
+      await loadUserData();
       showDashboard();
     }
 
@@ -1104,14 +1265,17 @@
       }
     }
 
-    function triggerNotification(title, body) {
+    async function triggerNotification(title, body) {
       try {
-        if (swRegistration && swRegistration.active) {
-          swRegistration.active.postMessage({
-            type: 'SHOW_NOTIFICATION',
-            payload: { title, body, icon: './icon.svg' }
+        if (swRegistration) {
+          await swRegistration.showNotification(title, {
+            body,
+            icon: './icon.svg',
+            badge: './icon.svg',
+            tag: `siswa-hub-${title}`,
+            requireInteraction: false,
+            vibrate: [150, 80, 150]
           });
-          console.log('Notifikasi terkirim via Service Worker:', title);
         } else if ('Notification' in window && Notification.permission === 'granted') {
           new Notification(title, {
             body,
@@ -1121,7 +1285,6 @@
             requireInteraction: false,
             silent: false
           });
-          console.log('Notifikasi terkirim langsung:', title);
         }
       } catch (error) {
         console.error('Gagal mengirim notifikasi:', error);
@@ -1140,7 +1303,7 @@
         const currentHour = String(now.getHours()).padStart(2, '0');
         const currentMinute = String(now.getMinutes()).padStart(2, '0');
         const currentTimeStr = `${currentHour}:${currentMinute}`;
-        const currentDateStr = now.toISOString().split('T')[0];
+        const currentDateStr = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
 
         // Cek jadwal pelajaran (pemicu 2 menit sebelum jadwal)
         db.schedules.forEach((s) => {
@@ -1164,23 +1327,21 @@
           }
         });
 
-        // Cek PR (pengingat pagi hari, 08:00 pada hari deadline)
+        // Cek PR sesuai interval pengingat yang dipilih pengguna.
         db.homeworks.forEach((h) => {
           if (h.reminder && !h.completed && h.deadline) {
-            const deadlineDate = new Date(h.deadline);
-            const formattedDeadline = deadlineDate.toISOString().split('T')[0];
+            const deadline = getHomeworkDeadlineDate(h);
+            const leadMinutes = Number(h.reminderLeadMinutes) || 0;
+            const reminderAt = deadline ? new Date(deadline.getTime() - leadMinutes * 60 * 1000) : null;
+            const minutesUntilReminder = reminderAt ? (reminderAt - now) / (1000 * 60) : Infinity;
+            const notifKey = `hw_${h.id}_${h.deadline}_${leadMinutes}`;
 
-            // Trigger antara 08:00-09:00 pada hari deadline
-            if (
-              formattedDeadline === currentDateStr &&
-              currentHour === '08' &&
-              !notifiedIds.has(`hw_${h.id}_${currentDateStr}`)
-            ) {
+            if (minutesUntilReminder >= -10 && minutesUntilReminder <= 2 && !notifiedIds.has(notifKey)) {
               triggerNotification(
-                `⏰ Tenggat PR Hari Ini: ${h.subject}`,
-                `Batas pengumpulan: ${h.deadline}`
+                `Pengingat tugas: ${h.subject}`,
+                `Tenggat ${formatReminderLead(leadMinutes)} pada ${deadline.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })}.`
               );
-              notifiedIds.add(`hw_${h.id}_${currentDateStr}`);
+              notifiedIds.add(notifKey);
             }
           }
         });
@@ -1218,6 +1379,9 @@
     async function addHomework(e) {
       e.preventDefault();
       const enableReminder = document.getElementById('hwReminder').checked;
+      const deadline = document.getElementById('hwDeadline').value;
+      const attachmentFile = document.getElementById('hwAttachment').files[0];
+      const homeworkId = Date.now();
       
       if (enableReminder) {
         const hasPermission = await ensureNotificationPermission();
@@ -1226,11 +1390,21 @@
         }
       }
 
+      let attachment = null;
+      try {
+        attachment = await uploadHomeworkAttachment(attachmentFile, homeworkId);
+      } catch (error) {
+        alert(error.message);
+        return;
+      }
+
       db.homeworks.push({
-        id: Date.now(),
+        id: homeworkId,
         subject: document.getElementById('hwSubject').value.trim(),
-        deadline: document.getElementById('hwDeadline').value,
+        deadline,
         reminder: enableReminder,
+        reminderLeadMinutes: enableReminder ? Number(document.getElementById('hwReminderLead').value) : 0,
+        attachment,
         completed: false,
         createdAt: getCurrentFormattedDateTime(),
         completedAt: null
@@ -1239,6 +1413,9 @@
       document.getElementById('hwSubject').value = '';
       document.getElementById('hwDeadline').value = '';
       document.getElementById('hwReminder').checked = false;
+      document.getElementById('hwReminderLead').value = '30';
+      document.getElementById('hwAttachment').value = '';
+      document.getElementById('hwAttachmentName').textContent = 'Tambahkan file tugas';
       saveData();
     }
 
@@ -1376,8 +1553,10 @@
               <input type="checkbox" onchange="toggleHomework(${h.id})" class="task-check" aria-label="Selesaikan PR ${escapeHtml(h.subject)}" />
               <div>
                 <div class="card-title">${escapeHtml(h.subject)}</div>
-                <div class="meta-text"><i class="fa-regular fa-calendar"></i> Tenggat: <strong>${escapeHtml(h.deadline)}</strong></div>
+                <div class="meta-text"><i class="fa-regular fa-calendar"></i> Tenggat: <strong>${escapeHtml(formatHomeworkDeadline(h.deadline))}</strong></div>
+                ${h.reminder ? `<div class="meta-text"><i class="fa-regular fa-bell"></i> Pengingat: <strong>${escapeHtml(formatReminderLead(h.reminderLeadMinutes))}</strong></div>` : ''}
                 <div class="meta-text">Dibuat: ${escapeHtml(h.createdAt || '-')}</div>
+                ${h.attachment ? `<a class="file-link" href="${escapeHtml(h.attachment.url || h.attachment.dataUrl || '#')}" download="${escapeHtml(h.attachment.name || 'lampiran-tugas')}" target="_blank" rel="noopener"><i class="fa-solid fa-paperclip"></i> ${escapeHtml(h.attachment.name || 'Unduh lampiran')}</a>` : ''}
               </div>
             </div>
             <button onclick="deleteHomework(${h.id})" class="icon-button" aria-label="Hapus PR"><i class="fa-solid fa-trash"></i></button>
@@ -1425,6 +1604,7 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
+          .then((reg) => navigator.serviceWorker.ready)
           .then((reg) => { swRegistration = reg; })
           .catch((err) => console.log('Service Worker Failed:', err));
       });
@@ -1530,6 +1710,13 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      const attachmentInput = document.getElementById('hwAttachment');
+      if (attachmentInput) {
+        attachmentInput.addEventListener('change', () => {
+          const file = attachmentInput.files[0];
+          document.getElementById('hwAttachmentName').textContent = file ? file.name : 'Tambahkan file tugas';
+        });
+      }
       const themeToggle = document.getElementById('themeToggle');
       if (themeToggle) {
         themeToggle.addEventListener('click', (e) => {
@@ -1550,30 +1737,16 @@
       const savedUser = localStorage.getItem('siswa_hub_user');
       if (savedUser) {
         currentUser = savedUser;
-        loadUserData();
-        showDashboard();
-        
-        // Update notification status when dashboard loads
-        setTimeout(updateNotificationStatus, 100);
-      }
-
-      // Request notification permission on app load
-      if ('Notification' in window && Notification.permission === 'default') {
-        ensureNotificationPermission().then((granted) => {
+        loadUserData().then(() => {
+          showDashboard();
           updateNotificationStatus();
-          if (granted) {
-            console.log('Notifikasi berhasil diaktifkan');
-          }
+          setTimeout(checkAndTriggerReminders, 1000);
         });
       }
 
       // Start reminder checking every 30 seconds
       setInterval(checkAndTriggerReminders, 30000);
       
-      // Also check immediately when dashboard loads
-      if (savedUser) {
-        setTimeout(checkAndTriggerReminders, 1000);
-      }
     });
   </script>
 </body>
